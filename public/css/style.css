@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+}
+
+.nuxt-progress {
+    height: 3px !important;
+    background-color: #1D88D8 !important;
+}
+
+.btn-standard {
+    padding: 12px 40px;
+    font-size: 17px;
+    border: 0;
+    background-color: #1D88D8;
+    color: #fff;
+}
+
+.header-top {
+    background-color: #3A3A3A;
+    color: #fff;
+}
+
+.header-top-tel {
+    flex: 0 0 auto;
+    width: 70%;
+}
+
+.header-top-tel a {
+    display: inline-flex;
+    margin-right: 50px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.header-top-search {
+    flex: 0 0 auto;
+    width: 30%;
+}
+
+.header-top-search .form-control {
+    border-radius: 0;
+    background: #666666;
+    border: 0;
+    padding: 10px 16px;
+    border: 2px solid transparent;
+    color: #fff;
+}
+
+.header-top-search .form-control::placeholder {
+    color: #fff;
+}
+
+.header-top-search .form-control:focus {
+    outline: none !important;
+    border-color: #1D88D8;
+    box-shadow: none;
+}
+
+.header-bottom {
+    border-bottom: 1px solid #ddd;
+}
+
+.header-bottom-logo {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+.header-bottom-logo a {
+    display: block;
+}
+
+.header-bottom-logo img {
+    width: 100%;
+}
+
+.header-bottom-nav {
+    flex: 0 0 auto;
+    width: 60%;
+}
+
+.header-bottom-nav .nav-link {
+    padding: 25px 20px;
+    color: #333;
+}
+
+.header-bottom-nav .nav-link:hover {
+    color: #1D88D8;
+}
+
+.header-bottom-cart {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+.home-carousel {
+    height: 500px;
+    background: url('http://localhost/img/bg-carousel.jpg') center bottom;
+    background-size: cover;
+}
+
+.home-carousel .container {
+    position: relative;
+    height: 100%;
+}
+
+.home-carousel .home-carousel-inner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 45%;
+}
+
+.home-carousel .home-carousel-inner h1 {
+    margin: 0;
+    font-size: 55px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+
+
+
+
+
+
+
+.admin_panel .feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+.admin_panel .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background-color: #f8f9fa !important;
+}
+
+@media (max-width: 767.98px) {
+    .admin_panel .sidebar {
+        top: 5rem;
+    }
+}
+
+.admin_panel .sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.admin_panel .sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+}
+
+.admin_panel .sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #727272;
+}
+
+.admin_panel .sidebar .nav-link.active {
+    color: #2470dc;
+}
+
+.admin_panel .sidebar .nav-link:hover .feather,
+.admin_panel .sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+.admin_panel .sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
+.admin_panel .navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+    margin: 0;
+}
+
+.admin_panel .navbar .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+}
+
+.admin_panel .subheader {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.admin_panel .subheader {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+
+
+
+.admin_panel table {
+    width: 100%;
+}
+
+.admin_panel table tr td {
+    vertical-align: middle;
+}
+
+.admin_panel table tr td ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.admin_panel table tr td ul li {
+    margin-bottom: 5px;
+}
+
+.admin_panel table tr td ul li:last-child {
+    margin-bottom: 0;
+}
+
+.admin_panel .form-label {
+    color: #777;
+    font-size: 15px;
+}
