@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AttributeSeeder::class,
             CategorySeeder::class,
+            PageSeeder::class,
         ]);
     }
 }

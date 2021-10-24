@@ -17,7 +17,8 @@ class CategoryController extends Controller
     public function category_item($id)
     {
         $category = Category::find($id);
+        $subcategories = Category::where('parent_id', $id)->get();
         $products = Product::whereRelation('categories', 'category_id', $id)->get();
-        return view('categories.category_item', compact('category', 'products'));
+        return view('categories.category_item', compact('category', 'subcategories', 'products'));
     }
 }

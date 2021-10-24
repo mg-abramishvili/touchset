@@ -11,6 +11,8 @@ Route::get('category/{id}','App\Http\Controllers\CategoryController@category_ite
 
 Route::get('product/{id}','App\Http\Controllers\ProductController@product_item')->name('product_item');
 
+Route::get('search','App\Http\Controllers\ProductController@product_search')->name('product_search');
+
 // ADMIN PRODUCTS
 Route::get('admin','App\Http\Controllers\AdminController@index')->name('admin_home')->middleware('auth');
 Route::get('admin/products','App\Http\Controllers\AdminProductController@index')->name('admin_products')->middleware('auth');

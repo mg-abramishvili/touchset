@@ -24,7 +24,10 @@
                             <a href="tel:+78002002302">+7 800 200 23 02</a>
                         </div>
                         <div class="header-top-search">
-                            <input type="text" class="form-control" placeholder="Поиск по магазину...">
+                            <form action="{{ route('product_search') }}">
+                                <input name="search" type="text" class="form-control" placeholder="Поиск по магазину..." required>
+                                <input type="submit" value="">
+                            </form>
                         </div>
                     </div>
                 </div>
