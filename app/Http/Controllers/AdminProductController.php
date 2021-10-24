@@ -17,7 +17,7 @@ class AdminProductController extends Controller
 
     public function products_create()
     {
-        $categories = Category::all();
+        $categories = Category::with('children')->get();
         return view('admin.products.create', compact('categories'));
     }
 

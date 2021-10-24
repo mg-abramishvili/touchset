@@ -26,6 +26,9 @@
                     </td>
                     <td>
                         @foreach($product->categories as $category)
+                            @if($category->parent)
+                                {{ $category->parent->name }} → 
+                            @endif
                             {{ $category->name }}
                         @endforeach
                     </td>

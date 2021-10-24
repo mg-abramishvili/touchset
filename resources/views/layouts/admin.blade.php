@@ -32,6 +32,9 @@
                                     <li class="nav-item">
                                         <a href="{{ route('admin_products') }}" class="nav-link">Товары</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_attributes') }}" class="nav-link">Атрибуты</a>
+                                    </li>
                                 </ul>
 
                                 <ul class="nav flex-column mb-2">
