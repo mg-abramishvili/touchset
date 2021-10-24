@@ -14,8 +14,6 @@ class CreateProductsTable extends Migration
             $table->longText('description');
             $table->longText('gallery')->nullable();
             $table->decimal('price')->default(0);
-            $table->string('diagonal')->nullable();
-            $table->string('resolution')->nullable();
             $table->string('meta_title')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();

@@ -11,10 +11,19 @@ Route::get('category/{id}','App\Http\Controllers\CategoryController@category_ite
 
 Route::get('product/{id}','App\Http\Controllers\ProductController@product_item')->name('product_item');
 
-// ADMIN
+// ADMIN PRODUCTS
 Route::get('admin','App\Http\Controllers\AdminController@index')->name('admin_home')->middleware('auth');
 Route::get('admin/products','App\Http\Controllers\AdminProductController@index')->name('admin_products')->middleware('auth');
+Route::get('admin/products/create','App\Http\Controllers\AdminProductController@products_create')->name('admin_products_create')->middleware('auth');
+Route::post('admin/products','App\Http\Controllers\AdminProductController@products_store')->name('admin_products_store')->middleware('auth');
 Route::get('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_edit')->name('admin_product_edit')->middleware('auth');
 Route::put('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_update')->name('admin_product_update')->middleware('auth');
+
+// ADMIN ATTRIBUTES
+Route::get('admin/attributes','App\Http\Controllers\AdminAttributeController@index')->name('admin_attributes')->middleware('auth');
+Route::get('admin/attributes/create','App\Http\Controllers\AdminAttributeController@attributes_create')->name('admin_attributes_create')->middleware('auth');
+Route::post('admin/attributes','App\Http\Controllers\AdminAttributeController@attributes_store')->name('admin_attributes_store')->middleware('auth');
+Route::get('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController@attribute_item_edit')->name('admin_attribute_edit')->middleware('auth');
+Route::put('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController@attribute_item_update')->name('admin_attribute_update')->middleware('auth');
 
 Auth::routes();
