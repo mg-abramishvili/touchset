@@ -31,12 +31,11 @@
                 axios
                 .get('/cart_data')
                 .then((response => {
-                    //this.cart = response.data
-                    var count = 0;
-                    for (var k in response.data) {
-                        if (response.data.hasOwnProperty(k)) count++;
+                    this.cart_amount = []
+                    for (let value of Object.values(response.data)) {
+                        this.cart_amount.push(parseInt(value['quantity']))
                     }
-                    this.cart_amount = count
+                    this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
 
                     this.cart_price = []
                     for (let value of Object.values(response.data)) {

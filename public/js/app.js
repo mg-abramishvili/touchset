@@ -2234,20 +2234,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
-        //this.cart = response.data
-        var count = 0;
-
-        for (var k in response.data) {
-          if (response.data.hasOwnProperty(k)) count++;
-        }
-
-        _this.cart_amount = count;
-        _this.cart_price = [];
+        _this.cart_amount = [];
 
         for (var _i = 0, _Object$values = Object.values(response.data); _i < _Object$values.length; _i++) {
           var value = _Object$values[_i];
 
-          _this.cart_price.push(parseInt(value['price_total']));
+          _this.cart_amount.push(parseInt(value['quantity']));
+        }
+
+        _this.cart_amount = _this.cart_amount.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        _this.cart_price = [];
+
+        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
+          var _value = _Object$values2[_i2];
+
+          _this.cart_price.push(parseInt(_value['price_total']));
         }
 
         _this.cart_price = _this.cart_price.reduce(function (a, b) {
