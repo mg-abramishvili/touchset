@@ -2,12 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/','App\Http\Controllers\PageController@home')->name('home');
-Route::get('contacts','App\Http\Controllers\PageController@contacts')->name('contacts');
+Route::get('/','App\Http\Controllers\HomeController@index')->name('home');
+
+Route::get('p/{slug}','App\Http\Controllers\PageController@page_item')->name('page');
 
 Route::get('categories','App\Http\Controllers\CategoryController@index')->name('categories');
 Route::get('category/{id}','App\Http\Controllers\CategoryController@category_item')->name('category_item');
 
 Route::get('product/{id}','App\Http\Controllers\ProductController@product_item')->name('product_item');
+
+// ADMIN
+Route::get('admin','App\Http\Controllers\AdminController@index')->name('admin_home')->middleware('auth');
+Route::get('admin/products','App\Http\Controllers\AdminProductController@index')->name('admin_products')->middleware('auth');
+Route::get('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_edit')->name('admin_product_edit')->middleware('auth');
+Route::put('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_update')->name('admin_product_update')->middleware('auth');
 
 Auth::routes();

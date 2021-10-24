@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function home()
+    public function page_item($slug)
     {
-        $products = Product::all();
-        return view('home', compact('products'));
-    }
-
-    public function contacts()
-    {
-        return view('contacts');
+        $page = Page::where('slug', $slug)->first();
+        return view('pages.page_item', compact('page'));
     }
 }

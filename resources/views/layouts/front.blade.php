@@ -44,7 +44,7 @@
                                         <a href="{{ route('categories') }}" class="nav-link">Магазин</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('contacts') }}" class="nav-link">Контакты</a>
+                                        <a href="{{ route('page', ['slug' => 'contacts']) }}" class="nav-link">Контакты</a>
                                     </li>
                                 </ul>
                             </nav>

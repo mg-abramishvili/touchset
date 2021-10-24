@@ -240,3 +240,7 @@ body {
     color: #777;
     font-size: 15px;
 }
+
+.admin_panel .ck-editor__editable {
+    min-height: 150px;
+}
