@@ -51,7 +51,8 @@
                 
                 <p class="price"><span>{{ $product->price }}</span> ₽</p>
 
-                <add-to-cart :product_id="{{ $product->id }}"></add-to-cart>
+                <a href="{{ route('add_to_cart', $product->id) }}">В корзину</a>
+                <!--<add-to-cart :product_id="{{ $product->id }}"></add-to-cart>-->
             </div>
         </div>
         <div class="row mt-4">

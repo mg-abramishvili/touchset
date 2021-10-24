@@ -54,7 +54,9 @@
                                 </nav>
                             </div>
                             <div class="header-bottom-cart">
-                                <minicart></minicart>
+                                <a href="{{ route('cart') }}">
+                                    <minicart></minicart>
+                                </a>
                             </div>
                         </div>
                     </div>

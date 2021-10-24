@@ -149,6 +149,12 @@ body {
     margin-bottom: 40px;
 }
 
+.block-page-title {
+    font-size: 30px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
 .home-products-block {
     padding-top: 50px;
     padding-bottom: 50px;
@@ -261,6 +267,18 @@ body {
 
 .product-page {
     margin-bottom: 50px;
+}
+
+.page-page {
+    margin-bottom: 50px;
+}
+
+.cart-page {
+    margin-bottom: 50px;
+}
+
+.cart-page table tr td {
+    vertical-align: middle;
 }
 
 .product-page .ProductGallerySwiper {
