@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function product_item($id)
     {
-        $product = Product::find($id);
+        $product = Product::with('attributes')->find($id);
         return view('products.product_item', compact('product'));
     }
 

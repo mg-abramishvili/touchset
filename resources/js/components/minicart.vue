@@ -1,6 +1,6 @@
 <template>
     <div>
-        Cart ({{ value }})
+        Корзина ({{ value }})
     </div>
 </template>
 
@@ -12,7 +12,7 @@
             };
         },
         mounted() {
-            this.$root.$on('eventing', data => {
+            this.$root.$on('add_to_cart', data => {
                 this.value = data
             });
         }

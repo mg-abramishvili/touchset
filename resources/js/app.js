@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('minicart', require('./components/minicart.vue').default);
+Vue.component('add-to-cart', require('./components/AddToCart.vue').default);
+Vue.component('minicart', require('./components/MiniCart.vue').default);
 
 const app = new Vue({
     el: '#app'

@@ -10,15 +10,39 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        @foreach($products as $product)
-        <div class="col-12 col-md-4 border mb-4">
-            <a href="#">{{ $product->name }}</a>
-            <br/>
-            {{ $product->price }} руб.
+<div class="home-products-block">
+    <div class="container">
+        <h5 class="block-title">Новинки</h5>
+        <div class="row">
+            @foreach($products_is_new as $product)
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="home-products-item">
+                        <a href="{{ route('product_item', ['id' => $product->id ]) }}">
+                            @if($product->gallery)
+                                @foreach($product->gallery as $pg)
+                                    @if($loop->first)
+                                        <div class="home-products-item-image" style="background-image: url({{ $pg }})"></div>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                            <p>{{ $product->name }}</p>
+
+                            <span>{{ $product->price }} <i>₽</i></span>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
         </div>
-        @endforeach
+        <div class="text-center">
+            <a href="{{ route('categories') }}" class="btn btn-standard">Перейти в каталог</a>
+        </div>
+    </div>
+</div>
+
+<div class="home-preim">
+    <div class="conatiner">
+        <h5 class="block-title">Наши преимущества</h5>
     </div>
 </div>
 
