@@ -2221,6 +2221,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2898,18 +2901,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "minicart" }, [
     parseInt(_vm.cart_amount) > 0
       ? _c(
           "div",
+          { staticClass: "minicart-content" },
           [
             _vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "1"
               ? [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.cart_amount) +
-                      " товар\n        "
-                  )
+                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
+                  _vm._v(" товар\n        ")
                 ]
               : _vm._e(),
             _vm._v(" "),
@@ -2917,11 +2918,8 @@ var render = function() {
             _vm.cart_amount.toString().slice(-1) === "3" ||
             _vm.cart_amount.toString().slice(-1) === "4"
               ? [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.cart_amount) +
-                      " товара\n        "
-                  )
+                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
+                  _vm._v(" товара\n        ")
                 ]
               : _vm._e(),
             _vm._v(" "),
@@ -2932,21 +2930,33 @@ var render = function() {
             _vm.cart_amount.toString().slice(-1) === "9" ||
             _vm.cart_amount.toString().slice(-1) === "0"
               ? [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.cart_amount) +
-                      " товаров\n        "
-                  )
+                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
+                  _vm._v(" товаров\n        ")
                 ]
               : _vm._e(),
-            _vm._v("\n        на " + _vm._s(_vm.cart_price) + " ₽\n    ")
+            _vm._v("\n        на "),
+            _c("strong", [_vm._v(_vm._s(_vm.cart_price))]),
+            _vm._v(" ₽\n    ")
           ],
           2
         )
-      : _c("div", [_vm._v("Корзина пуста")])
+      : _c("div", { staticClass: "minicart-content" }, [
+          _vm._v("Корзина пуста")
+        ]),
+    _vm._v(" "),
+    _vm._m(0)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "minicart-icon" }, [
+      _c("img", { attrs: { src: "/img/minicart.svg" } })
+    ])
+  }
+]
 render._withStripped = true
 
 

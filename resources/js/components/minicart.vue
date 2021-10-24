@@ -1,18 +1,21 @@
 <template>
-    <div>
-        <div v-if="parseInt(cart_amount) > 0">
+    <div class="minicart">
+        <div v-if="parseInt(cart_amount) > 0" class="minicart-content">
             <template v-if="cart_amount && cart_amount.toString().slice(-1) === '1'">
-                {{ cart_amount }} товар
+                <strong>{{ cart_amount }}</strong>&nbsp;товар
             </template>
             <template v-if="cart_amount && cart_amount.toString().slice(-1) === '2' || cart_amount.toString().slice(-1) === '3' || cart_amount.toString().slice(-1) === '4'">
-                {{ cart_amount }} товара
+                <strong>{{ cart_amount }}</strong>&nbsp;товара
             </template>
             <template v-if="cart_amount && cart_amount.toString().slice(-1) === '5' || cart_amount.toString().slice(-1) === '6' || cart_amount.toString().slice(-1) === '7' || cart_amount.toString().slice(-1) === '8' || cart_amount.toString().slice(-1) === '9' || cart_amount.toString().slice(-1) === '0'">
-                {{ cart_amount }} товаров
+                <strong>{{ cart_amount }}</strong>&nbsp;товаров
             </template>
-            на {{ cart_price }} ₽
+            на&nbsp;<strong>{{ cart_price }}</strong>&nbsp;₽
         </div>
-        <div v-else>Корзина пуста</div>
+        <div v-else class="minicart-content">Корзина пуста</div>
+        <div class="minicart-icon">
+            <img src="/img/minicart.svg" />
+        </div>
     </div>
 </template>
 
