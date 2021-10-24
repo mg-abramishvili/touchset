@@ -18,7 +18,11 @@
                         {{ cartItem.price }} руб.
                     </td>
                     <td>
-                        <input type="number" :id="'quantity_' + cartItem.id" @change="updateQuantity(cartItem.id)" :value="cartItem.quantity" min="0" class="form-control w-25">
+                        <input type="number" :id="'quantity_' + cartItem.id" :value="cartItem.quantity" min="0" class="form-control w-25 d-inline-flex">
+                        <button @click="updateQuantity(cartItem.id)" class="btn btn-sm btn-outline-primary d-inline-flex">OK</button>
+                    </td>
+                    <td>
+                        {{ cartItem.price_total }} руб.
                     </td>
                     <td>
                         <button @click="remove(cartItem.id)" class="btn btn-sm btn-outline-danger">&times;</button>
@@ -48,14 +52,19 @@
             },
             updateQuantity(id) {
                 var quantity = parseInt(document.getElementById('quantity_' + id).value)
-                console.log(id, quantity)
+                axios
+                .get(`/update-cart/${id}/${quantity}`)
+                .then(response => (
+                    this.getCartInfo()
+                ));
             },
             remove(id) {
                 axios
                 .get(`/remove-from-cart/${id}`)
-                .then(response => (
+                .then((response => {
                     this.getCartInfo()
-                ));
+                    this.$root.$emit('update_cart', '1')
+                }));
             }
         },
         mounted() {

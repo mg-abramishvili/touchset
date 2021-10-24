@@ -2128,6 +2128,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2144,14 +2148,20 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateQuantity: function updateQuantity(id) {
-      var quantity = parseInt(document.getElementById('quantity_' + id).value);
-      console.log(id, quantity);
-    },
-    remove: function remove(id) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/remove-from-cart/".concat(id)).then(function (response) {
+      var quantity = parseInt(document.getElementById('quantity_' + id).value);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(id, "/").concat(quantity)).then(function (response) {
         return _this2.getCartInfo();
+      });
+    },
+    remove: function remove(id) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/remove-from-cart/".concat(id)).then(function (response) {
+        _this3.getCartInfo();
+
+        _this3.$root.$emit('update_cart', '1');
       });
     }
   },
@@ -2176,23 +2186,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      value: ''
+      cart_amount: ''
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  methods: {
+    getCartInfo: function getCartInfo() {
+      var _this = this;
 
-    this.$root.$on('add_to_cart', function (data) {
-      _this.value = data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
+        //this.cart = response.data
+        var count = 0;
+
+        for (var k in response.data) {
+          if (response.data.hasOwnProperty(k)) count++;
+        }
+
+        _this.cart_amount = count;
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.getCartInfo();
+    /*this.$root.$on('add_to_cart', data => {
+        this.value = data
+    });*/
+
+    this.$root.$on('update_cart', function (data) {
+      _this2.getCartInfo();
     });
   }
 });
@@ -2721,19 +2755,35 @@ var render = function() {
             _vm._v(" "),
             _c("td", [
               _c("input", {
-                staticClass: "form-control w-25",
+                staticClass: "form-control w-25 d-inline-flex",
                 attrs: {
                   type: "number",
                   id: "quantity_" + cartItem.id,
                   min: "0"
                 },
-                domProps: { value: cartItem.quantity },
-                on: {
-                  change: function($event) {
-                    return _vm.updateQuantity(cartItem.id)
+                domProps: { value: cartItem.quantity }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-outline-primary d-inline-flex",
+                  on: {
+                    click: function($event) {
+                      return _vm.updateQuantity(cartItem.id)
+                    }
                   }
-                }
-              })
+                },
+                [_vm._v("OK")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(cartItem.price_total) +
+                  " руб.\n                "
+              )
             ]),
             _vm._v(" "),
             _c("td", [
@@ -2797,7 +2847,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Корзина (" + _vm._s(_vm.value) + ")\n")])
+  return _c("div", [
+    _vm._v("\n    Корзина (" + _vm._s(_vm.cart_amount) + ")\n")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
