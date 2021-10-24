@@ -9,6 +9,8 @@
         
         <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+        <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
@@ -56,6 +58,9 @@
         </div>
         
         <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
         @yield('scripts')
     </body>
 </html>

@@ -34,6 +34,11 @@ class AdminProductController extends Controller
         $product->price = $data['price'];
         $product->description = $data['description'];
 
+        if (!isset($data['gallery'])) {
+            $data['gallery'] = [];
+        }
+        $product->gallery = $data['gallery'];
+
         $product->save();
 
         $product->categories()->attach($data['category'], ['product_id' => $product->id]);
@@ -60,6 +65,11 @@ class AdminProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
+
+        if (!isset($request->gallery)) {
+            $request->gallery = [];
+        }
+        $product->gallery = $request->gallery;
 
         if($request->is_new) {
             $product->is_new = true;
@@ -102,5 +112,33 @@ class AdminProductController extends Controller
         }
 
         return redirect()->route('admin_products');
+    }
+
+    public function file($type)
+    {
+        switch ($type) {
+            case 'upload':
+                return $this->upload();
+        }
+        return \Response::make('success', 200, [
+            'Content-Disposition' => 'inline',
+        ]);
+    }
+
+    public function upload()
+    {
+        if (request()->file('gallery')) {
+            $file1 = request()->file('gallery');
+            for ($i = 0; $i < count($file1); $i++) {
+
+                $file = $file1[$i];
+                $filename = md5(time() . rand(1, 100000)) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path() . '/uploads', $filename);
+
+                return \Response::make('/uploads/' . $filename, 200, [
+                    'Content-Disposition' => 'inline',
+                ]);
+            }
+        }
     }
 }

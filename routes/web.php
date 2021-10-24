@@ -20,6 +20,7 @@ Route::get('admin/products/create','App\Http\Controllers\AdminProductController@
 Route::post('admin/products','App\Http\Controllers\AdminProductController@products_store')->name('admin_products_store')->middleware('auth');
 Route::get('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_edit')->name('admin_product_edit')->middleware('auth');
 Route::put('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_update')->name('admin_product_update')->middleware('auth');
+Route::post('admin/products/file/{method}','App\Http\Controllers\AdminProductController@file')->middleware('auth');
 
 // ADMIN ATTRIBUTES
 Route::get('admin/attributes','App\Http\Controllers\AdminAttributeController@index')->name('admin_attributes')->middleware('auth');
