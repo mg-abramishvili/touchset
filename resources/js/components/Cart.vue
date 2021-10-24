@@ -12,7 +12,7 @@
             <tbody>
                 <tr v-for="cartItem in cart" :key="'cartItem_' + cartItem.id">
                     <td class="w-50">
-                        {{ cartItem.name }}
+                        <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }}</a>
                     </td>
                     <td>
                         {{ cartItem.price }} руб.
@@ -55,7 +55,8 @@
                 axios
                 .get(`/update-cart/${id}/${quantity}`)
                 .then(response => (
-                    this.getCartInfo()
+                    this.getCartInfo(),
+                    this.$root.$emit('update_cart', '1')
                 ));
             },
             remove(id) {

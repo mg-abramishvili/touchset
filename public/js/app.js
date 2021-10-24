@@ -2065,19 +2065,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
 //
 //
 //
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['product_id'],
+  data: function data() {
+    return {
+      added_to_cart: false
+    };
+  },
   mounted: function mounted() {//console.log('Component mounted.')
   },
   methods: {
     addToCart: function addToCart() {
-      this.$root.$emit('add_to_cart', this.product_id);
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/add-to-cart/".concat(this.product_id)).then(function (response) {
+        _this.added_to_cart = true;
+
+        _this.$root.$emit('update_cart', '1');
+      });
     }
   }
 });
@@ -2152,7 +2167,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var quantity = parseInt(document.getElementById('quantity_' + id).value);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(id, "/").concat(quantity)).then(function (response) {
-        return _this2.getCartInfo();
+        return _this2.getCartInfo(), _this2.$root.$emit('update_cart', '1');
       });
     },
     remove: function remove(id) {
@@ -2194,11 +2209,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      cart_amount: ''
+      cart_amount: '',
+      cart_price: ''
     };
   },
   methods: {
@@ -2214,6 +2242,17 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         _this.cart_amount = count;
+        _this.cart_price = [];
+
+        for (var _i = 0, _Object$values = Object.values(response.data); _i < _Object$values.length; _i++) {
+          var value = _Object$values[_i];
+
+          _this.cart_price.push(parseInt(value['price_total']));
+        }
+
+        _this.cart_price = _this.cart_price.reduce(function (a, b) {
+          return a + b;
+        }, 0);
       });
     }
   },
@@ -2692,18 +2731,24 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-standard",
-        on: {
-          click: function($event) {
-            return _vm.addToCart()
-          }
-        }
-      },
-      [_vm._v("В корзину")]
-    )
+    _vm.added_to_cart
+      ? _c(
+          "a",
+          { staticClass: "btn btn-outline-standard", attrs: { href: "/cart" } },
+          [_vm._v("В корзине")]
+        )
+      : _c(
+          "button",
+          {
+            staticClass: "btn btn-standard",
+            on: {
+              click: function($event) {
+                return _vm.addToCart()
+              }
+            }
+          },
+          [_vm._v("В корзину")]
+        )
   ])
 }
 var staticRenderFns = []
@@ -2738,10 +2783,13 @@ var render = function() {
         _vm._l(_vm.cart, function(cartItem) {
           return _c("tr", { key: "cartItem_" + cartItem.id }, [
             _c("td", { staticClass: "w-50" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(cartItem.name) +
-                  "\n                "
+              _c(
+                "a",
+                {
+                  staticStyle: { "text-decoration": "none", color: "#333" },
+                  attrs: { href: "/product/" + cartItem.id }
+                },
+                [_vm._v(_vm._s(cartItem.name))]
               )
             ]),
             _vm._v(" "),
@@ -2848,7 +2896,51 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._v("\n    Корзина (" + _vm._s(_vm.cart_amount) + ")\n")
+    parseInt(_vm.cart_amount) > 0
+      ? _c(
+          "div",
+          [
+            _vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "1"
+              ? [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.cart_amount) +
+                      " товар\n        "
+                  )
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            (_vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "2") ||
+            _vm.cart_amount.toString().slice(-1) === "3" ||
+            _vm.cart_amount.toString().slice(-1) === "4"
+              ? [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.cart_amount) +
+                      " товара\n        "
+                  )
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            (_vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "5") ||
+            _vm.cart_amount.toString().slice(-1) === "6" ||
+            _vm.cart_amount.toString().slice(-1) === "7" ||
+            _vm.cart_amount.toString().slice(-1) === "8" ||
+            _vm.cart_amount.toString().slice(-1) === "9" ||
+            _vm.cart_amount.toString().slice(-1) === "0"
+              ? [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.cart_amount) +
+                      " товаров\n        "
+                  )
+                ]
+              : _vm._e(),
+            _vm._v("\n        на " + _vm._s(_vm.cart_price) + " ₽\n    ")
+          ],
+          2
+        )
+      : _c("div", [_vm._v("Корзина пуста")])
   ])
 }
 var staticRenderFns = []

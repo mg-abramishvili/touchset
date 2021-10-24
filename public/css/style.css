@@ -18,6 +18,14 @@ body {
     color: #fff;
 }
 
+.btn-outline-standard {
+    padding: 10px 38px;
+    font-size: 17px;
+    border: 2px solid #1D88D8;
+    background-color: #fff;
+    color: #1D88D8;
+}
+
 .header-top {
     background-color: #3A3A3A;
     color: #fff;
