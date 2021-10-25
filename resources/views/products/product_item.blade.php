@@ -21,16 +21,7 @@
             <div class="col-12 col-md-6">
                 @if($product->gallery)
                     <div class="row">
-                        <div class="col-3">
-                            <div class="swiper ProductGallerySwiperMini">
-                                <div class="swiper-wrapper">
-                                    @foreach($product->gallery as $galleryImage)
-                                        <div class="swiper-slide" style="background-image: url({{$galleryImage}})"></div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-9">
+                        <div class="col-12">
                             <div class="swiper ProductGallerySwiper">
                                 <div class="swiper-wrapper">
                                     @foreach($product->gallery as $galleryImage)
@@ -39,6 +30,13 @@
                                 </div>
                                 <!--<div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>-->
+                            </div>
+                            <div class="swiper ProductGallerySwiperMini">
+                                <div class="swiper-wrapper">
+                                    @foreach($product->gallery as $galleryImage)
+                                        <div class="swiper-slide" style="background-image: url({{$galleryImage}})"></div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,7 +47,13 @@
 
                 {!! $product->description !!}
                 
-                <p class="price"><span>{{ $product->price }}</span> ₽</p>
+                <p class="price">
+                    <span>
+                        @php
+                            echo number_format($product->price,0,","," ");
+                        @endphp
+                    </span> ₽
+                </p>
 
                 <!--<a href="{{ route('add_to_cart', $product->id) }}">В корзину</a>-->
                 <add-to-cart :product_id="{{ $product->id }}"></add-to-cart>
@@ -57,14 +61,16 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-6 offset-3">
-                <table class="table">
-                    @foreach($product->attributes as $attribute)
-                        <tr>
-                            <td>{{$attribute->name}}</td>
-                            <td>{{$attribute->pivot->value}}</td>
-                        </tr>
-                    @endforeach
-                </table>
+                <div class="tech-info">
+                    <table class="table">
+                        @foreach($product->attributes as $attribute)
+                            <tr>
+                                <td>{{$attribute->name}}</td>
+                                <td>{{$attribute->pivot->value}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -74,7 +80,7 @@
             <div class="row">
                 @foreach($other_products as $op)
                     @if($op->id != $product->id)
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <div class="page-products-item">
                                 <a href="{{ route('product_item', ['id' => $op->id ]) }}">
                                     @if($op->gallery)
@@ -107,7 +113,6 @@
     var swiper = new Swiper('.ProductGallerySwiperMini', {
         slidesPerView: 4,
         spaceBetween: 10,
-        direction: "vertical",
     });
 
     var swiper2 = new Swiper('.ProductGallerySwiper', {

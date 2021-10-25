@@ -16,7 +16,7 @@
         <h5 class="block-title">Новинки</h5>
         <div class="row">
             @foreach($products_is_new as $product)
-                <div class="col-12 col-md-4 mb-4">
+                <div class="col-12 col-md-3 mb-4">
                     <div class="home-products-item">
                         <a href="{{ route('product_item', ['id' => $product->id ]) }}">
                             @if($product->gallery)
@@ -26,10 +26,14 @@
                                     @endif
                                 @endforeach
                             @endif
-
+                            <span>
+                                <strong>
+                                    @php
+                                        echo number_format($product->price,0,","," ");
+                                    @endphp
+                                </strong> <i>₽</i>
+                            </span>
                             <p>{{ $product->name }}</p>
-
-                            <span>{{ $product->price }} <i>₽</i></span>
                         </a>
                     </div>
                 </div>
@@ -81,7 +85,7 @@
         <h5 class="block-title">Популярное</h5>
         <div class="row">
             @foreach($products_is_new as $product)
-                <div class="col-12 col-md-4 mb-4">
+                <div class="col-12 col-md-3 mb-4">
                     <div class="home-products-item">
                         <a href="{{ route('product_item', ['id' => $product->id ]) }}">
                             @if($product->gallery)
@@ -91,10 +95,14 @@
                                     @endif
                                 @endforeach
                             @endif
-
+                            <span>
+                                <strong>
+                                    @php
+                                        echo number_format($product->price,0,","," ");
+                                    @endphp
+                                </strong> <i>₽</i>
+                            </span>
                             <p>{{ $product->name }}</p>
-
-                            <span>{{ $product->price }} <i>₽</i></span>
                         </a>
                     </div>
                 </div>
@@ -128,7 +136,7 @@
         <h5 class="block-title">Лучшая цена</h5>
         <div class="row">
             @foreach($products_is_new as $product)
-                <div class="col-12 col-md-4 mb-4">
+                <div class="col-12 col-md-3 mb-4">
                     <div class="home-products-item">
                         <a href="{{ route('product_item', ['id' => $product->id ]) }}">
                             @if($product->gallery)
@@ -138,10 +146,14 @@
                                     @endif
                                 @endforeach
                             @endif
-
+                            <span>
+                                <strong>
+                                    @php
+                                        echo number_format($product->price,0,","," ");
+                                    @endphp
+                                </strong> <i>₽</i>
+                            </span>
                             <p>{{ $product->name }}</p>
-
-                            <span>{{ $product->price }} <i>₽</i></span>
                         </a>
                     </div>
                 </div>

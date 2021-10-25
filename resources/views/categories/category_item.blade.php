@@ -37,7 +37,12 @@
 
                             <p>{{ $product->name }}</p>
 
-                            <span>{{ $product->price }} <i>₽</i></span>
+                            <span>
+                                @php
+                                    echo number_format($product->price,0,","," ");
+                                @endphp
+                                <i>₽</i>
+                            </span>
                         </a>
                     </div>
                 </div>

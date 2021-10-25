@@ -2217,13 +2217,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2903,43 +2896,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "minicart" }, [
     parseInt(_vm.cart_amount) > 0
-      ? _c(
-          "div",
-          { staticClass: "minicart-content" },
-          [
-            _vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "1"
-              ? [
-                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
-                  _vm._v(" товар\n        ")
-                ]
-              : _vm._e(),
-            _vm._v(" "),
-            (_vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "2") ||
-            _vm.cart_amount.toString().slice(-1) === "3" ||
-            _vm.cart_amount.toString().slice(-1) === "4"
-              ? [
-                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
-                  _vm._v(" товара\n        ")
-                ]
-              : _vm._e(),
-            _vm._v(" "),
-            (_vm.cart_amount && _vm.cart_amount.toString().slice(-1) === "5") ||
-            _vm.cart_amount.toString().slice(-1) === "6" ||
-            _vm.cart_amount.toString().slice(-1) === "7" ||
-            _vm.cart_amount.toString().slice(-1) === "8" ||
-            _vm.cart_amount.toString().slice(-1) === "9" ||
-            _vm.cart_amount.toString().slice(-1) === "0"
-              ? [
-                  _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
-                  _vm._v(" товаров\n        ")
-                ]
-              : _vm._e(),
-            _vm._v("\n        на "),
-            _c("strong", [_vm._v(_vm._s(_vm.cart_price))]),
-            _vm._v(" ₽\n    ")
-          ],
-          2
-        )
+      ? _c("div", { staticClass: "minicart-content" }, [
+          _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
+          _vm._v(" товаров\n        \n        на "),
+          _c("strong", [
+            _vm._v(
+              _vm._s(
+                _vm.cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+              )
+            )
+          ]),
+          _vm._v(" ₽\n    ")
+        ])
       : _c("div", { staticClass: "minicart-content" }, [
           _vm._v("Корзина пуста")
         ]),

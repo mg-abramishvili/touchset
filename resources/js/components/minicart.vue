@@ -1,16 +1,9 @@
 <template>
     <div class="minicart">
         <div v-if="parseInt(cart_amount) > 0" class="minicart-content">
-            <template v-if="cart_amount && cart_amount.toString().slice(-1) === '1'">
-                <strong>{{ cart_amount }}</strong>&nbsp;товар
-            </template>
-            <template v-if="cart_amount && cart_amount.toString().slice(-1) === '2' || cart_amount.toString().slice(-1) === '3' || cart_amount.toString().slice(-1) === '4'">
-                <strong>{{ cart_amount }}</strong>&nbsp;товара
-            </template>
-            <template v-if="cart_amount && cart_amount.toString().slice(-1) === '5' || cart_amount.toString().slice(-1) === '6' || cart_amount.toString().slice(-1) === '7' || cart_amount.toString().slice(-1) === '8' || cart_amount.toString().slice(-1) === '9' || cart_amount.toString().slice(-1) === '0'">
-                <strong>{{ cart_amount }}</strong>&nbsp;товаров
-            </template>
-            на&nbsp;<strong>{{ cart_price }}</strong>&nbsp;₽
+            <strong>{{ cart_amount }}</strong>&nbsp;товаров
+            
+            на&nbsp;<strong>{{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}</strong>&nbsp;₽
         </div>
         <div v-else class="minicart-content">Корзина пуста</div>
         <div class="minicart-icon">
