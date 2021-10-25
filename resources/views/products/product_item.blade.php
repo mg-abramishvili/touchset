@@ -68,6 +68,36 @@
             </div>
         </div>
     </div>
+    <div class="another-products bg-light">
+        <div class="container">
+            <h5 class="block-title block-page-title">Похожие товары</h5>
+            <div class="row">
+                @foreach($other_products as $op)
+                    @if($op->id != $product->id)
+                        <div class="col-12 col-md-4">
+                            <div class="page-products-item">
+                                <a href="{{ route('product_item', ['id' => $op->id ]) }}">
+                                    @if($op->gallery)
+                                        @foreach($op->gallery as $pg)
+                                            @if($loop->first)
+                                                <div class="page-products-item-image" style="background-image: url({{ $pg }})"></div>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <div class="page-products-item-image" style="background-image: url(/img/no-image.jpg)"></div>
+                                    @endif
+
+                                    <p>{{ $op->name }}</p>
+
+                                    <span>{{ $op->price }} <i>₽</i></span>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection

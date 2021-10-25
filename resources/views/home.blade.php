@@ -1,4 +1,5 @@
 @extends('layouts.front')
+@section('title', 'ТачЛаб')
 @section('content')
 
 <div class="home-carousel">
