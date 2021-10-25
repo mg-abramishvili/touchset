@@ -38,7 +38,7 @@
                         <div class="row align-items-center">
                             <div class="header-bottom-logo">
                                 <a href="{{ route('home') }}">
-                                    <img src="http://localhost/img/logo.svg" alt="TachLab - ТачЛаб">
+                                    <img src="/img/logo.svg" alt="TachLab - ТачЛаб">
                                 </a>
                             </div>
                             <div class="header-bottom-nav">

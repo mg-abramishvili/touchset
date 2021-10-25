@@ -35,6 +35,15 @@
                                         <a href="{{ route('admin_products') }}" class="nav-link">Товары</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ route('admin_attributes') }}" class="nav-link">Категории</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_attributes') }}" class="nav-link">Страницы</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_attributes') }}" class="nav-link">Настройки</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ route('admin_attributes') }}" class="nav-link">Атрибуты</a>
                                     </li>
                                 </ul>
