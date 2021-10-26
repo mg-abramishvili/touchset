@@ -4,10 +4,10 @@
 <div class="w-100">
     <div class="row align-items-center mb-4">
         <div class="col-12 col-md-6">
-            <h1 class="m-0">Атрибуты</h1>
+            <h1 class="m-0">Категории</h1>
         </div>
         <div class="col-12 col-md-6 text-end">
-            <a href="{{ route('admin_attributes_create') }}" class="btn btn-primary">Добавить</a>
+            <a href="{{ route('admin_categories_create') }}" class="btn btn-primary">Добавить</a>
         </div>
     </div>
     <table class="table">
@@ -15,30 +15,29 @@
             <tr>
                 <td>Название</td>
                 <td>Код</td>
-                <td>Сортровка</td>
-                <td>Исп.</td>
+                <td>Товаров</td>
                 <td></td>
             </tr>
         </thead>
         <tbody>
-            @foreach($attributes as $attribute)
+            @foreach($categories as $category)
                 <tr>
                     <td>
-                        {{ $attribute->name }}
+                        @if($category->parent)
+                            <span class="text-muted">{{ $category->parent->name }} → </span>
+                        @endif
+                        {{ $category->name }}
                     </td>
                     <td>
-                        {{ $attribute->slug }}
+                        {{ $category->slug }}
                     </td>
                     <td>
-                        {{ $attribute->sort }}
-                    </td>
-                    <td>
-                        @if($attribute->products->count() > 0)
-                            {{ $attribute->products->count() }}
+                        @if($category->products->count() > 0)
+                            {{ $category->products->count() }}
                         @endif
                     </td>
                     <td class="text-end">
-                        <a href="{{ route('admin_attribute_edit', ['id' => $attribute->id]) }}" class="btn btn-sm btn-outline-primary">Правка</a>
+                        <a href="{{ route('admin_category_edit', ['id' => $category->id]) }}" class="btn btn-sm btn-outline-primary">Правка</a>
                     </td>
                 </tr>
             @endforeach

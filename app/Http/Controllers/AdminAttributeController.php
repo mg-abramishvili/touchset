@@ -56,4 +56,12 @@ class AdminAttributeController extends Controller
 
         return redirect()->route('admin_attributes');
     }
+
+    public function attribute_item_delete($id)
+    {
+        $attribute = Attribute::find($id);
+        $attribute->products()->detach();
+        $attribute->delete();
+        return redirect()->route('admin_attributes');
+    }
 }
