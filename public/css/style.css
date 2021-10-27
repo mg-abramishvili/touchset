@@ -540,6 +540,22 @@ footer hr {
 .admin_panel .sidebar .nav-link {
     font-weight: 500;
     color: #333;
+    margin: 8px 0;
+}
+
+.admin_panel .sidebar .nav-link.active {
+    font-weight: 700;
+    color: #1D88D8;
+}
+
+.admin_panel .sidebar .nav-link:hover {
+    color: #1D88D8;
+}
+
+.admin_panel .sidebar .nav-link svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
 }
 
 .admin_panel .sidebar .nav-link .feather {
