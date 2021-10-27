@@ -7,11 +7,10 @@
         
         <div class="breadcrumb">
             <a href="{{ route('categories') }}">Каталог</a>
-            &nbsp;>&nbsp;
+            &nbsp;→&nbsp;
             @foreach($product->categories as $category)
                 @if($category->parent)
-                    <a href="{{ route('category_item', ['id' => $category->parent->id]) }}">{{ $category->parent->name }}</a>
-                    &nbsp;>&nbsp;
+                    @include('products.sub ', ['parent' => $category->parent])
                 @endif
                 <a href="{{ route('category_item', ['id' => $category->id]) }}">{{ $category->name }}</a>
             @endforeach

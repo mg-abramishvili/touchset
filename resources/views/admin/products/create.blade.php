@@ -20,9 +20,7 @@
                     <select name="category" class="form-select">
                         <option disabled selected value>Выберите категорию</option>
                         @foreach($categories as $category)
-                            @if(!$category->children->count() > 0)
-                                <option value="{{ $category->id }}">@if($category->parent){{ $category->parent->name }} →@endif {{ $category->name }}</option>
-                            @endif
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>

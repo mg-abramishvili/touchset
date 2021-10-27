@@ -20,9 +20,7 @@
                     <label class="form-label">Категория</label>
                     <select name="category" class="form-select">
                         @foreach($categories as $category)
-                            @if(!$category->children->count() > 0)
-                                <option value="{{ $category->id }}" @foreach($product->categories as $pc) @if($pc->id == $category->id) selected @endif @endforeach>@if($category->parent){{ $category->parent->name }} →@endif {{ $category->name }}</option>
-                            @endif
+                            <option value="{{ $category->id }}" @foreach($product->categories as $pc) @if($pc->id == $category->id) selected @endif @endforeach>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>

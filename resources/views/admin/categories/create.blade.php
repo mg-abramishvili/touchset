@@ -21,8 +21,8 @@
         <div class="mb-3">
             <label class="form-label">Родительская категория</label>
             <select name="parent_id" class="form-select">
+                <option value="" selected>Выберите категорию</option>
                 @foreach($categories as $category)
-                    <option value="" selected>Выберите категорию</option>
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
