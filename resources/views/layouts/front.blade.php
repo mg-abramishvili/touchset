@@ -20,6 +20,31 @@
                 <div class="header-top">
                     <div class="container">
                         <div class="row align-items-center">
+                            <div class="header-top-nav">
+                                <nav>
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            <a href="{{ route('categories') }}" class="nav-link">Магазин</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('page', ['slug' => 'contacts']) }}" class="nav-link">Контакты</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="header-top-search">
+                                <form action="{{ route('product_search') }}">
+                                    <input name="search" type="text" class="form-control" placeholder="Поиск по магазину..." required>
+                                    <input type="submit" value="">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="header-top">
+                    <div class="container">
+                        <div class="row align-items-center">
                             <div class="header-top-tel">
                                 <a>{{App\Http\Controllers\SettingController::index()->email}}</a>
                                 <a href="tel: +7{!! substr(str_replace(array(' ', '-', '+'), '', App\Http\Controllers\SettingController::index()->tel), 1) !!}">
@@ -62,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </header>
             
             @yield('content')

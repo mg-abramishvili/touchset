@@ -4,9 +4,19 @@
 
 <div class="home-carousel">
     <div class="container">
-        <div class="home-carousel-inner">
-            <h1>Сенсорные киоски <br/>и мониторы</h1>
-            <a href="{{ route('categories') }}" class="btn btn-standard">В каталог</a>
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="home-carousel-1">
+                    <div class="home-carousel-inner">
+                        <h1>Сенсорные киоски <br/>и мониторы</h1>
+                        <a href="{{ route('categories') }}" class="btn btn-standard">В каталог</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="home-carousel-2"></div>
+                <div class="home-carousel-3"></div>
+            </div>
         </div>
     </div>
 </div>
