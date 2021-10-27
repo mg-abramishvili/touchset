@@ -38,6 +38,7 @@
                         @foreach($product->categories as $category)
                             @if($category->parent)
                                 @include('admin.products.sub ', ['parent' => $category->parent])
+                                <br/>
                             @endif
                             {{ $category->name }}
                         @endforeach
