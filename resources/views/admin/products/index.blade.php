@@ -13,6 +13,7 @@
     <table class="table">
         <thead>
             <tr>
+                <td></td>
                 <td>Наименование</td>
                 <td>Категория</td>
                 <td></td>
@@ -21,6 +22,15 @@
         <tbody>
             @foreach($products as $product)
                 <tr>
+                    <td style="width: 60px;">
+                        @if($product->gallery)
+                            @foreach($product->gallery as $pg)
+                                @if($loop->first)
+                                    <img src="{{ $pg }}" style="width: 60px;"/>
+                                @endif
+                            @endforeach  
+                        @endif
+                    </td>
                     <td>
                         {{ $product->name }}
                     </td>

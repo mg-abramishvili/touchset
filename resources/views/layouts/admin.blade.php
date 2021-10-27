@@ -38,7 +38,7 @@
                                         <a href="{{ route('admin_categories') }}" class="nav-link">Категории</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('admin_attributes') }}" class="nav-link">Страницы</a>
+                                        <a href="{{ route('admin_pages') }}" class="nav-link">Страницы</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ route('admin_attributes') }}" class="nav-link">Настройки</a>

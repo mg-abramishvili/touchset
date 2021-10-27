@@ -44,4 +44,13 @@ Route::get('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController
 Route::get('admin/attribute/{id}/delete','App\Http\Controllers\AdminAttributeController@attribute_item_delete')->name('admin_attribute_delete')->middleware('auth');
 Route::put('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController@attribute_item_update')->name('admin_attribute_update')->middleware('auth');
 
+// ADMIN PAGES
+Route::get('admin/pages','App\Http\Controllers\AdminPageController@index')->name('admin_pages')->middleware('auth');
+Route::get('admin/pages/create','App\Http\Controllers\AdminPageController@pages_create')->name('admin_pages_create')->middleware('auth');
+Route::post('admin/pages','App\Http\Controllers\AdminPageController@pages_store')->name('admin_pages_store')->middleware('auth');
+Route::get('admin/page/{id}','App\Http\Controllers\AdminPageController@page_item_edit')->name('admin_page_edit')->middleware('auth');
+Route::get('admin/page/{id}/delete','App\Http\Controllers\AdminPageController@page_item_delete')->name('admin_page_delete')->middleware('auth');
+Route::put('admin/page/{id}','App\Http\Controllers\AdminPageController@page_item_update')->name('admin_page_update')->middleware('auth');
+
+
 Auth::routes();
