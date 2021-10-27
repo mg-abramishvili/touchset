@@ -1,27 +1,34 @@
 @extends('layouts.admin')
-@section('title', $attribute->name)
+@section('title', $category->name)
 @section('content')
 <div class="w-100">
-    <h1>{{ $attribute->name }}</h1>
+    <h1>{{ $category->name }}</h1>
 
-    <form action="{{ route('admin_attribute_edit', ['id' => $attribute->id]) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin_category_edit', ['id' => $category->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <input type="hidden" name="id" value="{{$attribute->id}}">
+        <input type="hidden" name="id" value="{{$category->id}}">
 
         <div class="mb-3">
             <label class="form-label">Наименование</label>
-            <input type="text" name="name" value="{{ $attribute->name }}" class="form-control">
+            <input type="text" name="name" value="{{ $category->name }}" class="form-control">
         </div>
         
         <div class="mb-3">
             <label class="form-label">Код</label>
-            <input type="text" name="slug" value="{{ $attribute->slug }}" class="form-control">
+            <input type="text" name="slug" value="{{ $category->slug }}" class="form-control">
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Сортровка</label>
-            <input type="text" name="sort" value="{{ $attribute->sort }}" class="form-control">
+            <label class="form-label">Родительская категория</label>
+            <select name="parent_id" class="form-select">
+                <option value="">Выберите категорию</option>
+                @foreach($categories as $cat)
+                    @if($cat->id != $category->id)
+                        <option value="{{ $cat->id }}" @if($cat->id == $category->parent_id) selected @endif>{{ $cat->name }}</option>
+                    @endif
+                @endforeach
+            </select>
         </div>
 
         <div class="row">
@@ -29,11 +36,11 @@
                 <input type="submit" class="btn btn-primary" value="Сохранить"/>
             </div>
             <div class="col-6 text-end">
-                @if($attribute->products->count() > 0)
+                @if($category->products->count() > 0)
                     <button class="btn btn-outline-danger" disabled>Удалить</button>
-                    <p class="text-muted"><small>Атрибут используется в {{ $attribute->products->count() }} товарах</small></p>
+                    <p class="text-muted"><small>В категории {{ $category->products->count() }} товаров</small></p>
                 @else
-                    <a href="{{ route('admin_attribute_delete', ['id' => $attribute->id]) }}" class="btn btn-outline-danger">Удалить</a>
+                    <a href="{{ route('admin_category_delete', ['id' => $category->id]) }}" class="btn btn-outline-danger">Удалить</a>
                 @endif
             </div>
         </div>

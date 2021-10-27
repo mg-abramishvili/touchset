@@ -15,7 +15,8 @@ class AdminCategoryController extends Controller
 
     public function categories_create()
     {
-        return view('admin.categories.create');
+        $categories = Category::all();
+        return view('admin.categories.create', compact('categories'));
     }
 
     public function categories_store(Request $request)
@@ -29,6 +30,7 @@ class AdminCategoryController extends Controller
         $category = new Category();
         $category->name = $data['name'];
         $category->slug = $data['slug'];
+        $category->parent_id = $data['parent_id'];
 
         $category->save();
 
@@ -38,7 +40,8 @@ class AdminCategoryController extends Controller
     public function category_item_edit($id)
     {
         $category = Category::find($id);
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::all();
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     public function category_item_update($id, Request $request)
@@ -51,6 +54,7 @@ class AdminCategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
         $category->slug = $request->slug;
+        $category->parent_id = $request->parent_id;
 
         $category->save();
 
