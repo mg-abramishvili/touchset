@@ -622,6 +622,75 @@ footer hr {
 }
 
 
+
+.admin_panel .tree {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    margin-left: 30px;
+}
+.admin_panel .tree .btn-sm {
+    font-size: 0.600rem;
+    padding: 0.15rem 0.4rem;
+}
+.admin_panel .tree ul {
+    margin-left: 20px;
+}
+.admin_panel .tree li {
+    list-style-type: none;
+    margin:10px;
+    position: relative;
+}
+.admin_panel .tree li::before {
+    content: "";
+    position: absolute;
+    top:-7px;
+    left:-20px;
+    border-left: 1px solid #ccc;
+    border-bottom:1px solid #ccc;
+    border-radius:0 0 0 0px;
+    width:20px;
+    height:15px;
+}
+.admin_panel .tree li::after {
+    position:absolute;
+    content:"";
+    top:8px;
+    left:-20px;
+    border-left: 1px solid #ccc;
+    border-top:1px solid #ccc;
+    border-radius:0px 0 0 0;
+    width:20px;
+    height:100%;
+}
+.admin_panel .tree li:last-child::after  {
+    display:none;
+}
+.admin_panel .tree li:last-child:before{
+    border-radius: 0 0 0 5px;
+}
+.admin_panel ul.tree>li:first-child::before {
+    display:none;
+}
+.admin_panel ul.tree>li:first-child::after {
+    border-radius:5px 0 0 0;
+}
+.admin_panel .tree li span {
+    border: 1px #ccc solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: inline-block;
+}
+.admin_panel .tree li {
+    font-weight: bold;
+}
+.admin_panel .tree ul li span {
+    font-weight: normal;
+}
+
+
+
+
 .filepond--root .filepond--credits {
     display: none !important;
 }

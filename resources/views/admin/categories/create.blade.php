@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Новый товар')
+@section('title', 'Новая категория')
 @section('content')
 <div class="w-100">
     <h1>Новая категория</h1>

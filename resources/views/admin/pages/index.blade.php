@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Атрибуты')
+@section('title', 'Страницы')
 @section('content')
 <div class="w-100">
     <div class="row align-items-center mb-4">
