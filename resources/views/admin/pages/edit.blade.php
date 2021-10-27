@@ -2,8 +2,6 @@
 @section('title', $page->name)
 @section('content')
 <div class="w-100">
-    <h1>{{ $page->name }}</h1>
-
     <form action="{{ route('admin_page_edit', ['id' => $page->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')

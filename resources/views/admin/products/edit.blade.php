@@ -2,8 +2,6 @@
 @section('title', $product->name)
 @section('content')
 <div class="w-100">
-    <h1>{{ $product->name }}</h1>
-
     <form action="{{ route('admin_product_edit', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')

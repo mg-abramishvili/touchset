@@ -1,15 +1,8 @@
 @extends('layouts.admin')
 @section('title', 'Страницы')
+@section('add_button', route('admin_pages_create'))
 @section('content')
 <div class="w-100">
-    <div class="row align-items-center mb-4">
-        <div class="col-12 col-md-6">
-            <h1 class="m-0">Страницы</h1>
-        </div>
-        <!--<div class="col-12 col-md-6 text-end">
-            <a href="{{ route('admin_pages_create') }}" class="btn btn-primary">Добавить</a>
-        </div>-->
-    </div>
     <table class="table">
         <thead>
             <tr>

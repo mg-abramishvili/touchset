@@ -1,9 +1,7 @@
 @extends('layouts.admin')
-@section('title', 'Новый товар')
+@section('title', 'Новый атрибут')
 @section('content')
 <div class="w-100">
-    <h1>Новый атрибут</h1>
-
     <form action="{{ route('admin_attributes_store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')

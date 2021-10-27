@@ -2,8 +2,6 @@
 @section('title', 'Новая категория')
 @section('content')
 <div class="w-100">
-    <h1>Новая категория</h1>
-
     <form action="{{ route('admin_categories_store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')

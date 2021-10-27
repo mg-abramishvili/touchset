@@ -22,7 +22,16 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="subheader w-100 px-md-4">
-                        @yield('title')
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6">
+                                @yield('title')
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                                @hasSection('add_button')
+                                    <a href="@yield('add_button')" class="btn btn-sm btn-primary">Добавить</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </header>
 

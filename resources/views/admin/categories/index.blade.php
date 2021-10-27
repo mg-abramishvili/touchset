@@ -1,16 +1,8 @@
 @extends('layouts.admin')
 @section('title', 'Категории')
+@section('add_button', route('admin_categories_create'))
 @section('content')
 <div class="w-100">
-    <div class="row align-items-center mb-4">
-        <div class="col-12 col-md-6">
-            <h1 class="m-0">Категории</h1>
-        </div>
-        <div class="col-12 col-md-6 text-end">
-            <a href="{{ route('admin_categories_create') }}" class="btn btn-primary">Добавить</a>
-        </div>
-    </div>
-
     <ul class="tree">
         @forelse($categories as $category)
             @if(isset($category->parent_id))

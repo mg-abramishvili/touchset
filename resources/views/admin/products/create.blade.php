@@ -2,8 +2,6 @@
 @section('title', 'Новый товар')
 @section('content')
 <div class="w-100">
-    <h1>Новый товар</h1>
-
     <form action="{{ route('admin_products_store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')

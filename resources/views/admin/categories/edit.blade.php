@@ -2,8 +2,6 @@
 @section('title', $category->name)
 @section('content')
 <div class="w-100">
-    <h1>{{ $category->name }}</h1>
-
     <form action="{{ route('admin_category_edit', ['id' => $category->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
