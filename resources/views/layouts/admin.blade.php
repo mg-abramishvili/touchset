@@ -11,7 +11,7 @@
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
         <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
         <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
-        <link href="/css/style.css" type="text/css" rel="stylesheet"/>
+        <link href="/css/admin_style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
         <div class="admin_panel bg-light" style="min-height: 100vh;">
