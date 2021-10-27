@@ -2,7 +2,7 @@
 @section('title', $page->name)
 @section('content')
 <div class="w-100">
-    <form action="{{ route('admin_page_edit', ['id' => $page->id]) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin_page_update', ['id' => $page->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <input type="hidden" name="id" value="{{$page->id}}">

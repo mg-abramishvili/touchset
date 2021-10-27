@@ -2,7 +2,7 @@
 @section('title', $attribute->name)
 @section('content')
 <div class="w-100">
-    <form action="{{ route('admin_attribute_edit', ['id' => $attribute->id]) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin_attribute_update', ['id' => $attribute->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <input type="hidden" name="id" value="{{$attribute->id}}">

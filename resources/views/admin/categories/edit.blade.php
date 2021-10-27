@@ -2,7 +2,7 @@
 @section('title', $category->name)
 @section('content')
 <div class="w-100">
-    <form action="{{ route('admin_category_edit', ['id' => $category->id]) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin_category_update', ['id' => $category->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <input type="hidden" name="id" value="{{$category->id}}">

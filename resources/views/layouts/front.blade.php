@@ -21,8 +21,10 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="header-top-tel">
-                                <a>info@tachlab.ru</a>
-                                <a href="tel:+78002002302">+7 800 200 23 02</a>
+                                <a>{{App\Http\Controllers\SettingController::index()->email}}</a>
+                                <a href="tel: +7{!! substr(str_replace(array(' ', '-', '+'), '', App\Http\Controllers\SettingController::index()->tel), 1) !!}">
+                                    {{App\Http\Controllers\SettingController::index()->tel}}
+                                </a>
                             </div>
                             <div class="header-top-search">
                                 <form action="{{ route('product_search') }}">
@@ -74,22 +76,24 @@
                             </a>
                         </div>
                         <div class="footer-mail">
-                            info@tachlab.ru
+                            {{App\Http\Controllers\SettingController::index()->email}}
                         </div>
                         <div class="footer-tel">
-                            <a href="tel:+78002002302">8 800 200 23 02</a>
+                            <a href="tel: +7{!! substr(str_replace(array(' ', '-', '+'), '', App\Http\Controllers\SettingController::index()->tel), 1) !!}">
+                                {{App\Http\Controllers\SettingController::index()->tel}}
+                            </a>
                         </div>
                         <div class="footer-address">
-                            г. Санкт-Петербург, шоссе Революции, дом 69
+                            {{App\Http\Controllers\SettingController::index()->address}}
                         </div>
                         <div class="footer-schedule">
-                            Пн-Пт 10:00-18:00
+                            {{App\Http\Controllers\SettingController::index()->schedule}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 text-center" style="color: #ccc;">
                             <hr>
-                            © Tachlab 2021
+                            © Tachlab @php echo date("Y"); @endphp
                         </div>
                     </div>
                 </div>

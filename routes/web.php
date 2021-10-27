@@ -52,5 +52,8 @@ Route::get('admin/page/{id}','App\Http\Controllers\AdminPageController@page_item
 Route::get('admin/page/{id}/delete','App\Http\Controllers\AdminPageController@page_item_delete')->name('admin_page_delete')->middleware('auth');
 Route::put('admin/page/{id}','App\Http\Controllers\AdminPageController@page_item_update')->name('admin_page_update')->middleware('auth');
 
+// ADMIN SETTINGS
+Route::get('admin/settings','App\Http\Controllers\AdminSettingController@index')->name('admin_settings')->middleware('auth');
+Route::put('admin/setting/{id}','App\Http\Controllers\AdminSettingController@settings_update')->name('admin_settings_update')->middleware('auth');
 
 Auth::routes();

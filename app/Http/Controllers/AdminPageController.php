@@ -54,7 +54,7 @@ class AdminPageController extends Controller
         $page = Page::find($id);
         $page->name = $request->name;
         $page->slug = $request->slug;
-        $page->content = $data['content'];
+        $page->content = $request->content;
 
         $page->save();
 
