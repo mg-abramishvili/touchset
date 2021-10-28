@@ -18,6 +18,15 @@ body {
     box-shadow: none;
     border: 0;
 }
+.block-title {
+    font-size: 34px;
+    color: #333f48;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+.block-title-center {
+    text-align: center;
+}
 
 
 
@@ -33,7 +42,7 @@ body {
     color: #333f48;
     padding: 14px 0;
     border-bottom: 2px solid transparent;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 .header-top-nav .nav-link:hover {
     color: #508eef;
@@ -93,14 +102,14 @@ body {
 }
 .header-bottom-catalog a {
     color: #fff;
-    padding: 10px 25px;
+    padding: 10px 20px;
     border-radius: 50px;
     text-decoration: none;
     line-height: 1;
     display: inline-block;
     margin-left: 20px;
     color: #508eef;
-    border: 2px solid #508eef;
+    border: 1px solid #508eef;
 }
 .header-bottom-catalog a svg {
     width: 25px;
@@ -205,7 +214,6 @@ body {
     position: relative;
     overflow: hidden;
     background: linear-gradient(300deg, #91EAE4, #86A8E7, #2e7df4);
-    background-size: cover;
     height: 405px;
     border-radius: 25px;
 }
@@ -222,11 +230,11 @@ body {
 }
 .home-carousel-1 .home-carousel-inner h1 {
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     text-transform: uppercase;
     color: #fff;
-    font-size: 48px;
-    line-height: 1.35;
+    font-size: 40px;
+    line-height: 1.4;
 }
 .home-carousel-1 .home-carousel-inner .btn-standard {
     background-color: #fff;
@@ -309,4 +317,124 @@ body {
     border-radius: 5px;
     box-shadow: 0 1px 20px rgb(55 90 143 / 45%);
 }
+.home-categories {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+.home-categories-item {
+    margin-bottom: 25px;
+}
+.home-categories-item a {
+    display: block;
+    border: 1px solid #b5cdf2;
+    padding: 20px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    height: 125px;
+    text-decoration: none;
+    color: #333f48;
+}
+.home-categories-item a:hover {
+    color: #508eef;
+    box-shadow: 0px 0px 15px 5px rgb(46 125 244 / 15%);
+    border-color: transparent;
+}
+.home-categories-item a img {
+    position: absolute;
+    width: auto;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    max-width: 110px;
+    max-height: 100px;
+}
+.home-categories-item a h3 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 140px;
+    right: 25px;
+    font-size: 20px;
+    line-height: 1.3;
+}
+.home-products-block {
+    padding: 50px 35px;
+    position: relative;
+    border-radius: 20px;
+}
+.home-products-block-bg {
+    background-color: #eef3ff;
+}
+.home-products-block-bg-grad {
+    background: linear-gradient(300deg, #91EAE4, #86A8E7, #2e7df4);
+}
+.home-products-block-bg-grad .block-title {
+    color: #fff;
+}
+.home-products-item {
+    background-color: #fff;
+    padding: 30px 20px;
+    margin: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px 5px rgb(46 125 244 / 15%);
+    text-align: center;
+}
+.home-products-item-image {
+    height: 150px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+.home-products-item a {
+    text-decoration: none;
+    color: #333f48;
+}
+.home-products-item a p {
+    margin: 0;
+}
+.home-products-item a span strong {
+    color: #508eef;
+}
+.home-products-item a span i {
+    font-style: normal;
+    color: #999;
+}
+.home-products-swiper-nav {
+    position: absolute;
+    bottom: 70px;
+}
+.home-products-swiper-nav .swiper-button-prev,
+.home-products-swiper-nav .swiper-button-next {
+    color: #508eef;
+    display: inline-block;
+    position: relative;
+    left: auto;
+    right: auto;
+    margin-right: 15px;
+}
+.home-products-block-bg-grad .home-products-swiper-nav .swiper-button-prev,
+.home-products-block-bg-grad  .home-products-swiper-nav .swiper-button-next {
+    color: #fff;
+}
+.home-products-swiper-nav .swiper-button-prev svg,
+.home-products-swiper-nav .swiper-button-next svg {
+    width: 35px;
+    height: 35px;
+}
+.home-products-swiper-nav .swiper-button-prev:after,
+.home-products-swiper-nav .swiper-button-next:after {
+    content: '';
+}
 /* HOME */
+
+
+
+/* FOOTER */
+footer {
+    background-color: #eef3ff;
+}
+/* FOOTER */

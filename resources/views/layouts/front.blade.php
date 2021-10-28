@@ -24,7 +24,10 @@
                                 <nav>
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            <a href="{{ route('categories') }}" class="nav-link">Магазин</a>
+                                            <a href="#" class="nav-link">О компании</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">Доставка и оплата</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('page', ['slug' => 'contacts']) }}" class="nav-link">Контакты</a>
