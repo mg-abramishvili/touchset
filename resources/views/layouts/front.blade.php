@@ -142,29 +142,53 @@
 
             <footer>
                 <div class="container">
-                    <div class="row align-items-center">
+                    <div class="row">
                         <div class="footer-logo">
                             <a href="{{ route('home') }}">
-                                <img src="/img/logo-w.svg" alt="TachLab - ТачЛаб">
+                                <img src="/img/logo.svg" alt="TachLab - ТачЛаб">
                             </a>
                         </div>
-                        <div class="footer-mail">
-                            {{App\Http\Controllers\SettingController::index()->email}}
+                        <div class="footer-catalog">
+                            <ul>
+                                <li>
+                                    <a href="#">Школы и ВУЗы</a>
+                                </li>
+                                <li>
+                                    <a href="#">Музеи</a>
+                                </li>
+                                <li>
+                                    <a href="#">Торговые центры</a>
+                                </li>
+                                <li>
+                                    <a href="#">Детские сады</a>
+                                </li>
+                                <li>
+                                    <a href="#">Мед. центры</a>
+                                </li>
+                                <li>
+                                    <a href="#">Банки</a>
+                                </li>
+                                <li>
+                                    <a href="#">Заводы и предприятия</a>
+                                </li>
+                                <li>
+                                    <a href="#">Храмы, мечети, синагоги</a>
+                                </li>
+                                <li>
+                                    <a href="#">Парки</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="footer-tel">
+                        <div class="footer-contacts">
                             <a href="tel: +7{!! substr(str_replace(array(' ', '-', '+'), '', App\Http\Controllers\SettingController::index()->tel), 1) !!}">
                                 {{App\Http\Controllers\SettingController::index()->tel}}
                             </a>
-                        </div>
-                        <div class="footer-address">
-                            {{App\Http\Controllers\SettingController::index()->address}}
-                        </div>
-                        <div class="footer-schedule">
-                            {{App\Http\Controllers\SettingController::index()->schedule}}
+                            <p>{{App\Http\Controllers\SettingController::index()->email}}</p>
+                            <p>{{App\Http\Controllers\SettingController::index()->address}}</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 text-center" style="color: #ccc;">
+                        <div class="col-12 text-center">
                             <hr>
                             © Tachlab @php echo date("Y"); @endphp
                         </div>
