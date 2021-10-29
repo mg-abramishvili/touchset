@@ -46,7 +46,8 @@
             <div class="col-12 col-md-6">
                 <div class="product-details">
                     <h1>{{ $product->name }}</h1>
-                    <div class="row">
+
+                    <div class="row product-tech">
                         @foreach($product->attributes as $attribute)
                             <div class="col-6 mb-3">
                                 <span>
@@ -108,12 +109,13 @@
                 <div class="col-12 col-lg-9">
                     <div class="swiper HomeProductsSwiper">
                         <div class="swiper-wrapper">
-                            @foreach($products_is_new as $product)
+                            @foreach($products_is_new as $aproduct)
+                                @if($aproduct->id != $product->id)
                                 <div class="swiper-slide">
                                     <div class="home-products-item">
-                                        <a href="{{ route('product_item', ['id' => $product->id ]) }}">
-                                            @if($product->gallery)
-                                                @foreach($product->gallery as $pg)
+                                        <a href="{{ route('product_item', ['id' => $aproduct->id ]) }}">
+                                            @if($aproduct->gallery)
+                                                @foreach($aproduct->gallery as $pg)
                                                     @if($loop->first)
                                                         <div class="home-products-item-image" style="background-image: url({{ $pg }})"></div>
                                                     @endif
@@ -122,14 +124,15 @@
                                             <span>
                                                 <strong>
                                                     @php
-                                                        echo number_format($product->price,0,","," ");
+                                                        echo number_format($aproduct->price,0,","," ");
                                                     @endphp
                                                 </strong> <i>₽</i>
                                             </span>
-                                            <p>{{ $product->name }}</p>
+                                            <p>{{ $aproduct->name }}</p>
                                         </a>
                                     </div>
                                 </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
