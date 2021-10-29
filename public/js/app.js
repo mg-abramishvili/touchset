@@ -2217,6 +2217,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2894,37 +2895,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "minicart" }, [
-    parseInt(_vm.cart_amount) > 0
-      ? _c("div", { staticClass: "minicart-content" }, [
-          _c("strong", [_vm._v(_vm._s(_vm.cart_amount))]),
-          _vm._v(" товаров\n        \n        на "),
-          _c("strong", [
-            _vm._v(
-              _vm._s(
-                _vm.cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-              )
-            )
-          ]),
-          _vm._v(" ₽\n    ")
-        ])
-      : _c("div", { staticClass: "minicart-content" }, [
-          _vm._v("Корзина пуста")
-        ]),
+  return _c("a", { attrs: { href: "/cart" } }, [
+    _c("div", { staticClass: "header-bottom-cart-icon" }, [
+      _c(
+        "svg",
+        {
+          staticClass: "bi bi-cart2",
+          attrs: {
+            xmlns: "http://www.w3.org/2000/svg",
+            width: "16",
+            height: "16",
+            fill: "currentColor",
+            viewBox: "0 0 16 16"
+          }
+        },
+        [
+          _c("path", {
+            attrs: {
+              d:
+                "M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"
+            }
+          })
+        ]
+      )
+    ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c("span", [
+      _c("strong", [_vm._v("В корзине")]),
+      _vm._v(" "),
+      parseInt(_vm.cart_amount) > 0
+        ? _c("small", [
+            _c("i", [_vm._v(_vm._s(_vm.cart_amount) + " товаров")]),
+            _vm._v(
+              ", " +
+                _vm._s(
+                  _vm.cart_price
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                ) +
+                " ₽"
+            )
+          ])
+        : _c("small", [_vm._v("Нет товаров")])
+    ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "minicart-icon" }, [
-      _c("img", { attrs: { src: "/img/minicart.svg" } })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
