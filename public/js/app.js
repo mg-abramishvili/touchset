@@ -2074,6 +2074,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['product_id'],
@@ -2748,7 +2749,11 @@ var render = function() {
             }
           },
           [_vm._v("В корзину")]
-        )
+        ),
+    _vm._v(" "),
+    _c("button", { staticClass: "btn btn-outline-standard" }, [
+      _vm._v("Хочу демо-версию")
+    ])
   ])
 }
 var staticRenderFns = []

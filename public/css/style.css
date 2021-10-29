@@ -18,6 +18,16 @@ body {
     box-shadow: none;
     border: 0;
 }
+.btn-outline-standard {
+    background: none;
+    font-size: 18px;
+    padding: 12px 28px;
+    border-radius: 50px;
+    line-height: 1;
+    color: #333f48;
+    box-shadow: none;
+    border: 2px solid #508eef;
+}
 .block-title {
     font-size: 34px;
     color: #333f48;
@@ -491,6 +501,9 @@ body {
 .product-details .price span {
     color: #333f48;
 }
+.product-details .btn-outline-standard {
+    margin-left: 15px;
+}
 .product-description {
     margin: 50px 0;
 }
@@ -501,7 +514,7 @@ body {
 }
 .page-individual .block-title {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin: 0;
 }
 .page-individual p {
     font-size: 16px;
@@ -510,6 +523,13 @@ body {
 .page-individual .btn-standard {
     font-size: 15px;
     padding: 10px 20px;
+}
+.page-individual .form-check{
+    margin-top: 20px;
+}
+.page-individual .form-check small {
+    display: block;
+    color: #777;
 }
 .product-tech {
     margin-top: 20px;
