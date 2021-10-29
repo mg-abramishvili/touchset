@@ -365,7 +365,6 @@
 
 @section('scripts')
 <script>
-
     var swiper = new Swiper('.HomeProductsSwiper', {
         loop: true,
         slidesPerView: 3,

@@ -12,7 +12,8 @@ class ProductController extends Controller
     {
         $product = Product::with('attributes')->find($id);
         $other_products = Product::whereRelation('categories', 'category_id', $product->categories->first()->id)->get();
-        return view('products.product_item', compact('product', 'other_products'));
+        $products_is_new = Product::where('is_new', true)->get();
+        return view('products.product_item', compact('product', 'other_products', 'products_is_new'));
     }
 
     public function product_search(Request $request)
