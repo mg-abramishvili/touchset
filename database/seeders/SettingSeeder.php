@@ -14,8 +14,8 @@ class SettingSeeder extends Seeder
         DB::table('settings')->insert([
             [
                 'id' => '1',
-                'tel' => '8 800 200-23-02',
-                'email' => 'info@tachlab.ru',
+                'tel' => '8 800 302 69 89',
+                'email' => 'info@touchset.ru',
                 'address' => 'г. Санкт-Петербург, шоссе Революции, дом 69',
                 'schedule' => 'Пн-Пт 10:00-18:00'
             ],
