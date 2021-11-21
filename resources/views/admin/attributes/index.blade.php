@@ -23,7 +23,7 @@
                         {{ $attribute->slug }}
                     </td>
                     <td>
-                        {{ $attribute->sort }}
+                        {{ $attribute->order }}
                     </td>
                     <td>
                         @if($attribute->products->count() > 0)
