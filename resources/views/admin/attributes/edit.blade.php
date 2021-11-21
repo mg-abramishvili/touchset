@@ -19,7 +19,7 @@
 
         <div class="mb-3">
             <label class="form-label">Сортровка</label>
-            <input type="text" name="sort" value="{{ $attribute->sort }}" class="form-control">
+            <input type="text" name="order" value="{{ $attribute->order }}" class="form-control">
         </div>
 
         <div class="row">

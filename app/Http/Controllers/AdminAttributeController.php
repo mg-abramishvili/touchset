@@ -23,12 +23,14 @@ class AdminAttributeController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'slug' => 'required',
+            'order' => 'required',
         ]);
 
         $data = request()->all();
         $attribute = new Attribute();
         $attribute->name = $data['name'];
         $attribute->slug = $data['slug'];
+        $attribute->order = $data['order'];
 
         $attribute->save();
 
@@ -46,11 +48,13 @@ class AdminAttributeController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'slug' => 'required',
+            'order' => 'required',
         ]);
 
         $attribute = Attribute::find($id);
         $attribute->name = $request->name;
         $attribute->slug = $request->slug;
+        $attribute->order = $request->order;
 
         $attribute->save();
 

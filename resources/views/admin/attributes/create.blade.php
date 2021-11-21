@@ -18,7 +18,7 @@
 
         <div class="mb-3">
             <label class="form-label">Сортровка</label>
-            <input type="text" name="sort" value="999" class="form-control">
+            <input type="text" name="order" value="999" class="form-control">
         </div>
 
         <input type="submit" class="btn btn-primary" value="Сохранить"/>
