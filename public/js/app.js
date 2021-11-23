@@ -2468,7 +2468,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     checkAddon: function checkAddon(id) {
-      this.checked_addons.push(id);
+      if (!this.checked_addons.includes(id)) {
+        this.checked_addons.push(id);
+      }
     },
     addToCart: function addToCart() {
       var _this = this;

@@ -43,20 +43,8 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
   
         if(isset($cart[$sku])) {
-            if(isset($cart[$sku]['addons'])) {
-                $cart[$sku] = [
-                    "id" => $product->id,
-                    "name" => $product->name,
-                    "quantity" => 1,
-                    "addons" => $addons,
-                    "price" => $product->price,
-                    "price_total" => $product->price,
-                    "sku" => $sku,
-                ];
-            } else {
-                $cart[$sku]['quantity']++;
-                $cart[$sku]['price_total'] = $cart[$sku]['quantity'] * $cart[$sku]['price'];
-            }
+            $cart[$sku]['quantity']++;
+            $cart[$sku]['price_total'] = $cart[$sku]['quantity'] * $cart[$sku]['price'];
         } else {
             $cart[$sku] = [
                 "id" => $product->id,

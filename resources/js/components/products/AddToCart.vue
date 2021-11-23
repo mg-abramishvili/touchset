@@ -31,7 +31,9 @@
         },
         methods: {
             checkAddon(id) {
-                this.checked_addons.push(id)
+                if(!this.checked_addons.includes(id)) {
+                    this.checked_addons.push(id)
+                }
             },
             addToCart() {
                 axios
