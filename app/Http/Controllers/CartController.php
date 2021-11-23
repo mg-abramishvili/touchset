@@ -29,7 +29,10 @@ class CartController extends Controller
                 }
             })
             ->get();
-            $sku = $id . '_1';
+            $sku = $id; 
+            foreach($addons as $addon) {
+                $sku .= '_' . $addon->slug;
+            }
         } else {
             $addons = [];
             $sku = $id;
@@ -48,6 +51,7 @@ class CartController extends Controller
                     "addons" => $addons,
                     "price" => $product->price,
                     "price_total" => $product->price,
+                    "sku" => $sku,
                 ];
             } else {
                 $cart[$sku]['quantity']++;
@@ -61,6 +65,7 @@ class CartController extends Controller
                 "addons" => $addons,
                 "price" => $product->price,
                 "price_total" => $product->price,
+                "sku" => $sku,
             ];
         }
           
@@ -69,22 +74,22 @@ class CartController extends Controller
         return redirect()->route('cart');
     }
 
-    public function update($id, $quantity, Request $request)
+    public function update($sku, $quantity, Request $request)
     {
-        if($id && $quantity){
+        if($sku && $quantity){
             $cart = session()->get('cart');
-            $cart[$id]["quantity"] = $quantity;
-            $cart[$id]["price_total"] = $quantity * $cart[$id]["price"];
+            $cart[$sku]["quantity"] = $quantity;
+            $cart[$sku]["price_total"] = $quantity * $cart[$sku]["price"];
             session()->put('cart', $cart);
         }
     }
 
-    public function remove($id, Request $request)
+    public function remove($sku, Request $request)
     {
-        if($id) {
+        if($sku) {
             $cart = session()->get('cart');
-            if(isset($cart[$id])) {
-                unset($cart[$id]);
+            if(isset($cart[$sku])) {
+                unset($cart[$sku]);
                 session()->put('cart', $cart);
             }
         }

@@ -1,26 +1,25 @@
 <template>
     <div class="cart-page">
-        {{cart}}
         <div class="row">
             <div class="col-12 col-lg-8">
-                <div v-for="cartItem in cart" :key="'cartItem_' + cartItem.id" class="cart-item">
+                <div v-for="cartItem in cart" :key="'cartItem_' + cartItem.sku" class="cart-item">
                     <div class="row align-items-center">
                         <div class="col cart-item-col-name">
-                            <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }}</a>
+                            <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }} (sku: {{ cartItem.sku }})</a>
                             <ul>
                                 <li v-for="addon in cartItem.addons" :key="'addon_' + addon.id">{{ addon.name }} ({{ addon.products[0].pivot.price }})</li>
                             </ul>
                         </div>
                         <div class="col cart-item-col-quantity">
-                            <button @click="updateQuantityMinus(cartItem.id)" class="btn btn-sm">-</button>
-                            <input @change="updateQuantity(cartItem.id)" type="number" :id="'quantity_' + cartItem.id" :value="cartItem.quantity" min="1" class="form-control w-25 d-inline-flex cart-item-amount">
-                            <button @click="updateQuantityPlus(cartItem.id)" class="btn btn-sm">+</button>
+                            <button @click="updateQuantityMinus(cartItem.sku)" class="btn btn-sm">-</button>
+                            <input @change="updateQuantity(cartItem.sku)" type="number" :id="'quantity_' + cartItem.sku" :value="cartItem.quantity" min="1" class="form-control w-25 d-inline-flex cart-item-amount">
+                            <button @click="updateQuantityPlus(cartItem.sku)" class="btn btn-sm">+</button>
                         </div>
                         <div class="col cart-item-col-price">
                             <strong>{{ cartItem.price_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}</strong> ₽
                         </div>
                         <div class="col cart-item-col-del">
-                            <button @click="remove(cartItem.id)" class="btn btn-sm btn-outline-danger">&times;</button>
+                            <button @click="remove(cartItem.sku)" class="btn btn-sm btn-outline-danger">&times;</button>
                         </div>
                     </div>
                 </div>
@@ -68,38 +67,38 @@
                     this.cart_price = this.cart_price.reduce((a, b) => a + b, 0)
                 }));
             },
-            updateQuantity(id) {
-                var quantity = parseInt(document.getElementById('quantity_' + id).value)
+            updateQuantity(sku) {
+                var quantity = parseInt(document.getElementById('quantity_' + sku).value)
                 axios
-                .get(`/update-cart/${id}/${quantity}`)
+                .get(`/update-cart/${sku}/${quantity}`)
                 .then(response => (
                     this.getCartInfo(),
                     this.$root.$emit('update_cart', '1')
                 ));
             },
-            updateQuantityMinus(id) {
-                var quantity = parseInt(document.getElementById('quantity_' + id).value)
+            updateQuantityMinus(sku) {
+                var quantity = parseInt(document.getElementById('quantity_' + sku).value)
                 if(quantity !== 0) {
                     axios
-                    .get(`/update-cart/${id}/${quantity - 1}`)
+                    .get(`/update-cart/${sku}/${quantity - 1}`)
                     .then(response => (
                         this.getCartInfo(),
                         this.$root.$emit('update_cart', '1')
                     ));
                 }
             },
-            updateQuantityPlus(id) {
-                var quantity = parseInt(document.getElementById('quantity_' + id).value)
+            updateQuantityPlus(sku) {
+                var quantity = parseInt(document.getElementById('quantity_' + sku).value)
                 axios
-                .get(`/update-cart/${id}/${quantity + 1}`)
+                .get(`/update-cart/${sku}/${quantity + 1}`)
                 .then(response => (
                     this.getCartInfo(),
                     this.$root.$emit('update_cart', '1')
                 ));
             },
-            remove(id) {
+            remove(sku) {
                 axios
-                .get(`/remove-from-cart/${id}`)
+                .get(`/remove-from-cart/${sku}`)
                 .then((response => {
                     this.getCartInfo()
                     this.$root.$emit('update_cart', '1')

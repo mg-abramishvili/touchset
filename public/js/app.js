@@ -2339,7 +2339,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2379,37 +2378,37 @@ __webpack_require__.r(__webpack_exports__);
         }, 0);
       });
     },
-    updateQuantity: function updateQuantity(id) {
+    updateQuantity: function updateQuantity(sku) {
       var _this2 = this;
 
-      var quantity = parseInt(document.getElementById('quantity_' + id).value);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(id, "/").concat(quantity)).then(function (response) {
+      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity)).then(function (response) {
         return _this2.getCartInfo(), _this2.$root.$emit('update_cart', '1');
       });
     },
-    updateQuantityMinus: function updateQuantityMinus(id) {
+    updateQuantityMinus: function updateQuantityMinus(sku) {
       var _this3 = this;
 
-      var quantity = parseInt(document.getElementById('quantity_' + id).value);
+      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
 
       if (quantity !== 0) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(id, "/").concat(quantity - 1)).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity - 1)).then(function (response) {
           return _this3.getCartInfo(), _this3.$root.$emit('update_cart', '1');
         });
       }
     },
-    updateQuantityPlus: function updateQuantityPlus(id) {
+    updateQuantityPlus: function updateQuantityPlus(sku) {
       var _this4 = this;
 
-      var quantity = parseInt(document.getElementById('quantity_' + id).value);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(id, "/").concat(quantity + 1)).then(function (response) {
+      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity + 1)).then(function (response) {
         return _this4.getCartInfo(), _this4.$root.$emit('update_cart', '1');
       });
     },
-    remove: function remove(id) {
+    remove: function remove(sku) {
       var _this5 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/remove-from-cart/".concat(id)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/remove-from-cart/".concat(sku)).then(function (response) {
         _this5.getCartInfo();
 
         _this5.$root.$emit('update_cart', '1');
@@ -3275,7 +3274,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart-page" }, [
-    _vm._v("\n    " + _vm._s(_vm.cart) + "\n    "),
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
@@ -3283,7 +3281,7 @@ var render = function() {
         _vm._l(_vm.cart, function(cartItem) {
           return _c(
             "div",
-            { key: "cartItem_" + cartItem.id, staticClass: "cart-item" },
+            { key: "cartItem_" + cartItem.sku, staticClass: "cart-item" },
             [
               _c("div", { staticClass: "row align-items-center" }, [
                 _c("div", { staticClass: "col cart-item-col-name" }, [
@@ -3293,7 +3291,14 @@ var render = function() {
                       staticStyle: { "text-decoration": "none", color: "#333" },
                       attrs: { href: "/product/" + cartItem.id }
                     },
-                    [_vm._v(_vm._s(cartItem.name))]
+                    [
+                      _vm._v(
+                        _vm._s(cartItem.name) +
+                          " (sku: " +
+                          _vm._s(cartItem.sku) +
+                          ")"
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -3319,7 +3324,7 @@ var render = function() {
                       staticClass: "btn btn-sm",
                       on: {
                         click: function($event) {
-                          return _vm.updateQuantityMinus(cartItem.id)
+                          return _vm.updateQuantityMinus(cartItem.sku)
                         }
                       }
                     },
@@ -3331,13 +3336,13 @@ var render = function() {
                       "form-control w-25 d-inline-flex cart-item-amount",
                     attrs: {
                       type: "number",
-                      id: "quantity_" + cartItem.id,
+                      id: "quantity_" + cartItem.sku,
                       min: "1"
                     },
                     domProps: { value: cartItem.quantity },
                     on: {
                       change: function($event) {
-                        return _vm.updateQuantity(cartItem.id)
+                        return _vm.updateQuantity(cartItem.sku)
                       }
                     }
                   }),
@@ -3348,7 +3353,7 @@ var render = function() {
                       staticClass: "btn btn-sm",
                       on: {
                         click: function($event) {
-                          return _vm.updateQuantityPlus(cartItem.id)
+                          return _vm.updateQuantityPlus(cartItem.sku)
                         }
                       }
                     },
@@ -3376,7 +3381,7 @@ var render = function() {
                       staticClass: "btn btn-sm btn-outline-danger",
                       on: {
                         click: function($event) {
-                          return _vm.remove(cartItem.id)
+                          return _vm.remove(cartItem.sku)
                         }
                       }
                     },
