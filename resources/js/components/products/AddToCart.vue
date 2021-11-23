@@ -3,15 +3,6 @@
         <a v-if="added_to_cart" href="/cart" class="btn btn-outline-standard">В корзине</a>
         <button v-else @click="addToCart()" class="btn btn-standard">В корзину</button>
         <button class="btn btn-outline-standard">Хочу демо-версию</button>
-
-{{checked_addons}}
-        <ul>
-            <li v-for="addon in addons" :key="'addon_' + addon.id">
-                <span @click="checkAddon(addon.id)">
-                    {{ addon.name }} {{ addon.products[0].pivot.price }}
-                </span>
-            </li>
-        </ul>
     </div>
 </template>
 
@@ -27,13 +18,13 @@
             };
         },
         mounted() {
-            //console.log('Component mounted.')
+            this.$root.$on('addons', data => {
+                this.getCheckedAddons(data)
+            });
         },
         methods: {
-            checkAddon(id) {
-                if(!this.checked_addons.includes(id)) {
-                    this.checked_addons.push(id)
-                }
+            getCheckedAddons(addons) {
+                this.checked_addons = addons
             },
             addToCart() {
                 axios

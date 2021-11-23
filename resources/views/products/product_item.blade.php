@@ -65,7 +65,7 @@
                             @endphp
                         </span> ₽
                     </p>
-                    <add-to-cart :product_id="{{ $product->id }}" :addons="{{ $addons }}"></add-to-cart>
+                    <add-to-cart :product_id="{{ $product->id }}"></add-to-cart>
                 </div>
             </div>
         </div>
@@ -76,27 +76,7 @@
                     {!! $product->description !!}
                 </div>
                 <div class="col-4">
-                    <div class="page-individual">
-                        <h5 class="block-title">Доп. услуги</h5>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Индивидуальный дизайн <small>10 дней, 15 000 ₽</small>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Наполнение <small>10 дней, 15 000 ₽</small>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Расширенная гарантия (+1 год) <small>10 дней, 15 000 ₽</small>
-                            </label>
-                        </div>
-                    </div>
+                    <product-addons :addons="{{ $addons }}"></product-addons>
                 </div>
             </div>
         </div>
