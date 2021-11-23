@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="header-bottom-cart">
-                                <minicart></minicart>
+                                <mini-cart></mini-cart>
                             </div>
                         </div>
                     </div>

@@ -2116,50 +2116,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      cart: '',
       cart_amount: '',
       cart_price: ''
     };
   },
   methods: {
     getCartInfo: function getCartInfo() {
-      var _this = this;
+      this.cart_amount = [];
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
-        _this.cart_amount = [];
+      for (var _i = 0, _Object$values = Object.values(this.cart); _i < _Object$values.length; _i++) {
+        var value = _Object$values[_i];
+        this.cart_amount.push(parseInt(value['quantity']));
+      }
 
-        for (var _i = 0, _Object$values = Object.values(response.data); _i < _Object$values.length; _i++) {
-          var value = _Object$values[_i];
+      this.cart_amount = this.cart_amount.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      this.cart_price = [];
 
-          _this.cart_amount.push(parseInt(value['quantity']));
-        }
+      for (var _i2 = 0, _Object$values2 = Object.values(this.cart); _i2 < _Object$values2.length; _i2++) {
+        var _value = _Object$values2[_i2];
+        this.cart_price.push(parseInt(_value['price_total']));
+      }
 
-        _this.cart_amount = _this.cart_amount.reduce(function (a, b) {
-          return a + b;
-        }, 0);
-        _this.cart_price = [];
-
-        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
-          var _value = _Object$values2[_i2];
-
-          _this.cart_price.push(parseInt(_value['price_total']));
-        }
-
-        _this.cart_price = _this.cart_price.reduce(function (a, b) {
-          return a + b;
-        }, 0);
-      });
+      this.cart_price = this.cart_price.reduce(function (a, b) {
+        return a + b;
+      }, 0);
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
 
-    this.getCartInfo();
-    /*this.$root.$on('add_to_cart', data => {
-        this.value = data
-    });*/
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
+      _this.cart = response.data;
 
+      _this.getCartInfo();
+    });
     this.$root.$on('update_cart', function (data) {
-      _this2.getCartInfo();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
+        _this.cart = response.data;
+
+        _this.getCartInfo();
+      });
+    });
+    this.$root.$on('cart_data', function (data) {
+      _this.cart = data;
+
+      _this.getCartInfo();
     });
   }
 });
@@ -2339,13 +2343,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       cart: '',
       cart_amount: '',
-      cart_price: ''
+      cart_price: '',
+      loading: false
     };
   },
   methods: {
@@ -2378,40 +2397,72 @@ __webpack_require__.r(__webpack_exports__);
         }, 0);
       });
     },
-    updateQuantity: function updateQuantity(sku) {
-      var _this2 = this;
-
-      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity)).then(function (response) {
-        return _this2.getCartInfo(), _this2.$root.$emit('update_cart', '1');
-      });
-    },
-    updateQuantityMinus: function updateQuantityMinus(sku) {
-      var _this3 = this;
-
-      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
-
-      if (quantity !== 0) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity - 1)).then(function (response) {
-          return _this3.getCartInfo(), _this3.$root.$emit('update_cart', '1');
-        });
+    changeAddon: function changeAddon(cartItem, addon) {
+      if (cartItem.addons_array.includes(addon.id)) {
+        cartItem.addons_array.splice(cartItem.addons_array.indexOf(addon.id), 1);
+        cartItem.addons_array.sort();
+        cartItem.price = parseInt(cartItem.price) - parseInt(addon.products[0].pivot.price);
+        this.updateQuantity(cartItem);
+      } else {
+        cartItem.addons_array.push(addon.id);
+        cartItem.addons_array.sort();
+        cartItem.price = parseInt(cartItem.price) + parseInt(addon.products[0].pivot.price);
+        this.updateQuantity(cartItem);
       }
     },
-    updateQuantityPlus: function updateQuantityPlus(sku) {
-      var _this4 = this;
+    updateCart: function updateCart() {
+      var _this2 = this;
 
-      var quantity = parseInt(document.getElementById('quantity_' + sku).value);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/update-cart/".concat(sku, "/").concat(quantity + 1)).then(function (response) {
-        return _this4.getCartInfo(), _this4.$root.$emit('update_cart', '1');
+      this.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/update-cart", {
+        cart: this.cart
+      }).then(function (response) {
+        _this2.getCartInfo();
+
+        setTimeout(function () {
+          return _this2.loading = false;
+        }, 1000);
       });
     },
+    updateQuantity: function updateQuantity(cartItem) {
+      var quantity = parseInt(document.getElementById('quantity_' + cartItem.sku).value);
+
+      if (quantity !== 0) {
+        document.getElementById('quantity_' + cartItem.sku).value = quantity;
+        cartItem.quantity = quantity;
+        cartItem.price_total = cartItem.quantity * cartItem.price;
+      }
+
+      this.$root.$emit('cart_data', this.cart);
+      this.updateCart();
+    },
+    updateQuantityMinus: function updateQuantityMinus(cartItem) {
+      var quantity = parseInt(document.getElementById('quantity_' + cartItem.sku).value);
+
+      if (quantity !== 0 && quantity !== 1) {
+        document.getElementById('quantity_' + cartItem.sku).value = quantity - 1;
+        cartItem.quantity = quantity - 1;
+        cartItem.price_total = cartItem.quantity * cartItem.price;
+      }
+
+      this.$root.$emit('cart_data', this.cart);
+      this.updateCart();
+    },
+    updateQuantityPlus: function updateQuantityPlus(cartItem) {
+      var quantity = parseInt(document.getElementById('quantity_' + cartItem.sku).value);
+      document.getElementById('quantity_' + cartItem.sku).value = quantity + 1;
+      cartItem.quantity = quantity + 1;
+      cartItem.price_total = cartItem.quantity * cartItem.price;
+      this.$root.$emit('cart_data', this.cart);
+      this.updateCart();
+    },
     remove: function remove(sku) {
-      var _this5 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/remove-from-cart/".concat(sku)).then(function (response) {
-        _this5.getCartInfo();
+        _this3.getCartInfo();
 
-        _this5.$root.$emit('update_cart', '1');
+        _this3.$root.$emit('update_cart', '1');
       });
     }
   },
@@ -2548,7 +2599,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use((_ckeditor_ckeditor5_vue2__WEBPA
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('add-to-cart', __webpack_require__(/*! ./components/products/AddToCart.vue */ "./resources/js/components/products/AddToCart.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('product-addons', __webpack_require__(/*! ./components/products/Addons.vue */ "./resources/js/components/products/Addons.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('cart', __webpack_require__(/*! ./components/cart/Cart.vue */ "./resources/js/components/cart/Cart.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('minicart', __webpack_require__(/*! ./components/MiniCart.vue */ "./resources/js/components/MiniCart.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('mini-cart', __webpack_require__(/*! ./components/MiniCart.vue */ "./resources/js/components/MiniCart.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].component('product-edit', __webpack_require__(/*! ./components/admin/products/ProductEdit.vue */ "./resources/js/components/admin/products/ProductEdit.vue")["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
   el: '#app'
@@ -3392,6 +3443,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart-page" }, [
+    _vm.loading ? _c("div", { staticClass: "cart-page-overlay" }) : _vm._e(),
+    _vm._v(" "),
+    _vm.loading
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "spinner-border text-primary cart-page-overlay-spinner",
+            attrs: { role: "status" }
+          },
+          [_c("span", { staticClass: "sr-only" })]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
@@ -3402,38 +3467,98 @@ var render = function() {
             { key: "cartItem_" + cartItem.sku, staticClass: "cart-item" },
             [
               _c("div", { staticClass: "row align-items-center" }, [
-                _c("div", { staticClass: "col cart-item-col-name" }, [
-                  _c(
-                    "a",
-                    {
-                      staticStyle: { "text-decoration": "none", color: "#333" },
-                      attrs: { href: "/product/" + cartItem.id }
-                    },
-                    [
-                      _vm._v(
-                        _vm._s(cartItem.name) +
-                          " (sku: " +
-                          _vm._s(cartItem.sku) +
-                          ")"
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(cartItem.addons, function(addon) {
-                      return _c("li", { key: "addon_" + addon.id }, [
+                _c(
+                  "div",
+                  { staticClass: "col cart-item-col-name" },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticStyle: {
+                          "text-decoration": "none",
+                          color: "#333"
+                        },
+                        attrs: { href: "/product/" + cartItem.id }
+                      },
+                      [
                         _vm._v(
-                          _vm._s(addon.name) +
-                            " (" +
-                            _vm._s(addon.products[0].pivot.price) +
+                          _vm._s(cartItem.name) +
+                            " (sku: " +
+                            _vm._s(cartItem.sku) +
                             ")"
                         )
-                      ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(cartItem.addons_all, function(addon) {
+                      return _c(
+                        "div",
+                        { key: "addon_" + addon.id, staticClass: "form-check" },
+                        [
+                          cartItem.addons_array.includes(addon.id)
+                            ? _c("input", {
+                                staticClass: "form-check-input",
+                                attrs: {
+                                  type: "checkbox",
+                                  value: "",
+                                  id:
+                                    "sku_addon_" +
+                                    cartItem.sku +
+                                    "_" +
+                                    addon.id,
+                                  checked: ""
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.changeAddon(cartItem, addon)
+                                  }
+                                }
+                              })
+                            : _c("input", {
+                                staticClass: "form-check-input",
+                                attrs: {
+                                  type: "checkbox",
+                                  value: "",
+                                  id:
+                                    "sku_addon_" + cartItem.sku + "_" + addon.id
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.changeAddon(cartItem, addon)
+                                  }
+                                }
+                              }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: {
+                                for:
+                                  "sku_addon_" + cartItem.sku + "_" + addon.id
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(addon.name) +
+                                  ", " +
+                                  _vm._s(addon.products[0].pivot.price) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        ]
+                      )
                     }),
-                    0
-                  )
-                ]),
+                    _vm._v(
+                      "\n\n                        " +
+                        _vm._s(cartItem.price) +
+                        "\n\n                    "
+                    )
+                  ],
+                  2
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col cart-item-col-quantity" }, [
                   _c(
@@ -3442,7 +3567,7 @@ var render = function() {
                       staticClass: "btn btn-sm",
                       on: {
                         click: function($event) {
-                          return _vm.updateQuantityMinus(cartItem.sku)
+                          return _vm.updateQuantityMinus(cartItem)
                         }
                       }
                     },
@@ -3460,7 +3585,7 @@ var render = function() {
                     domProps: { value: cartItem.quantity },
                     on: {
                       change: function($event) {
-                        return _vm.updateQuantity(cartItem.sku)
+                        return _vm.updateQuantity(cartItem)
                       }
                     }
                   }),
@@ -3471,7 +3596,7 @@ var render = function() {
                       staticClass: "btn btn-sm",
                       on: {
                         click: function($event) {
-                          return _vm.updateQuantityPlus(cartItem.sku)
+                          return _vm.updateQuantityPlus(cartItem)
                         }
                       }
                     },
@@ -3518,6 +3643,8 @@ var render = function() {
           _c("h5", [_vm._v("В корзине")]),
           _vm._v(" "),
           _c("p", [_vm._v(_vm._s(_vm.cart_amount))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.cart_price))]),
           _vm._v(" "),
           _c("button", { staticClass: "btn btn-standard" }, [
             _vm._v("Перейти к оформлению")
@@ -3627,9 +3754,7 @@ var render = function() {
               },
               [
                 _vm._v("\n            " + _vm._s(addon.name) + " "),
-                _c("small", [
-                  _vm._v(_vm._s(addon.products[0].pivot.price) + " ₽")
-                ])
+                _c("small", [_vm._v(_vm._s(addon.pivot.price) + " ₽")])
               ]
             )
           ]

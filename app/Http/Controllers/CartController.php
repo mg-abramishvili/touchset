@@ -21,11 +21,19 @@ class CartController extends Controller
     public function add($id, Request $request)
     {
         if($request->addons) {
-            $addons = $request->addons;
-            $addons = Addon::with('products')->where(function ($query) use ($addons) {
-                $query->where('id');
-                foreach ($addons as $addon) {
-                    $query->orWhere('id', $addon);
+            $addons_array = $request->addons;
+            $addons = Addon::with(
+                [
+                    'products' => function ($query) use ($id) {
+                        $query->where('product_id');
+                        $query->orWhere('product_id', $id);
+                    },
+                ]
+            )
+            ->where(function ($q) use ($addons_array) {
+                $q->where('id');
+                foreach($addons_array as $addon) {
+                    $q->orWhere('id', $addon);
                 }
             })
             ->get();
@@ -39,10 +47,22 @@ class CartController extends Controller
                 $sku .= '_' . $addon->slug;
             }
         } else {
+            $addons_array = [];
             $addons = [];
             $addons_price = 0;
             $sku = $id;
         }
+
+        $addons_all = Addon::with(
+            [
+                'products' => function ($query) use ($id) {
+                    $query->where('product_id');
+                    $query->orWhere('product_id', $id);
+                },
+            ]
+        )
+        ->whereRelation('products', 'product_id', $id)
+        ->get();
 
         $product = Product::find($id);
 
@@ -60,6 +80,8 @@ class CartController extends Controller
                 "price" => $product->price + $addons_price,
                 "price_total" => $product->price + $addons_price,
                 "sku" => $sku,
+                "addons_all" => $addons_all,
+                "addons_array" => $addons_array,
             ];
         }
           
@@ -68,7 +90,13 @@ class CartController extends Controller
         return redirect()->route('cart');
     }
 
-    public function update($sku, $quantity, Request $request)
+    public function update_cart(Request $request)
+    {
+        $cart = $request->cart;
+        session()->put('cart', $cart);
+    }
+
+    public function update_cart_item_quantity($sku, $quantity, Request $request)
     {
         if($sku && $quantity){
             $cart = session()->get('cart');

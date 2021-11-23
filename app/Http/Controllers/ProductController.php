@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function product_item($id)
     {
-        $product = Product::with('attributes')->find($id);
+        $product = Product::with('attributes', 'addons')->find($id);
         $addons = Addon::with('products')->get();
         $other_products = Product::whereRelation('categories', 'category_id', $product->categories->first()->id)->get();
         $products_is_new = Product::where('is_new', true)->get();

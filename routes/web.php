@@ -15,7 +15,8 @@ Route::get('cart','App\Http\Controllers\CartController@cart')->name('cart');
 Route::get('cart_data','App\Http\Controllers\CartController@cart_data')->name('cart_data');
 Route::post('add-to-cart/{product}','App\Http\Controllers\CartController@add')->name('add_to_cart');
 Route::get('remove-from-cart/{product}','App\Http\Controllers\CartController@remove')->name('remove_from_cart');
-Route::get('update-cart/{product}/{quantity}','App\Http\Controllers\CartController@update')->name('update_cart');
+Route::post('update-cart','App\Http\Controllers\CartController@update_cart');
+Route::get('update-cart-item-addons/{sku}/{addons}','App\Http\Controllers\CartController@update_cart_item_addons');
 
 Route::get('search','App\Http\Controllers\ProductController@product_search')->name('product_search');
 

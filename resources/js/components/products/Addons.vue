@@ -4,7 +4,7 @@
         <div v-for="addon in addons" :key="'addon_' + addon.id" class="form-check">
             <input class="form-check-input" type="checkbox" value="" :id="'addon_' + addon.id">
             <label @click="checkAddon(addon.id)" class="form-check-label" :for="'addon_' + addon.id">
-                {{ addon.name }} <small>{{ addon.products[0].pivot.price }} ₽</small>
+                {{ addon.name }} <small>{{ addon.pivot.price }} ₽</small>
             </label>
         </div>
     </div>

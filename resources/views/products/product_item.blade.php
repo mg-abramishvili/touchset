@@ -76,7 +76,7 @@
                     {!! $product->description !!}
                 </div>
                 <div class="col-4">
-                    <product-addons :addons="{{ $addons }}"></product-addons>
+                    <product-addons :addons="{{ $product->addons }}"></product-addons>
                 </div>
             </div>
         </div>

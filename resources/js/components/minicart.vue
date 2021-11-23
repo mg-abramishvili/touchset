@@ -19,31 +19,45 @@
     export default {
         data() {
             return {
+                cart: '',
                 cart_amount: '',
                 cart_price: '',
             };
         },
         methods: {
             getCartInfo() {
-                axios
-                .get('/cart_data')
-                .then((response => {
-                    this.cart_amount = []
-                    for (let value of Object.values(response.data)) {
-                        this.cart_amount.push(parseInt(value['quantity']))
-                    }
-                    this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
+                this.cart_amount = []
+                for (let value of Object.values(this.cart)) {
+                    this.cart_amount.push(parseInt(value['quantity']))
+                }
+                this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
 
-                    this.cart_price = []
-                    for (let value of Object.values(response.data)) {
-                        this.cart_price.push(parseInt(value['price_total']))
-                    }
-                    this.cart_price = this.cart_price.reduce((a, b) => a + b, 0)
-                }));
+                this.cart_price = []
+                for (let value of Object.values(this.cart)) {
+                    this.cart_price.push(parseInt(value['price_total']))
+                }
+                this.cart_price = this.cart_price.reduce((a, b) => a + b, 0)
             },
         },
         mounted() {
+            axios
+            .get('/cart_data')
+            .then((response => {
+                this.cart = response.data
+                this.getCartInfo()
+            }));
+
             this.$root.$on('update_cart', data => {
+                axios
+                .get('/cart_data')
+                .then((response => {
+                    this.cart = response.data
+                    this.getCartInfo()
+                }));
+            });
+
+            this.$root.$on('cart_data', data => {
+                this.cart = data
                 this.getCartInfo()
             });
         }
