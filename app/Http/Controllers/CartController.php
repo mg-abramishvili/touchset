@@ -29,12 +29,18 @@ class CartController extends Controller
                 }
             })
             ->get();
+            $addons_price = 0;
+            foreach($addons as $addon)
+            {
+                $addons_price += $addon->products->first()->pivot->price;
+            }
             $sku = $id; 
             foreach($addons as $addon) {
                 $sku .= '_' . $addon->slug;
             }
         } else {
             $addons = [];
+            $addons_price = 0;
             $sku = $id;
         }
 
@@ -51,8 +57,8 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => 1,
                 "addons" => $addons,
-                "price" => $product->price,
-                "price_total" => $product->price,
+                "price" => $product->price + $addons_price,
+                "price_total" => $product->price + $addons_price,
                 "sku" => $sku,
             ];
         }
