@@ -8,8 +8,7 @@
         <meta name="description" content="@yield('description')">
 
         <title>@yield('title')</title>
-        
-        <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
+
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
         <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet" />
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>

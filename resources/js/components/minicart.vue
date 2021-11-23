@@ -43,10 +43,6 @@
             },
         },
         mounted() {
-            this.getCartInfo()
-            /*this.$root.$on('add_to_cart', data => {
-                this.value = data
-            });*/
             this.$root.$on('update_cart', data => {
                 this.getCartInfo()
             });
