@@ -2355,8 +2355,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2489,6 +2487,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
 //
 //
 //
@@ -3480,14 +3479,7 @@ var render = function() {
                         },
                         attrs: { href: "/product/" + cartItem.id }
                       },
-                      [
-                        _vm._v(
-                          _vm._s(cartItem.name) +
-                            " (sku: " +
-                            _vm._s(cartItem.sku) +
-                            ")"
-                        )
-                      ]
+                      [_vm._v(_vm._s(cartItem.name))]
                     ),
                     _vm._v(" "),
                     _vm._l(cartItem.addons_all, function(addon) {
@@ -3550,12 +3542,7 @@ var render = function() {
                           )
                         ]
                       )
-                    }),
-                    _vm._v(
-                      "\n\n                        " +
-                        _vm._s(cartItem.price) +
-                        "\n\n                    "
-                    )
+                    })
                   ],
                   2
                 ),
@@ -3699,7 +3686,8 @@ var render = function() {
     _vm._v(" "),
     _c("button", { staticClass: "btn btn-outline-standard" }, [
       _vm._v("Хочу демо-версию")
-    ])
+    ]),
+    _vm._v("\n    " + _vm._s(_vm.checked_addons) + "\n")
   ])
 }
 var staticRenderFns = []
@@ -3738,23 +3726,31 @@ var render = function() {
           [
             _c("input", {
               staticClass: "form-check-input",
-              attrs: { type: "checkbox", value: "", id: "addon_" + addon.id }
+              attrs: { type: "checkbox", value: "", id: "addon_" + addon.id },
+              on: {
+                change: function($event) {
+                  return _vm.checkAddon(addon.id)
+                }
+              }
             }),
             _vm._v(" "),
             _c(
               "label",
               {
                 staticClass: "form-check-label",
-                attrs: { for: "addon_" + addon.id },
-                on: {
-                  click: function($event) {
-                    return _vm.checkAddon(addon.id)
-                  }
-                }
+                attrs: { for: "addon_" + addon.id }
               },
               [
                 _vm._v("\n            " + _vm._s(addon.name) + " "),
-                _c("small", [_vm._v(_vm._s(addon.pivot.price) + " ₽")])
+                _c("small", [
+                  _vm._v(
+                    _vm._s(
+                      addon.pivot.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                    ) + " ₽"
+                  )
+                ])
               ]
             )
           ]

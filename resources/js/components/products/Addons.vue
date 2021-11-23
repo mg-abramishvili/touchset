@@ -2,9 +2,9 @@
     <div class="page-individual">
         <h5 class="block-title">Доп. услуги</h5>
         <div v-for="addon in addons" :key="'addon_' + addon.id" class="form-check">
-            <input class="form-check-input" type="checkbox" value="" :id="'addon_' + addon.id">
-            <label @click="checkAddon(addon.id)" class="form-check-label" :for="'addon_' + addon.id">
-                {{ addon.name }} <small>{{ addon.pivot.price }} ₽</small>
+            <input @change="checkAddon(addon.id)" class="form-check-input" type="checkbox" value="" :id="'addon_' + addon.id">
+            <label class="form-check-label" :for="'addon_' + addon.id">
+                {{ addon.name }} <small>{{ addon.pivot.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</small>
             </label>
         </div>
     </div>

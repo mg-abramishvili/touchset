@@ -3,6 +3,7 @@
         <a v-if="added_to_cart" href="/cart" class="btn btn-outline-standard">В корзине</a>
         <button v-else @click="addToCart()" class="btn btn-standard">В корзину</button>
         <button class="btn btn-outline-standard">Хочу демо-версию</button>
+        {{checked_addons}}
     </div>
 </template>
 

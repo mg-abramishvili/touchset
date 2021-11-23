@@ -10,7 +10,7 @@
                 <div v-for="cartItem in cart" :key="'cartItem_' + cartItem.sku" class="cart-item">
                     <div class="row align-items-center">
                         <div class="col cart-item-col-name">
-                            <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }} (sku: {{ cartItem.sku }})</a>
+                            <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }}</a>
                             
                             <div v-for="addon in cartItem.addons_all" :key="'addon_' + addon.id" class="form-check">
                                 <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_array.includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
@@ -19,8 +19,6 @@
                                     {{addon.name}}, {{ addon.products[0].pivot.price }}
                                 </label>
                             </div>
-
-                            {{cartItem.price}}
 
                         </div>
                         <div class="col cart-item-col-quantity">
