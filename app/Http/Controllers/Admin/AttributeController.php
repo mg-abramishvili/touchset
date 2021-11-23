@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Attribute;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminAttributeController extends Controller
+class AttributeController extends Controller
 {
     public function index()
     {
@@ -13,12 +14,23 @@ class AdminAttributeController extends Controller
         return view('admin.attributes.index', compact('attributes'));
     }
 
-    public function attributes_create()
+    public function create()
     {
         return view('admin.attributes.create');
     }
 
-    public function attributes_store(Request $request)
+    public function edit($id)
+    {
+        $attribute = Attribute::find($id);
+        return view('admin.attributes.edit', compact('attribute'));
+    }
+
+    public function index_data()
+    {
+        return $attributes = Attribute::all();
+    }
+
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -37,13 +49,7 @@ class AdminAttributeController extends Controller
         return redirect()->route('admin_attributes');
     }
 
-    public function attribute_item_edit($id)
-    {
-        $attribute = Attribute::find($id);
-        return view('admin.attributes.edit', compact('attribute'));
-    }
-
-    public function attribute_item_update($id, Request $request)
+    public function update($id, Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -61,7 +67,7 @@ class AdminAttributeController extends Controller
         return redirect()->route('admin_attributes');
     }
 
-    public function attribute_item_delete($id)
+    public function delete($id)
     {
         $attribute = Attribute::find($id);
         $attribute->products()->detach();

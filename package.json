@@ -17,5 +17,15 @@
         "vue": "^2.6.14",
         "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.14"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^31.0.0",
+        "@ckeditor/ckeditor5-vue2": "^1.0.5",
+        "filepond": "^4.29.1",
+        "filepond-plugin-file-validate-type": "^1.2.6",
+        "filepond-plugin-image-preview": "^4.6.10",
+        "hooper": "^0.3.4",
+        "moment": "^2.29.1",
+        "vue-filepond": "^6.0.0"
     }
 }

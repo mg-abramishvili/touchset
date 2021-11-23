@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Models\Attribute')->withPivot(['value']);
     }
+
+    public function addons()
+    {
+        return $this->belongsToMany('App\Models\Addon')->withPivot(['price']);
+    }
 }

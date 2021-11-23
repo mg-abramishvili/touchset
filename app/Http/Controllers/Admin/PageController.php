@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Page;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminPageController extends Controller
+class PageController extends Controller
 {
     public function index()
     {

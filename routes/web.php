@@ -13,36 +13,41 @@ Route::get('product/{id}','App\Http\Controllers\ProductController@product_item')
 
 Route::get('cart','App\Http\Controllers\CartController@cart')->name('cart');
 Route::get('cart_data','App\Http\Controllers\CartController@cart_data')->name('cart_data');
-Route::get('add-to-cart/{product}','App\Http\Controllers\CartController@add')->name('add_to_cart');
+Route::post('add-to-cart/{product}','App\Http\Controllers\CartController@add')->name('add_to_cart');
 Route::get('remove-from-cart/{product}','App\Http\Controllers\CartController@remove')->name('remove_from_cart');
 Route::get('update-cart/{product}/{quantity}','App\Http\Controllers\CartController@update')->name('update_cart');
 
 Route::get('search','App\Http\Controllers\ProductController@product_search')->name('product_search');
 
+Route::get('admin','App\Http\Controllers\Admin\AdminController@index')->name('admin_home')->middleware('auth');
+
 // ADMIN PRODUCTS
-Route::get('admin','App\Http\Controllers\AdminController@index')->name('admin_home')->middleware('auth');
-Route::get('admin/products','App\Http\Controllers\AdminProductController@index')->name('admin_products')->middleware('auth');
-Route::get('admin/products/create','App\Http\Controllers\AdminProductController@products_create')->name('admin_products_create')->middleware('auth');
-Route::post('admin/products','App\Http\Controllers\AdminProductController@products_store')->name('admin_products_store')->middleware('auth');
-Route::get('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_edit')->name('admin_product_edit')->middleware('auth');
-Route::put('admin/product/{id}','App\Http\Controllers\AdminProductController@product_item_update')->name('admin_product_update')->middleware('auth');
-Route::post('admin/products/file/{method}','App\Http\Controllers\AdminProductController@file')->middleware('auth');
+Route::get('admin/products','App\Http\Controllers\Admin\ProductController@index')->name('admin_products')->middleware('auth');
+Route::get('admin/products/create','App\Http\Controllers\Admin\ProductController@create')->name('admin_products_create')->middleware('auth');
+Route::get('admin/product/{id}','App\Http\Controllers\Admin\ProductController@edit')->name('admin_product_edit')->middleware('auth');
+Route::get('_admin/product/{id}','App\Http\Controllers\Admin\ProductController@item')->middleware('auth');
+Route::post('_admin/products','App\Http\Controllers\Admin\ProductController@store')->middleware('auth');
+Route::put('_admin/product/{id}','App\Http\Controllers\Admin\ProductController@update')->middleware('auth');
+Route::get('_admin/product/{id}/delete','App\Http\Controllers\Admin\ProductController@delete')->middleware('auth');
+Route::post('_admin/products/file/{method}','App\Http\Controllers\Admin\ProductController@file')->middleware('auth');
 
 // ADMIN CATEGORIES
-Route::get('admin/categories','App\Http\Controllers\AdminCategoryController@index')->name('admin_categories')->middleware('auth');
-Route::get('admin/categories/create','App\Http\Controllers\AdminCategoryController@categories_create')->name('admin_categories_create')->middleware('auth');
-Route::post('admin/categories','App\Http\Controllers\AdminCategoryController@categories_store')->name('admin_categories_store')->middleware('auth');
-Route::get('admin/category/{id}','App\Http\Controllers\AdminCategoryController@category_item_edit')->name('admin_category_edit')->middleware('auth');
-Route::get('admin/category/{id}/delete','App\Http\Controllers\AdminCategoryController@category_item_delete')->name('admin_category_delete')->middleware('auth');
-Route::put('admin/category/{id}','App\Http\Controllers\AdminCategoryController@category_item_update')->name('admin_category_update')->middleware('auth');
+Route::get('admin/categories','App\Http\Controllers\Admin\CategoryController@index')->name('admin_categories')->middleware('auth');
+Route::get('admin/categories/create','App\Http\Controllers\AdminCategoryController@create')->name('admin_categories_create')->middleware('auth');
+Route::get('admin/category/{id}','App\Http\Controllers\AdminCategoryController@edit')->name('admin_category_edit')->middleware('auth');
+Route::get('_admin/categories','App\Http\Controllers\Admin\CategoryController@index_data')->middleware('auth');
+Route::post('_admin/categories','App\Http\Controllers\AdminCategoryController@store')->middleware('auth');
+Route::put('_admin/category/{id}','App\Http\Controllers\AdminCategoryController@update')->middleware('auth');
+Route::get('_admin/category/{id}/delete','App\Http\Controllers\AdminCategoryController@delete')->middleware('auth');
 
 // ADMIN ATTRIBUTES
-Route::get('admin/attributes','App\Http\Controllers\AdminAttributeController@index')->name('admin_attributes')->middleware('auth');
-Route::get('admin/attributes/create','App\Http\Controllers\AdminAttributeController@attributes_create')->name('admin_attributes_create')->middleware('auth');
-Route::post('admin/attributes','App\Http\Controllers\AdminAttributeController@attributes_store')->name('admin_attributes_store')->middleware('auth');
-Route::get('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController@attribute_item_edit')->name('admin_attribute_edit')->middleware('auth');
-Route::get('admin/attribute/{id}/delete','App\Http\Controllers\AdminAttributeController@attribute_item_delete')->name('admin_attribute_delete')->middleware('auth');
-Route::put('admin/attribute/{id}','App\Http\Controllers\AdminAttributeController@attribute_item_update')->name('admin_attribute_update')->middleware('auth');
+Route::get('admin/attributes','App\Http\Controllers\Admin\AttributeController@index')->name('admin_attributes')->middleware('auth');
+Route::get('admin/attributes/create','App\Http\Controllers\Admin\AttributeController@create')->name('admin_attributes_create')->middleware('auth');
+Route::get('admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@edit')->name('admin_attribute_edit')->middleware('auth');
+Route::get('_admin/attributes','App\Http\Controllers\Admin\AttributeController@index_data')->middleware('auth');
+Route::post('_admin/attributes','App\Http\Controllers\Admin\AttributeController@store')->middleware('auth');
+Route::put('_admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@update')->middleware('auth');
+Route::get('_admin/attribute/{id}/delete','App\Http\Controllers\Admin\AttributeController@delete')->middleware('auth');
 
 // ADMIN PAGES
 Route::get('admin/pages','App\Http\Controllers\AdminPageController@index')->name('admin_pages')->middleware('auth');

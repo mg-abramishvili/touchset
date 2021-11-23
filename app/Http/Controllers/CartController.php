@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Addon;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -17,20 +18,47 @@ class CartController extends Controller
         return session()->get('cart');
     }
 
-    public function add($id)
+    public function add($id, Request $request)
     {
+        if($request->addons) {
+            $addons = $request->addons;
+            $addons = Addon::with('products')->where(function ($query) use ($addons) {
+                $query->where('id');
+                foreach ($addons as $addon) {
+                    $query->orWhere('id', $addon);
+                }
+            })
+            ->get();
+            $sku = $id . '_1';
+        } else {
+            $addons = [];
+            $sku = $id;
+        }
+
         $product = Product::find($id);
 
         $cart = session()->get('cart', []);
   
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-            $cart[$id]['price_total'] = $cart[$id]['quantity'] * $cart[$id]['price'];
+        if(isset($cart[$sku])) {
+            if(isset($cart[$sku]['addons'])) {
+                $cart[$sku] = [
+                    "id" => $product->id,
+                    "name" => $product->name,
+                    "quantity" => 1,
+                    "addons" => $addons,
+                    "price" => $product->price,
+                    "price_total" => $product->price,
+                ];
+            } else {
+                $cart[$sku]['quantity']++;
+                $cart[$sku]['price_total'] = $cart[$sku]['quantity'] * $cart[$sku]['price'];
+            }
         } else {
-            $cart[$id] = [
+            $cart[$sku] = [
                 "id" => $product->id,
                 "name" => $product->name,
                 "quantity" => 1,
+                "addons" => $addons,
                 "price" => $product->price,
                 "price_total" => $product->price,
             ];

@@ -65,7 +65,7 @@
                             @endphp
                         </span> ₽
                     </p>
-                    <add-to-cart :product_id="{{ $product->id }}"></add-to-cart>
+                    <add-to-cart :product_id="{{ $product->id }}" :addons="{{ $addons }}"></add-to-cart>
                 </div>
             </div>
         </div>

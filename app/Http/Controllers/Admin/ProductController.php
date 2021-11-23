@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Attribute;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminProductController extends Controller
+class ProductController extends Controller
 {
     public function index()
     {
@@ -15,13 +16,24 @@ class AdminProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function products_create()
+    public function create()
     {
         $categories = Category::with('children')->get();
         return view('admin.products.create', compact('categories'));
     }
+    
+    public function edit($id)
+    {
+        $product = Product::find($id);
+        return view('admin.products.edit', compact('product'));
+    }
 
-    public function products_store(Request $request)
+    public function item($id)
+    {
+        return $product = Product::with('attributes', 'categories')->find($id);
+    }
+
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -46,15 +58,7 @@ class AdminProductController extends Controller
         return redirect()->route('admin_products');
     }
 
-    public function product_item_edit($id)
-    {
-        $product = Product::with('attributes')->find($id);
-        $categories = Category::all();
-        $attributes = Attribute::all();
-        return view('admin.products.edit', compact('product', 'categories', 'attributes'));
-    }
-
-    public function product_item_update($id, Request $request)
+    public function update($id, Request $request)
     {
         $this->validate($request, [
             'name' => 'required',

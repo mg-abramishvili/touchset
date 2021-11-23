@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AdminCategoryController extends Controller
+class CategoryController extends Controller
 {
     public function index()
     {
@@ -13,13 +14,25 @@ class AdminCategoryController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
-    public function categories_create()
+    public function create()
     {
         $categories = Category::all();
         return view('admin.categories.create', compact('categories'));
     }
 
-    public function categories_store(Request $request)
+    public function edit($id)
+    {
+        $category = Category::find($id);
+        $categories = Category::all();
+        return view('admin.categories.edit', compact('category', 'categories'));
+    }
+
+    public function index_data()
+    {
+        return $categories = Category::all();
+    }
+
+    public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -37,14 +50,7 @@ class AdminCategoryController extends Controller
         return redirect()->route('admin_categories');
     }
 
-    public function category_item_edit($id)
-    {
-        $category = Category::find($id);
-        $categories = Category::all();
-        return view('admin.categories.edit', compact('category', 'categories'));
-    }
-
-    public function category_item_update($id, Request $request)
+    public function update($id, Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -61,7 +67,7 @@ class AdminCategoryController extends Controller
         return redirect()->route('admin_categories');
     }
 
-    public function category_item_delete($id)
+    public function delete($id)
     {
         $category = Category::find($id);
         $category->products()->detach();
