@@ -7,7 +7,7 @@
         </div>
         <span>
             <strong>В корзине</strong>
-            <small v-if="parseInt(cart_amount) > 0"><i>{{ cart_amount }} товаров</i>, {{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</small>
+            <small v-if="parseInt(cart_amount) > 0"><i>{{ cart_amount }} {{ cart_amount | dgt_products }}</i>, {{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</small>
             <small v-else>Нет товаров</small>
         </span>
     </a>   
@@ -61,6 +61,20 @@
                 this.cart = data
                 this.getCartInfo()
             });
+        },
+        filters: {
+            dgt_products: function (x) {
+                if (!x) return ''
+                var forms = 'товар,товара,товаров'.split(',')
+                var x10 = x % 10, x100 = x % 100, form = 2 // товаров
+
+                if (x10 == 1 && x100 != 11)
+                    form = 0 // товар
+                else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21))
+                    form = 1 // товара
+
+                return forms[form]
+            },
         }
     }
 </script>

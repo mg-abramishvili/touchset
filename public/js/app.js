@@ -2167,6 +2167,20 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.getCartInfo();
     });
+  },
+  filters: {
+    dgt_products: function dgt_products(x) {
+      if (!x) return '';
+      var forms = 'товар,товара,товаров'.split(',');
+      var x10 = x % 10,
+          x100 = x % 100,
+          form = 2; // товаров
+
+      if (x10 == 1 && x100 != 11) form = 0; // товар
+      else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21)) form = 1; // товара
+
+      return forms[form];
+    }
   }
 });
 
@@ -3268,7 +3282,13 @@ var render = function() {
       _vm._v(" "),
       parseInt(_vm.cart_amount) > 0
         ? _c("small", [
-            _c("i", [_vm._v(_vm._s(_vm.cart_amount) + " товаров")]),
+            _c("i", [
+              _vm._v(
+                _vm._s(_vm.cart_amount) +
+                  " " +
+                  _vm._s(_vm._f("dgt_products")(_vm.cart_amount))
+              )
+            ]),
             _vm._v(
               ", " +
                 _vm._s(
