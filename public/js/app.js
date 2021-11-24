@@ -2364,6 +2364,7 @@ __webpack_require__.r(__webpack_exports__);
       cart: '',
       cart_amount: '',
       cart_price: '',
+      cart_addons_amount: '',
       loading: false
     };
   },
@@ -2384,12 +2385,23 @@ __webpack_require__.r(__webpack_exports__);
         _this.cart_amount = _this.cart_amount.reduce(function (a, b) {
           return a + b;
         }, 0);
-        _this.cart_price = [];
+        _this.cart_addons_amount = [];
 
         for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
           var _value = _Object$values2[_i2];
 
-          _this.cart_price.push(parseInt(_value['price_total']));
+          _this.cart_addons_amount.push(parseInt(_value['addons_array'].length));
+        }
+
+        _this.cart_addons_amount = _this.cart_addons_amount.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+        _this.cart_price = [];
+
+        for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
+          var _value2 = _Object$values3[_i3];
+
+          _this.cart_price.push(parseInt(_value2['price_total']));
         }
 
         _this.cart_price = _this.cart_price.reduce(function (a, b) {
@@ -2471,6 +2483,32 @@ __webpack_require__.r(__webpack_exports__);
         this.cart = data
     });*/
     this.getCartInfo();
+  },
+  filters: {
+    dgt_products: function dgt_products(x) {
+      if (!x) return '';
+      var forms = 'товар,товара,товаров'.split(',');
+      var x10 = x % 10,
+          x100 = x % 100,
+          form = 2; // товаров
+
+      if (x10 == 1 && x100 != 11) form = 0; // товар
+      else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21)) form = 1; // товара
+
+      return forms[form];
+    },
+    dgt_addons: function dgt_addons(x) {
+      if (!x) return '';
+      var forms = 'услуга,услуги,услуг'.split(',');
+      var x10 = x % 10,
+          x100 = x % 100,
+          form = 2; // услуг
+
+      if (x10 == 1 && x100 != 11) form = 0; // услуга
+      else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21)) form = 1; // услуги
+
+      return forms[form];
+    }
   }
 });
 
@@ -3545,10 +3583,17 @@ var render = function() {
                               _vm._v(
                                 "\n                                " +
                                   _vm._s(addon.name) +
-                                  ", " +
-                                  _vm._s(addon.products[0].pivot.price) +
-                                  "\n                            "
-                              )
+                                  " "
+                              ),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    addon.products[0].pivot.price
+                                      .toString()
+                                      .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                                  ) + " ₽"
+                                )
+                              ])
                             ]
                           )
                         ]
@@ -3640,9 +3685,25 @@ var render = function() {
         _c("div", { staticClass: "cart-panel" }, [
           _c("h5", [_vm._v("В корзине")]),
           _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(_vm.cart_amount))]),
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.cart_amount) +
+                " " +
+                _vm._s(_vm._f("dgt_products")(_vm.cart_amount)) +
+                ", " +
+                _vm._s(_vm.cart_addons_amount) +
+                " " +
+                _vm._s(_vm._f("dgt_addons")(_vm.cart_addons_amount))
+            )
+          ]),
           _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(_vm.cart_price))]),
+          _c("h4", [
+            _vm._v(
+              _vm._s(
+                _vm.cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+              ) + " ₽"
+            )
+          ]),
           _vm._v(" "),
           _c("button", { staticClass: "btn btn-standard" }, [
             _vm._v("Перейти к оформлению")

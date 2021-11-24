@@ -16,7 +16,7 @@
                                 <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_array.includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
                                 <input @change="changeAddon(cartItem, addon)" v-else class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id">
                                 <label class="form-check-label" :for="'sku_addon_' + cartItem.sku + '_' + addon.id">
-                                    {{addon.name}}, {{ addon.products[0].pivot.price }}
+                                    {{addon.name}} <span>{{ addon.products[0].pivot.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</span>
                                 </label>
                             </div>
 
@@ -38,8 +38,8 @@
             <div class="col-12 col-lg-4">
                 <div class="cart-panel">
                     <h5>В корзине</h5>
-                    <p>{{ cart_amount }}</p>
-                    <p>{{ cart_price}}</p>
+                    <p>{{ cart_amount }} {{ cart_amount | dgt_products }}, {{ cart_addons_amount }} {{ cart_addons_amount | dgt_addons }}</p>
+                    <h4>{{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</h4>
                     <button class="btn btn-standard">Перейти к оформлению</button>
                 </div>
             </div>
@@ -57,6 +57,7 @@
                 cart: '',
                 cart_amount: '',
                 cart_price: '',
+                cart_addons_amount: '',
 
                 loading: false,
             };
@@ -73,6 +74,12 @@
                         this.cart_amount.push(parseInt(value['quantity']))
                     }
                     this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
+
+                    this.cart_addons_amount = []
+                    for (let value of Object.values(response.data)) {
+                        this.cart_addons_amount.push(parseInt(value['addons_array'].length))
+                    }
+                    this.cart_addons_amount = this.cart_addons_amount.reduce((a, b) => a + b, 0)
 
                     this.cart_price = []
                     for (let value of Object.values(response.data)) {
@@ -145,6 +152,32 @@
                 this.cart = data
             });*/
             this.getCartInfo()
-        }
+        },
+        filters: {
+            dgt_products: function (x) {
+                if (!x) return ''
+                var forms = 'товар,товара,товаров'.split(',')
+                var x10 = x % 10, x100 = x % 100, form = 2 // товаров
+
+                if (x10 == 1 && x100 != 11)
+                    form = 0 // товар
+                else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21))
+                    form = 1 // товара
+
+                return forms[form]
+            },
+            dgt_addons: function (x) {
+                if (!x) return ''
+                var forms = 'услуга,услуги,услуг'.split(',')
+                var x10 = x % 10, x100 = x % 100, form = 2 // услуг
+
+                if (x10 == 1 && x100 != 11)
+                    form = 0 // услуга
+                else if (x10 > 1 && x10 < 5 && (x100 < 10 || x100 > 21))
+                    form = 1 // услуги
+
+                return forms[form]
+            }
+        },
     }
 </script>
