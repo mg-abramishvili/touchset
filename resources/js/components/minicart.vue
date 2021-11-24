@@ -45,6 +45,7 @@
             .then((response => {
                 this.cart = response.data
                 this.getCartInfo()
+                this.$root.$emit('data-to-product-page', this.cart)
             }));
 
             this.$root.$on('update_cart', data => {

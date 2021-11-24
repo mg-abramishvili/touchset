@@ -2152,6 +2152,8 @@ __webpack_require__.r(__webpack_exports__);
       _this.cart = response.data;
 
       _this.getCartInfo();
+
+      _this.$root.$emit('data-to-product-page', _this.cart);
     });
     this.$root.$on('update_cart', function (data) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
@@ -2495,14 +2497,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['product_id', 'addons'],
   data: function data() {
     return {
       added_to_cart: false,
-      checked_addons: []
+      checked_addons: [],
+      cart: ''
     };
   },
   mounted: function mounted() {
@@ -2510,6 +2512,15 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$root.$on('addons', function (data) {
       _this.getCheckedAddons(data);
+    });
+    this.$root.$on('data-to-product-page', function (data) {
+      _this.cart = [];
+
+      for (var _i = 0, _Object$values = Object.values(data); _i < _Object$values.length; _i++) {
+        var value = _Object$values[_i];
+
+        _this.cart.push(parseInt(value['id']));
+      }
     });
   },
   methods: {
@@ -3664,31 +3675,35 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.added_to_cart
-      ? _c(
-          "a",
-          { staticClass: "btn btn-outline-standard", attrs: { href: "/cart" } },
-          [_vm._v("В корзине")]
-        )
-      : _c(
-          "button",
-          {
-            staticClass: "btn btn-standard",
-            on: {
-              click: function($event) {
-                return _vm.addToCart()
-              }
-            }
-          },
-          [_vm._v("В корзину")]
-        ),
-    _vm._v(" "),
-    _c("button", { staticClass: "btn btn-outline-standard" }, [
-      _vm._v("Хочу демо-версию")
-    ]),
-    _vm._v("\n    " + _vm._s(_vm.checked_addons) + "\n")
-  ])
+  return _vm.product_id && _vm.cart
+    ? _c("div", [
+        _vm.added_to_cart || _vm.cart.includes(_vm.product_id)
+          ? _c(
+              "a",
+              {
+                staticClass: "btn btn-outline-standard",
+                attrs: { href: "/cart" }
+              },
+              [_vm._v("В корзине")]
+            )
+          : _c(
+              "button",
+              {
+                staticClass: "btn btn-standard",
+                on: {
+                  click: function($event) {
+                    return _vm.addToCart()
+                  }
+                }
+              },
+              [_vm._v("В корзину")]
+            ),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-outline-standard" }, [
+          _vm._v("Хочу демо-версию")
+        ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
