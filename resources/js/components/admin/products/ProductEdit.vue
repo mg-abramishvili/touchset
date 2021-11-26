@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="product && product.attributes && product.attributes.length > 0 && attributes && attributes.length > 0">
         <ul class="box-tabs">
             <li @click="selectTab('general')" :class="{ 'active' : current_tab == 'general'}">Общая информация</li>
             <li @click="selectTab('attributes')" :class="{ 'active' : current_tab == 'attributes'}">Характеристики</li>
@@ -8,7 +8,7 @@
             <li @click="selectTab('seo')" :class="{ 'active' : current_tab == 'seo'}">SEO</li>
         </ul>
         <div class="box px-4 py-4">
-            <div v-if="current_tab == 'general'" class="box-tab-content">
+            <div v-show="current_tab == 'general'" class="box-tab-content">
                 <div class="mb-3">
                     <label class="form-label">Наименование</label>
                     <input v-model="name" type="text" class="form-control">
@@ -32,22 +32,22 @@
                 </div>
             </div>
             
-            <div v-if="current_tab == 'attributes'" class="box-tab-content">
+            <div v-show="current_tab == 'attributes'" class="box-tab-content">
                 <div v-for="attribute in attributes" :key="'attribute_' + attribute.id" class="mb-3">
                     <label :for="'attribute_' + attribute.id" class="form-label">{{ attribute.name }}</label>
                     <input :id="'attribute_' + attribute.id" class="form-control">
                 </div>
             </div>
             
-            <div v-if="current_tab == 'gallery'" class="box-tab-content">
+            <div v-show="current_tab == 'gallery'" class="box-tab-content">
                 Галерея
             </div>
 
-            <div v-if="current_tab == 'tags'" class="box-tab-content">
+            <div v-show="current_tab == 'tags'" class="box-tab-content">
                 Теги
             </div>
 
-            <div v-if="current_tab == 'seo'" class="box-tab-content">
+            <div v-show="current_tab == 'seo'" class="box-tab-content">
                 SEO
             </div>
 
@@ -93,6 +93,7 @@
             this.getProductInfo()
             this.getCategories()
             this.getAttributes()
+            setTimeout(() => this.getProductAttributes(), 1000)
         },
         methods: {
             getProductInfo() {
@@ -106,7 +107,7 @@
 
                     if(response.data.description && response.data.description.length > 0) {
                         this.description = response.data.description
-                    }                    
+                    }
                 }));
             },
             getCategories() {
@@ -123,18 +124,30 @@
                     this.attributes = response.data
                 }));
             },
+            getProductAttributes() {
+                if(this.product && this.product.attributes && this.product.attributes.length > 0) {
+                    this.product.attributes.forEach((attr) => {
+                        if(document.getElementById('attribute_' + attr.id)) {
+                            document.getElementById('attribute_' + attr.id).value = attr.pivot.value
+                        }
+                    })
+                }
+            },
             selectTab(tab) {
                 this.current_tab = tab
             },
             updateProduct(id) {
                 this.attribute = []
                 this.attributes.forEach((attr) => {
-                    if(document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value) {
-                        //console.log(document.getElementById('attribute_' + attr.id).value)
-                        this.attribute.push({ id: attr.id, value: document.getElementById('attribute_' + attr.id).value })
+                    var value_value = null
+
+                    if(document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value && document.getElementById('attribute_' + attr.id).value.length > 0) {
+                        value_value = document.getElementById('attribute_' + attr.id).value
                     }
+
+                    this.attribute.push({ id: attr.id, value: value_value })
                 })
-                //console.log(this.attribute)
+                console.log(this.attribute)
 
                 if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
                     this.updateProduct_button = false

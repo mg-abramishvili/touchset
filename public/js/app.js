@@ -2287,55 +2287,73 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    var _this = this;
+
     this.getProductInfo();
     this.getCategories();
     this.getAttributes();
+    setTimeout(function () {
+      return _this.getProductAttributes();
+    }, 1000);
   },
   methods: {
     getProductInfo: function getProductInfo() {
-      var _this = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/_admin/product/".concat(this.product_id)).then(function (response) {
-        _this.product = response.data;
-        _this.name = response.data.name;
-        _this.price = response.data.price;
-        _this.category = response.data.categories[0].id;
+        _this2.product = response.data;
+        _this2.name = response.data.name;
+        _this2.price = response.data.price;
+        _this2.category = response.data.categories[0].id;
 
         if (response.data.description && response.data.description.length > 0) {
-          _this.description = response.data.description;
+          _this2.description = response.data.description;
         }
       });
     },
     getCategories: function getCategories() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/_admin/categories").then(function (response) {
-        _this2.categories = response.data;
+        _this3.categories = response.data;
       });
     },
     getAttributes: function getAttributes() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/_admin/attributes").then(function (response) {
-        _this3.attributes = response.data;
+        _this4.attributes = response.data;
       });
+    },
+    getProductAttributes: function getProductAttributes() {
+      if (this.product && this.product.attributes && this.product.attributes.length > 0) {
+        this.product.attributes.forEach(function (attr) {
+          if (document.getElementById('attribute_' + attr.id)) {
+            document.getElementById('attribute_' + attr.id).value = attr.pivot.value;
+          }
+        });
+      }
     },
     selectTab: function selectTab(tab) {
       this.current_tab = tab;
     },
     updateProduct: function updateProduct(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.attribute = [];
       this.attributes.forEach(function (attr) {
-        if (document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value) {
-          //console.log(document.getElementById('attribute_' + attr.id).value)
-          _this4.attribute.push({
-            id: attr.id,
-            value: document.getElementById('attribute_' + attr.id).value
-          });
+        var value_value = null;
+
+        if (document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value && document.getElementById('attribute_' + attr.id).value.length > 0) {
+          value_value = document.getElementById('attribute_' + attr.id).value;
         }
-      }); //console.log(this.attribute)
+
+        _this5.attribute.push({
+          id: attr.id,
+          value: value_value
+        });
+      });
+      console.log(this.attribute);
 
       if (this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
         this.updateProduct_button = false;
@@ -2353,7 +2371,7 @@ __webpack_require__.r(__webpack_exports__);
           );
         })["catch"](function (error) {
           if (error.response) {
-            _this4.updateProduct_button = true;
+            _this5.updateProduct_button = true;
 
             for (var key in error.response.data.errors) {
               console.log(key);
@@ -3413,205 +3431,231 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("ul", { staticClass: "box-tabs" }, [
-      _c(
-        "li",
-        {
-          class: { active: _vm.current_tab == "general" },
-          on: {
-            click: function($event) {
-              return _vm.selectTab("general")
-            }
-          }
-        },
-        [_vm._v("Общая информация")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { active: _vm.current_tab == "attributes" },
-          on: {
-            click: function($event) {
-              return _vm.selectTab("attributes")
-            }
-          }
-        },
-        [_vm._v("Характеристики")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { active: _vm.current_tab == "gallery" },
-          on: {
-            click: function($event) {
-              return _vm.selectTab("gallery")
-            }
-          }
-        },
-        [_vm._v("Галерея")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { active: _vm.current_tab == "tags" },
-          on: {
-            click: function($event) {
-              return _vm.selectTab("tags")
-            }
-          }
-        },
-        [_vm._v("Метки")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { active: _vm.current_tab == "seo" },
-          on: {
-            click: function($event) {
-              return _vm.selectTab("seo")
-            }
-          }
-        },
-        [_vm._v("SEO")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "box px-4 py-4" }, [
-      _vm.current_tab == "general"
-        ? _c("div", { staticClass: "box-tab-content" }, [
-            _c("div", { staticClass: "mb-3" }, [
-              _c("label", { staticClass: "form-label" }, [
-                _vm._v("Наименование")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.name = $event.target.value
-                  }
+  return _vm.product &&
+    _vm.product.attributes &&
+    _vm.product.attributes.length > 0 &&
+    _vm.attributes &&
+    _vm.attributes.length > 0
+    ? _c("div", [
+        _c("ul", { staticClass: "box-tabs" }, [
+          _c(
+            "li",
+            {
+              class: { active: _vm.current_tab == "general" },
+              on: {
+                click: function($event) {
+                  return _vm.selectTab("general")
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row mb-3" }, [
-              _c("div", { staticClass: "col-12 col-lg-8" }, [
+              }
+            },
+            [_vm._v("Общая информация")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.current_tab == "attributes" },
+              on: {
+                click: function($event) {
+                  return _vm.selectTab("attributes")
+                }
+              }
+            },
+            [_vm._v("Характеристики")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.current_tab == "gallery" },
+              on: {
+                click: function($event) {
+                  return _vm.selectTab("gallery")
+                }
+              }
+            },
+            [_vm._v("Галерея")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.current_tab == "tags" },
+              on: {
+                click: function($event) {
+                  return _vm.selectTab("tags")
+                }
+              }
+            },
+            [_vm._v("Метки")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.current_tab == "seo" },
+              on: {
+                click: function($event) {
+                  return _vm.selectTab("seo")
+                }
+              }
+            },
+            [_vm._v("SEO")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box px-4 py-4" }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.current_tab == "general",
+                  expression: "current_tab == 'general'"
+                }
+              ],
+              staticClass: "box-tab-content"
+            },
+            [
+              _c("div", { staticClass: "mb-3" }, [
                 _c("label", { staticClass: "form-label" }, [
-                  _vm._v("Категория")
+                  _vm._v("Наименование")
                 ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.category,
-                        expression: "category"
-                      }
-                    ],
-                    staticClass: "form-select",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.category = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.categories, function(cat) {
-                    return _c(
-                      "option",
-                      { key: "cat_" + cat.id, domProps: { value: cat.id } },
-                      [_vm._v(_vm._s(cat.name))]
-                    )
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-12 col-lg-4" }, [
-                _c("label", { staticClass: "form-label" }, [_vm._v("Цена")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.price,
-                      expression: "price"
+                      value: _vm.name,
+                      expression: "name"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "text" },
-                  domProps: { value: _vm.price },
+                  domProps: { value: _vm.name },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.price = $event.target.value
+                      _vm.name = $event.target.value
                     }
                   }
                 })
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "mb-3" },
-              [
-                _c("label", { staticClass: "form-label" }, [
-                  _vm._v("Описание")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-3" }, [
+                _c("div", { staticClass: "col-12 col-lg-8" }, [
+                  _c("label", { staticClass: "form-label" }, [
+                    _vm._v("Категория")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.category,
+                          expression: "category"
+                        }
+                      ],
+                      staticClass: "form-select",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.category = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.categories, function(cat) {
+                      return _c(
+                        "option",
+                        { key: "cat_" + cat.id, domProps: { value: cat.id } },
+                        [_vm._v(_vm._s(cat.name))]
+                      )
+                    }),
+                    0
+                  )
                 ]),
                 _vm._v(" "),
-                _c("ckeditor", {
-                  attrs: { editor: _vm.editor, config: _vm.editorConfig },
-                  model: {
-                    value: _vm.description,
-                    callback: function($$v) {
-                      _vm.description = $$v
-                    },
-                    expression: "description"
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.current_tab == "attributes"
-        ? _c(
+                _c("div", { staticClass: "col-12 col-lg-4" }, [
+                  _c("label", { staticClass: "form-label" }, [_vm._v("Цена")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.price,
+                        expression: "price"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.price },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.price = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "mb-3" },
+                [
+                  _c("label", { staticClass: "form-label" }, [
+                    _vm._v("Описание")
+                  ]),
+                  _vm._v(" "),
+                  _c("ckeditor", {
+                    attrs: { editor: _vm.editor, config: _vm.editorConfig },
+                    model: {
+                      value: _vm.description,
+                      callback: function($$v) {
+                        _vm.description = $$v
+                      },
+                      expression: "description"
+                    }
+                  })
+                ],
+                1
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
             "div",
-            { staticClass: "box-tab-content" },
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.current_tab == "attributes",
+                  expression: "current_tab == 'attributes'"
+                }
+              ],
+              staticClass: "box-tab-content"
+            },
             _vm._l(_vm.attributes, function(attribute) {
               return _c(
                 "div",
@@ -3634,43 +3678,73 @@ var render = function() {
               )
             }),
             0
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.current_tab == "gallery"
-        ? _c("div", { staticClass: "box-tab-content" }, [
-            _vm._v("\n            Галерея\n        ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.current_tab == "tags"
-        ? _c("div", { staticClass: "box-tab-content" }, [
-            _vm._v("\n            Теги\n        ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.current_tab == "seo"
-        ? _c("div", { staticClass: "box-tab-content" }, [
-            _vm._v("\n            SEO\n        ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.updateProduct_button
-        ? _c(
-            "button",
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
             {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.updateProduct(_vm.product.id)
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.current_tab == "gallery",
+                  expression: "current_tab == 'gallery'"
                 }
-              }
+              ],
+              staticClass: "box-tab-content"
             },
-            [_vm._v("Сохранить")]
-          )
-        : _vm._e()
-    ])
-  ])
+            [_vm._v("\n            Галерея\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.current_tab == "tags",
+                  expression: "current_tab == 'tags'"
+                }
+              ],
+              staticClass: "box-tab-content"
+            },
+            [_vm._v("\n            Теги\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.current_tab == "seo",
+                  expression: "current_tab == 'seo'"
+                }
+              ],
+              staticClass: "box-tab-content"
+            },
+            [_vm._v("\n            SEO\n        ")]
+          ),
+          _vm._v(" "),
+          _vm.updateProduct_button
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.updateProduct(_vm.product.id)
+                    }
+                  }
+                },
+                [_vm._v("Сохранить")]
+              )
+            : _vm._e()
+        ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
