@@ -9,6 +9,19 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'gallery',
+        'price',
+        'meta_title',
+        'meta_keywords',
+        'meta_description',
+        'is_new',
+        'is_popular',
+        'is_onsale',
+    ];
+
     protected $casts=['gallery'=>'json'];
 
     public function categories()

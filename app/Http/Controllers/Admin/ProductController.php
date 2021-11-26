@@ -98,24 +98,20 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->categories()->attach($request->category, ['product_id' => $product->id]);
 
-        $attributes = $request->attribute;
-        
-        foreach($attributes as $key => $value) {
-            if($value != null) {
-                $product->attributes()->detach($key);
+        foreach($request->attribute as $attr) {
+            if($attr["value"] != null) {
+                $product->attributes()->detach($attr["id"]);
                 $product->attributes()->attach(
-                    [$key => [
-                        'attribute_id'=>$key,
+                    [$attr["id"] => [
+                        'attribute_id'=>$attr["id"],
                         'product_id'=>$product->id,
-                        'value'=>$value,
+                        'value'=>$attr["value"],
                     ]
                 ]);
             } else {
-                $product->attributes()->detach($key);
+                $product->attributes()->detach($attr["id"]);
             }
         }
-
-        return redirect()->route('admin_products');
     }
 
     public function file($type)

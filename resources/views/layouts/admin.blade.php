@@ -38,6 +38,14 @@
                                             Категории
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_attributes') }}" class="nav-link {{  request()->routeIs('admin_attribute*') ? 'active' : '' }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-vr" viewBox="0 0 16 16">
+                                                <path d="M3 12V4a1 1 0 0 1 1-1h2.5V2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5v-1H4a1 1 0 0 1-1-1zm6.5 1v1H12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H9.5v1H12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H9.5zM8 16a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 1 0v15a.5.5 0 0 1-.5.5z"/>
+                                            </svg>
+                                            Атрибуты
+                                        </a>
+                                    </li>
                                     <li class="nav-separator">Заказы</li>
                                     <li class="nav-item">
                                         <a href="{{ route('admin_orders') }}" class="nav-link {{  request()->routeIs('admin_order*') ? 'active' : '' }}">
@@ -45,6 +53,14 @@
                                                 <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                             </svg>
                                             Заказы
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_orders') }}" class="nav-link {{  request()->routeIs('admin_order*') ? 'active' : '' }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                            </svg>
+                                            Заявки
                                         </a>
                                     </li>
                                     <li class="nav-separator">Страницы</li>
@@ -56,6 +72,7 @@
                                             Страницы
                                         </a>
                                     </li>
+                                    <li class="nav-separator">Настройки</li>
                                     <li class="nav-item">
                                         <a href="{{ route('admin_settings') }}" class="nav-link {{  request()->routeIs('admin_setting*') ? 'active' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
@@ -65,14 +82,7 @@
                                             Настройки
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin_attributes') }}" class="nav-link {{  request()->routeIs('admin_attribute*') ? 'active' : '' }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-vr" viewBox="0 0 16 16">
-                                                <path d="M3 12V4a1 1 0 0 1 1-1h2.5V2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5v-1H4a1 1 0 0 1-1-1zm6.5 1v1H12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H9.5v1H12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H9.5zM8 16a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 1 0v15a.5.5 0 0 1-.5.5z"/>
-                                            </svg>
-                                            Атрибуты
-                                        </a>
-                                    </li>
+                                    
                                 </ul>
 
                                 <ul class="nav flex-column mb-2">

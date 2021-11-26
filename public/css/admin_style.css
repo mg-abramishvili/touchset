@@ -4,6 +4,9 @@ body {
     font-family: 'Raleway', sans-serif;
     font-size: 17px;
     color: #242424;
+    -webkit-font-feature-settings: "lnum";
+    -moz-font-feature-settings: "lnum";
+    font-feature-settings: "lnum";
 }
 
 .admin_panel {
@@ -170,14 +173,42 @@ body {
 }
 
 .admin_panel .form-label {
-    color: #777;
     font-size: 15px;
+    font-weight: 600;
 }
 
 .admin_panel .ck-editor__editable {
     min-height: 150px;
 }
 
+.box-tabs {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.box-tabs li {
+    background-color: rgb(247, 247, 247);
+    padding: 12px 20px 14px 20px;
+    border-top: 2px solid transparent;
+    font-weight: 600;
+    font-size: 15px;
+}
+.box-tabs li:hover {
+    cursor: pointer;
+}
+.box-tabs li.active {
+    border-color: #1D88D8;
+    background-color: #fff;
+    border-bottom: 0;
+}
+
+.box-save-panel {
+    border: 1px solid #eee;
+    border-top: 2px solid #1D88D8;
+    padding: 15px;
+}
 
 
 .admin_panel .tree {

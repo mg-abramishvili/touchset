@@ -8,7 +8,6 @@
                 <tr>
                     <td>Номер заказа</td>
                     <td>Позиции</td>
-                    <td>Допы</td>
                     <td>Стоимость</td>
                 </tr>
             </thead>
@@ -21,19 +20,15 @@
                         <td>
                             @foreach($order->orderItems as $orderItem)
                                 {{ $orderItem->product->name }}
-                                {{ $orderItem->product->price }}
                                 <ul>
                                     @foreach($orderItem->addons as $addon)
-                                        {{ $addon->name }}, {{ $addon->pivot->price }}
+                                        <li>+ {{ $addon->name }} <!--, {{ number_format($addon->pivot->price, 0, ',', ' ') }} руб.--></li>
                                     @endforeach
                                 </ul>
+                                <br>
                             @endforeach
                         </td>
-                        <td>
-
-                        </td>
                         <td class="text-end">
-                            
                         </td>
                     </tr>
                 @endforeach
