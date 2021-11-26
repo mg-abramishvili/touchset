@@ -14,32 +14,14 @@
         <link href="/css/admin_style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
-        <div class="admin_panel bg-light" style="min-height: 100vh;">
+        <div class="admin_panel" style="min-height: 100vh;">
             <div id="app">
-                <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-                    <a href="{{ route('admin_home') }}" class="navbar-brand col-md-3 col-lg-2 me-0 px-3">TachLab ПУ</a>
-                    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="subheader w-100 px-md-4">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-md-6">
-                                @yield('title')
-                            </div>
-                            <div class="col-12 col-md-6 text-end">
-                                @hasSection('add_button')
-                                    <a href="@yield('add_button')" class="btn btn-sm btn-primary">Добавить</a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
                 <div class="container-fluid">
                     <div class="row">
                         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                             <div class="position-sticky pt-3">
                                 <ul class="nav flex-column">
+                                    <li class="nav-separator">Каталог</li>
                                     <li class="nav-item">
                                         <a href="{{ route('admin_products') }}" class="nav-link {{  request()->routeIs('admin_product*') ? 'active' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layers" viewBox="0 0 16 16">
@@ -56,6 +38,16 @@
                                             Категории
                                         </a>
                                     </li>
+                                    <li class="nav-separator">Заказы</li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin_orders') }}" class="nav-link {{  request()->routeIs('admin_order*') ? 'active' : '' }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                            </svg>
+                                            Заказы
+                                        </a>
+                                    </li>
+                                    <li class="nav-separator">Страницы</li>
                                     <li class="nav-item">
                                         <a href="{{ route('admin_pages') }}" class="nav-link {{  request()->routeIs('admin_page*') ? 'active' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-columns-gap" viewBox="0 0 16 16">
@@ -97,7 +89,19 @@
                         </nav>
 
                         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                            <div class="subheader w-100">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-md-6">
+                                        <h1>@yield('title')</h1>
+                                    </div>
+                                    <div class="col-12 col-md-6 text-end">
+                                        @hasSection('add_button')
+                                            <a href="@yield('add_button')" class="btn btn-sm btn-primary">Добавить</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                                 @yield('content')
                             </div>
                         </main>

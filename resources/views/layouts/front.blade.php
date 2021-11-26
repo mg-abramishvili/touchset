@@ -14,6 +14,12 @@
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
+        @auth
+            <!--<div class="apanel">
+                panel
+            </div>-->
+        @endauth
+
         <div id="app">
             <header>
                 <div class="header-top">

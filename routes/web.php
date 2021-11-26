@@ -18,6 +18,8 @@ Route::get('remove-from-cart/{product}','App\Http\Controllers\CartController@rem
 Route::post('update-cart','App\Http\Controllers\CartController@update_cart');
 Route::get('update-cart-item-addons/{sku}/{addons}','App\Http\Controllers\CartController@update_cart_item_addons');
 
+Route::post('order-store','App\Http\Controllers\OrderController@order_store');
+
 Route::get('search','App\Http\Controllers\ProductController@product_search')->name('product_search');
 
 Route::get('admin','App\Http\Controllers\Admin\AdminController@index')->name('admin_home')->middleware('auth');
@@ -40,6 +42,9 @@ Route::get('_admin/categories','App\Http\Controllers\Admin\CategoryController@in
 Route::post('_admin/categories','App\Http\Controllers\AdminCategoryController@store')->middleware('auth');
 Route::put('_admin/category/{id}','App\Http\Controllers\AdminCategoryController@update')->middleware('auth');
 Route::get('_admin/category/{id}/delete','App\Http\Controllers\AdminCategoryController@delete')->middleware('auth');
+
+// ADMIN ORDERS
+Route::get('admin/orders','App\Http\Controllers\Admin\OrderController@index')->name('admin_orders')->middleware('auth');
 
 // ADMIN ATTRIBUTES
 Route::get('admin/attributes','App\Http\Controllers\Admin\AttributeController@index')->name('admin_attributes')->middleware('auth');

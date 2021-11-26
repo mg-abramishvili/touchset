@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size: 17px;
+    color: #242424;
+}
+
+.admin_panel {
+    background-color: #ECEFF4;
 }
 
 .admin_panel .feather {
@@ -17,9 +22,9 @@ body {
     bottom: 0;
     left: 0;
     z-index: 100;
-    padding: 48px 0 0;
+    padding: 0;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    background-color: #f8f9fa !important;
+    background-color: #1C2226 !important;
 }
 
 @media (max-width: 767.98px) {
@@ -37,15 +42,26 @@ body {
     overflow-y: auto;
 }
 
+.admin_panel .sidebar .nav-separator {
+    color: rgba(255,255,255,0.25);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+}
+
 .admin_panel .sidebar .nav-link {
     font-weight: 500;
-    color: #333;
-    margin: 8px 0;
+    font-size: 15px;
+    background-color: #242D32;
+    color: #A3AFB5;
+    margin: 0;
+    padding: 12px 20px 12px 16px;
+    border-left: 4px solid transparent;
 }
 
 .admin_panel .sidebar .nav-link.active {
-    font-weight: 700;
-    color: #1D88D8;
+    font-weight: 400;
+    color: #fff;
 }
 
 .admin_panel .sidebar .nav-link:hover {
@@ -53,9 +69,9 @@ body {
 }
 
 .admin_panel .sidebar .nav-link svg {
-    width: 22px;
-    height: 22px;
-    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
 }
 
 .admin_panel .sidebar .nav-link .feather {
@@ -64,7 +80,8 @@ body {
 }
 
 .admin_panel .sidebar .nav-link.active {
-    color: #2470dc;
+    color: #fff;
+    border-color: #1D88D8;
 }
 
 .admin_panel .sidebar .nav-link:hover .feather,
@@ -92,26 +109,50 @@ body {
 }
 
 .admin_panel .subheader {
-    padding: .75rem 1rem;
     border-width: 0;
     border-radius: 0;
+    padding: 15px 0;
 }
 
-.admin_panel .subheader {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
+.admin_panel .subheader h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
 }
 
 
+.admin_panel .box {
+    background-color: #fff;
+    box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 5%);
+}
 
+.admin_panel .btn-sm {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 10px;
+}
 
 .admin_panel table {
     width: 100%;
 }
 
+.admin_panel table thead tr td {
+    color: #9aa8bb;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.admin_panel .table>:not(:first-child) {
+    border-top: 0;
+}
+
 .admin_panel table tr td {
     vertical-align: middle;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .admin_panel table tr td ul {

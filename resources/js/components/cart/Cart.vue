@@ -40,7 +40,7 @@
                     <h5>В корзине</h5>
                     <p>{{ cart_amount }} {{ cart_amount | dgt_products }}, {{ cart_addons_amount }} {{ cart_addons_amount | dgt_addons }}</p>
                     <h4>{{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</h4>
-                    <button class="btn btn-standard">Перейти к оформлению</button>
+                    <button @click="saveOrderItems()" class="btn btn-standard">Перейти к оформлению</button>
                 </div>
             </div>
         </div>
@@ -145,7 +145,31 @@
                     this.getCartInfo()
                     this.$root.$emit('update_cart', '1')
                 }));
-            }
+            },
+            saveOrderItems() {
+                var cartItemArray = []
+                for (var cartItem of Object.values(this.cart)) {
+                    cartItemArray.push({
+                        "id": cartItem.id,
+                        "price": cartItem.price,
+                        "addons_array": cartItem.addons_array
+                    })
+                }
+
+                axios
+                .post(`/order-store`, { order_items: cartItemArray })
+                .then(response => (
+                    console.log(response.data)
+                ))
+                .catch((error) => {
+                    if(error.response) {
+                        for(var key in error.response.data.errors){
+                            console.log(key)
+                            alert(key)
+                        }
+                    }
+                });
+            },
         },
         mounted() {
             /*this.$root.$on('add_to_cart', data => {

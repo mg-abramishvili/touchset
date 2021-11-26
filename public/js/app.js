@@ -2490,6 +2490,31 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.$root.$emit('update_cart', '1');
       });
+    },
+    saveOrderItems: function saveOrderItems() {
+      var cartItemArray = [];
+
+      for (var _i4 = 0, _Object$values4 = Object.values(this.cart); _i4 < _Object$values4.length; _i4++) {
+        var cartItem = _Object$values4[_i4];
+        cartItemArray.push({
+          "id": cartItem.id,
+          "price": cartItem.price,
+          "addons_array": cartItem.addons_array
+        });
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/order-store", {
+        order_items: cartItemArray
+      }).then(function (response) {
+        return console.log(response.data);
+      })["catch"](function (error) {
+        if (error.response) {
+          for (var key in error.response.data.errors) {
+            console.log(key);
+            alert(key);
+          }
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -3725,9 +3750,18 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("button", { staticClass: "btn btn-standard" }, [
-            _vm._v("Перейти к оформлению")
-          ])
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-standard",
+              on: {
+                click: function($event) {
+                  return _vm.saveOrderItems()
+                }
+              }
+            },
+            [_vm._v("Перейти к оформлению")]
+          )
         ])
       ])
     ])
