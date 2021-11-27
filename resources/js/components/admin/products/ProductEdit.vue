@@ -1,5 +1,6 @@
 <template>
-    <div v-if="product && product.attributes && product.attributes.length > 0 && attributes && attributes.length > 0">
+    <div>
+    <div v-if="product && product.name && product.name.length > 0">
         <ul class="box-tabs">
             <li @click="selectTab('general')" :class="{ 'active' : current_tab == 'general'}">Общая информация</li>
             <li @click="selectTab('attributes')" :class="{ 'active' : current_tab == 'attributes'}">Характеристики</li>
@@ -60,8 +61,12 @@
                 SEO
             </div>
 
-            <button v-if="updateProduct_button" @click="updateProduct(product.id)" class="btn btn-primary">Сохранить</button>
+            <button :disabled="updateProduct_button == false"  @click="updateProduct(product.id)" class="btn btn-primary">Сохранить</button>
         </div>
+    </div>
+    <!--<div v-else class="spinner-border text-primary" role="status">
+    <span class="sr-only"></span>
+    </div>-->
     </div>
 </template>
 
@@ -99,7 +104,7 @@
 
                 current_tab: 'general',
 
-                updateProduct_button: true,
+                updateProduct_button: false,
 
                 editor: ClassicEditor,
                 editorData: '',
@@ -157,7 +162,6 @@
             this.getProductInfo()
             this.getCategories()
             this.getAttributes()
-            setTimeout(() => this.getProductAttributes(), 1000)
         },
         methods: {
             getProductInfo() {
@@ -199,6 +203,10 @@
                 .get(`/_admin/attributes`)
                 .then((response => {
                     this.attributes = response.data
+                    setTimeout(() => {
+                        this.getProductAttributes()
+                        this.updateProduct_button = true
+                    }, 1000)
                 }));
             },
             getProductAttributes() {

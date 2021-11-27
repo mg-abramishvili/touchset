@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('orderItems.product', 'orderItems.addons')->get();
+        $orders = Order::with('orderItems.product', 'orderItems.addons')->orderBy('created_at', 'desc')->get();
         return view('admin.orders.index', compact('orders'));
     }
 }

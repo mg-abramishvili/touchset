@@ -6,6 +6,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <td>Дата</td>
                     <td>Номер заказа</td>
                     <td>Позиции</td>
                     <td>Стоимость</td>
@@ -14,6 +15,9 @@
             <tbody>
                 @foreach($orders as $order)
                     <tr>
+                        <td>
+                            {{ $order->created_at }}
+                        </td>
                         <td>
                             {{ $order->id }}
                         </td>
