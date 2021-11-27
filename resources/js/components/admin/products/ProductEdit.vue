@@ -40,7 +40,16 @@
             </div>
             
             <div v-show="current_tab == 'gallery'" class="box-tab-content">
-                Галерея
+                <file-pond
+                    name="gallery[]"
+                    ref="gallery"
+                    label-idle="Выбрать картинки..."
+                    v-bind:allow-multiple="true"
+                    v-bind:allow-reorder="true"
+                    accepted-file-types="image/jpeg, image/png"
+                    :server="server"
+                    v-bind:files="filepond_gallery_edit"
+                />
             </div>
 
             <div v-show="current_tab == 'tags'" class="box-tab-content">
@@ -60,6 +69,16 @@
     import axios from 'axios';
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+    import vueFilePond from "vue-filepond";
+    import "filepond/dist/filepond.min.css";
+    import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+    import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+    import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+    const FilePond = vueFilePond(
+        FilePondPluginFileValidateType,
+        FilePondPluginImagePreview
+    );
+
     export default {
         props: ['product_id'],
         data() {
@@ -69,10 +88,14 @@
                 price: '',
                 description: '',
                 category: '',
+                gallery: [],
                 attribute: [],
 
                 categories: [],
                 attributes: [],
+
+                filepond_gallery: [],
+                filepond_gallery_edit: [],
 
                 current_tab: 'general',
 
@@ -86,6 +109,47 @@
                     //    toolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
                     //},
                     //extraPlugins: [this.uploader],
+                },
+
+                server: {
+                    remove(filename, load) {
+                        load('1');
+                    },
+                    process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                        const formData = new FormData();
+                        formData.append(fieldName, file, file.name);
+                        const request = new XMLHttpRequest();
+                        request.open('POST', '/_admin/products/file/upload');
+                        request.upload.onprogress = (e) => {
+                            progress(e.lengthComputable, e.loaded, e.total);
+                        };
+                        request.onload = function() {
+                            if (request.status >= 200 && request.status < 300) {
+                                load(request.responseText);
+                            }
+                            else {
+                                error('oh no');
+                            }
+                        };
+                        request.send(formData);
+                        return {
+                            abort: () => {
+                                request.abort();
+                                abort();
+                            }
+                        };
+                    },
+                    revert: (filename, load) => {
+                        load(filename)
+                    },
+                    load: (source, load, error, progress, abort, headers) => {
+                        var myRequest = new Request(source);
+                        fetch(myRequest).then(function(response) {
+                            response.blob().then(function(myBlob) {
+                                load(myBlob)
+                            });
+                        });
+                    },
                 },
             };
         },
@@ -107,6 +171,19 @@
 
                     if(response.data.description && response.data.description.length > 0) {
                         this.description = response.data.description
+                    }
+
+                    if(response.data.gallery) {
+                        this.filepond_gallery_edit = response.data.gallery.map(function(element){
+                            {
+                                return {
+                                    source: element,
+                                    options: {
+                                        type: 'local',
+                                    }
+                                } 
+                            }
+                        })
                     }
                 }));
             },
@@ -147,13 +224,21 @@
 
                     this.attribute.push({ id: attr.id, value: value_value })
                 })
-                console.log(this.attribute)
+                
+                if(document.getElementsByName("gallery[]")) {
+                    this.gallery = []
+                    document.getElementsByName("gallery[]").forEach((galleryItem) => {
+                        if(galleryItem.value) {
+                            this.gallery.push(galleryItem.value)
+                        }
+                    });
+                }
 
                 if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
                     this.updateProduct_button = false
 
                     axios
-                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, category: this.category, attribute: this.attribute })
+                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, category: this.category, attribute: this.attribute, gallery: this.gallery })
                     .then(response => (
                         //setTimeout(() => this.updateProduct_button = true, 1000),
                         window.location.href = '/admin/products'

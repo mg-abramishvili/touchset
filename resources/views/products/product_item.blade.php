@@ -149,7 +149,8 @@
     });
 
     var swiper2 = new Swiper('.ProductGallerySwiper', {
-        loop: true,
+        loop: false,
+        spaceBetween: 1,
 
         navigation: {
             nextEl: '.swiper-button-next',
