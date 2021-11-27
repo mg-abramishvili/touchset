@@ -17,20 +17,23 @@
             </tr>
             @endforeach
           @endforeach
+          <tr style="border-color: transparent;">
+            <td style="text-align: right;">Итого:</td>
+            <td style="text-align: right;">
+              @php
+              $products_sum = $order->orderItems->sum('product.price')
+             @endphp
+             @foreach($order->orderItems as $item)
+               @php
+                $addons_sum = $item->addons->sum('pivot.price')
+               @endphp
+             @endforeach
+     
+             <strong>{{ number_format($products_sum + $addons_sum, 0, ',', ' ') }}</strong> руб.
+            </td>
+          </tr>
         </tbody>
       </table>
-      <div style="text-align: right">
-        @php
-         $products_sum = $order->orderItems->sum('product.price')
-        @endphp
-        @foreach($order->orderItems as $item)
-          @php
-           $addons_sum = $item->addons->sum('pivot.price')
-          @endphp
-        @endforeach
-
-        {{ $products_sum + $addons_sum }}
-      </div>
     </div>
   </div>
 @endsection

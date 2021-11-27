@@ -116,19 +116,6 @@
                 }
 
                 this.updateQuantity(cartItem)
-
-                //console.log(cartItem.addons.filter(item => item.id !== addon.id))
-                /*if(cartItem.addons_array.includes(addon.id)) {
-                    cartItem.addons_array.splice(cartItem.addons_array.indexOf(addon.id), 1)
-                    cartItem.addons_array.sort()
-                    cartItem.price = parseInt(cartItem.price) - parseInt(addon.products[0].pivot.price)
-                    this.updateQuantity(cartItem)
-                } else {
-                    cartItem.addons_array.push(addon.id)
-                    cartItem.addons_array.sort()
-                    cartItem.price = parseInt(cartItem.price) + parseInt(addon.products[0].pivot.price)
-                    this.updateQuantity(cartItem)
-                }*/
             },
             updateCart() {
                 this.loading = true
