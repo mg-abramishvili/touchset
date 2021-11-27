@@ -38,9 +38,9 @@
             <div class="col-12 col-lg-4">
                 <div class="cart-panel">
                     <h5>В корзине</h5>
-                    <p>{{ cart_amount }} {{ cart_amount | dgt_products }}, {{ cart_addons_amount }} {{ cart_addons_amount | dgt_addons }}</p>
-                    <h4>{{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</h4>
-                    <button @click="saveOrderItems()" class="btn btn-standard">Перейти к оформлению</button>
+                    <p>{{ cart_products_total_quantity }} {{ cart_products_total_quantity | dgt_products }}, {{ cart_addons_total_quantity }} {{ cart_addons_total_quantity | dgt_addons }}</p>
+                    <h4>{{ cart_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</h4>
+                    <button @click="proceedToCheckout()" class="btn btn-standard">Перейти к оформлению</button>
                 </div>
             </div>
         </div>
@@ -55,10 +55,10 @@
         data() {
             return {
                 cart: '',
-                cart_amount: '',
-                cart_price: '',
-                cart_addons_amount: '',
-
+                cart_products_total_quantity: '',
+                cart_addons_total_quantity: '',
+                cart_total_price: '',
+                
                 loading: false,
             };
         },
@@ -69,24 +69,30 @@
                 .then((response => {
                     this.cart = response.data
 
-                    this.cart_amount = []
+                    // общее количество товаров в корзине
+                    this.cart_products_total_quantity = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_amount.push(parseInt(value['quantity']))
+                        this.cart_products_total_quantity.push(parseInt(value['quantity']))
                     }
-                    this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
+                    this.cart_products_total_quantity = this.cart_products_total_quantity.reduce((a, b) => a + b, 0)
 
-                    this.cart_addons_amount = []
+                    // общее количество допов (услуг) в корзине
+                    this.cart_addons_total_quantity = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_addons_amount.push(parseInt(value['addons_array'].length))
+                        this.cart_addons_total_quantity.push(parseInt(value['addons_array'].length))
                     }
-                    this.cart_addons_amount = this.cart_addons_amount.reduce((a, b) => a + b, 0)
+                    this.cart_addons_total_quantity = this.cart_addons_total_quantity.reduce((a, b) => a + b, 0)
 
-                    this.cart_price = []
+                    // итоговая цена корзины
+                    this.cart_total_price = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_price.push(parseInt(value['price_total']))
+                        this.cart_total_price.push(parseInt(value['price_total']))
                     }
-                    this.cart_price = this.cart_price.reduce((a, b) => a + b, 0)
+                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
                 }));
+            },
+            getAddonsAll() {
+                
             },
             changeAddon(cartItem, addon) {
                 if(cartItem.addons_array.includes(addon.id)) {
@@ -146,36 +152,15 @@
                     this.$root.$emit('update_cart', '1')
                 }));
             },
-            saveOrderItems() {
-                var cartItemArray = []
-                for (var cartItem of Object.values(this.cart)) {
-                    cartItemArray.push({
-                        "id": cartItem.id,
-                        "price": cartItem.price,
-                        "addons_array": cartItem.addons_array
-                    })
-                }
-
-                axios
-                .post(`/order-store`, { order_items: cartItemArray })
-                .then(response => (
-                    console.log(response.data)
-                ))
-                .catch((error) => {
-                    if(error.response) {
-                        for(var key in error.response.data.errors){
-                            console.log(key)
-                            alert(key)
-                        }
-                    }
-                });
+            proceedToCheckout() {
+                this.loading = true
+                this.updateCart()
+                window.location.href = '/checkout'
             },
         },
         mounted() {
-            /*this.$root.$on('add_to_cart', data => {
-                this.cart = data
-            });*/
             this.getCartInfo()
+            this.getAddonsAll()
         },
         filters: {
             dgt_products: function (x) {

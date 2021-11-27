@@ -40,6 +40,7 @@
                 .then((response => {
                     this.added_to_cart = true
                     this.$root.$emit('update_cart', '1')
+                    console.log(response.data)
                 }));
             }
         },

@@ -13,6 +13,11 @@ class CartController extends Controller
         return view('cart.index');
     }
 
+    public function checkout()
+    {
+        return view('cart.checkout');
+    }
+
     public function cart_data()
     {
         return session()->get('cart');
@@ -20,68 +25,38 @@ class CartController extends Controller
 
     public function add($id, Request $request)
     {
+        $product = Product::with('addons')->where('id', $id)->first();
+        $product_addons = $product->addons;
+
         if($request->addons) {
-            $addons_array = $request->addons;
-            $addons = Addon::with(
-                [
-                    'products' => function ($query) use ($id) {
-                        $query->where('product_id');
-                        $query->orWhere('product_id', $id);
-                    },
-                ]
-            )
-            ->where(function ($q) use ($addons_array) {
-                $q->where('id');
-                foreach($addons_array as $addon) {
-                    $q->orWhere('id', $addon);
-                }
-            })
-            ->get();
-            $addons_price = 0;
-            foreach($addons as $addon)
-            {
-                $addons_price += $addon->products->first()->pivot->price;
-            }
+            $addons_selected_IDs = $request->addons;
+            $addons_selected = $product_addons->whereIn('id', $addons_selected_IDs);
             $sku = $id; 
-            foreach($addons as $addon) {
-                $sku .= '_' . $addon->slug;
+            foreach($product->addons as $addon) {
+                foreach($addons_selected as $addon_selected) {
+                    if($addon->id == $addon_selected->id) {
+                        $sku .= '_' . $addon->slug;
+                    }
+                }
             }
         } else {
-            $addons_array = [];
-            $addons = [];
-            $addons_price = 0;
+            $addons_selected = null;
             $sku = $id;
         }
-
-        $addons_all = Addon::with(
-            [
-                'products' => function ($query) use ($id) {
-                    $query->where('product_id');
-                    $query->orWhere('product_id', $id);
-                },
-            ]
-        )
-        ->whereRelation('products', 'product_id', $id)
-        ->get();
-
-        $product = Product::find($id);
 
         $cart = session()->get('cart', []);
   
         if(isset($cart[$sku])) {
             $cart[$sku]['quantity']++;
-            $cart[$sku]['price_total'] = $cart[$sku]['quantity'] * $cart[$sku]['price'];
         } else {
             $cart[$sku] = [
+                "sku" => $sku,
                 "id" => $product->id,
                 "name" => $product->name,
                 "quantity" => 1,
-                "addons" => $addons,
-                "price" => $product->price + $addons_price,
-                "price_total" => $product->price + $addons_price,
-                "sku" => $sku,
-                "addons_all" => $addons_all,
-                "addons_array" => $addons_array,
+                "addons" => $product_addons,
+                "selected_addons" => $addons_selected,
+                "price" => $product->price,
             ];
         }
           
