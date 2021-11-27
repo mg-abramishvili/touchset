@@ -2547,6 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2582,7 +2583,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
           var _value = _Object$values2[_i2];
 
-          _this.cart_addons_total_quantity.push(parseInt(_value['addons_array'].length));
+          _this.cart_addons_total_quantity.push(parseInt(_value['addons_selected'].length));
         }
 
         _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
@@ -2594,7 +2595,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
           var _value2 = _Object$values3[_i3];
 
-          _this.cart_total_price.push(parseInt(_value2['price_total']));
+          _this.cart_total_price.push(parseInt(_value2['price'] * parseInt(_value2['quantity'])));
         }
 
         _this.cart_total_price = _this.cart_total_price.reduce(function (a, b) {
@@ -2602,19 +2603,43 @@ __webpack_require__.r(__webpack_exports__);
         }, 0);
       });
     },
-    getAddonsAll: function getAddonsAll() {},
     changeAddon: function changeAddon(cartItem, addon) {
-      if (cartItem.addons_array.includes(addon.id)) {
-        cartItem.addons_array.splice(cartItem.addons_array.indexOf(addon.id), 1);
-        cartItem.addons_array.sort();
-        cartItem.price = parseInt(cartItem.price) - parseInt(addon.products[0].pivot.price);
-        this.updateQuantity(cartItem);
+      if (cartItem.addons_selected.map(function (x) {
+        return x.id;
+      }).includes(addon.id)) {
+        cartItem.addons_selected = cartItem.addons_selected.filter(function (item) {
+          return item.id !== addon.id;
+        });
       } else {
-        cartItem.addons_array.push(addon.id);
-        cartItem.addons_array.sort();
-        cartItem.price = parseInt(cartItem.price) + parseInt(addon.products[0].pivot.price);
-        this.updateQuantity(cartItem);
+        if (cartItem.addons_selected.length > 0) {
+          var new_array = [];
+          cartItem.addons_selected.forEach(function (item) {
+            new_array.push(item);
+          });
+          new_array.push(cartItem.addons.filter(function (item) {
+            return item.id == addon.id;
+          })[0]);
+          cartItem.addons_selected = new_array;
+        } else {
+          cartItem.addons_selected = cartItem.addons.filter(function (item) {
+            return item.id == addon.id;
+          });
+        }
       }
+
+      this.updateQuantity(cartItem); //console.log(cartItem.addons.filter(item => item.id !== addon.id))
+
+      /*if(cartItem.addons_array.includes(addon.id)) {
+          cartItem.addons_array.splice(cartItem.addons_array.indexOf(addon.id), 1)
+          cartItem.addons_array.sort()
+          cartItem.price = parseInt(cartItem.price) - parseInt(addon.products[0].pivot.price)
+          this.updateQuantity(cartItem)
+      } else {
+          cartItem.addons_array.push(addon.id)
+          cartItem.addons_array.sort()
+          cartItem.price = parseInt(cartItem.price) + parseInt(addon.products[0].pivot.price)
+          this.updateQuantity(cartItem)
+      }*/
     },
     updateCart: function updateCart() {
       var _this2 = this;
@@ -2636,7 +2661,6 @@ __webpack_require__.r(__webpack_exports__);
       if (quantity !== 0) {
         document.getElementById('quantity_' + cartItem.sku).value = quantity;
         cartItem.quantity = quantity;
-        cartItem.price_total = cartItem.quantity * cartItem.price;
       }
 
       this.$root.$emit('cart_data', this.cart);
@@ -2648,7 +2672,6 @@ __webpack_require__.r(__webpack_exports__);
       if (quantity !== 0 && quantity !== 1) {
         document.getElementById('quantity_' + cartItem.sku).value = quantity - 1;
         cartItem.quantity = quantity - 1;
-        cartItem.price_total = cartItem.quantity * cartItem.price;
       }
 
       this.$root.$emit('cart_data', this.cart);
@@ -2658,7 +2681,6 @@ __webpack_require__.r(__webpack_exports__);
       var quantity = parseInt(document.getElementById('quantity_' + cartItem.sku).value);
       document.getElementById('quantity_' + cartItem.sku).value = quantity + 1;
       cartItem.quantity = quantity + 1;
-      cartItem.price_total = cartItem.quantity * cartItem.price;
       this.$root.$emit('cart_data', this.cart);
       this.updateCart();
     },
@@ -2679,7 +2701,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getCartInfo();
-    this.getAddonsAll();
   },
   filters: {
     dgt_products: function dgt_products(x) {
@@ -2919,8 +2940,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.added_to_cart = true;
 
         _this2.$root.$emit('update_cart', '1');
-
-        console.log(response.data);
       });
     }
   }
@@ -21566,12 +21585,16 @@ var render = function() {
                       [_vm._v(_vm._s(cartItem.name))]
                     ),
                     _vm._v(" "),
-                    _vm._l(cartItem.addons_all, function(addon) {
+                    _vm._l(cartItem.addons, function(addon) {
                       return _c(
                         "div",
                         { key: "addon_" + addon.id, staticClass: "form-check" },
                         [
-                          cartItem.addons_array.includes(addon.id)
+                          cartItem.addons_selected
+                            .map(function(x) {
+                              return x.id
+                            })
+                            .includes(addon.id)
                             ? _c("input", {
                                 staticClass: "form-check-input",
                                 attrs: {
@@ -21618,17 +21641,8 @@ var render = function() {
                               _vm._v(
                                 "\n                                " +
                                   _vm._s(addon.name) +
-                                  " "
-                              ),
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(
-                                    addon.products[0].pivot.price
-                                      .toString()
-                                      .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-                                  ) + " ₽"
-                                )
-                              ])
+                                  " \n                            "
+                              )
                             ]
                           )
                         ]
@@ -21682,18 +21696,35 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col cart-item-col-price" }, [
-                  _c("strong", [
-                    _vm._v(
-                      _vm._s(
-                        cartItem.price_total
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-                      )
-                    )
-                  ]),
-                  _vm._v(" ₽\n                    ")
-                ]),
+                _c(
+                  "div",
+                  { staticClass: "col cart-item-col-price" },
+                  [
+                    cartItem.addons_selected &&
+                    cartItem.addons_selected.length > 0
+                      ? [
+                          _c("strong", [
+                            _vm._v(
+                              _vm._s(
+                                (parseInt(cartItem.price) +
+                                  parseInt(
+                                    cartItem.addons_selected[0].pivot.price
+                                  )) *
+                                  cartItem.quantity
+                              )
+                            )
+                          ]),
+                          _vm._v(" ₽")
+                        ]
+                      : [
+                          _c("strong", [
+                            _vm._v(_vm._s(cartItem.price * cartItem.quantity))
+                          ]),
+                          _vm._v(" ₽")
+                        ]
+                  ],
+                  2
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col cart-item-col-del" }, [
                   _c(

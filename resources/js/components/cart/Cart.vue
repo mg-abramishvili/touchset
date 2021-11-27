@@ -12,11 +12,11 @@
                         <div class="col cart-item-col-name">
                             <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }}</a>
                             
-                            <div v-for="addon in cartItem.addons_all" :key="'addon_' + addon.id" class="form-check">
-                                <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_array.includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
+                            <div v-for="addon in cartItem.addons" :key="'addon_' + addon.id" class="form-check">
+                                <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_selected.map(x => x.id).includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
                                 <input @change="changeAddon(cartItem, addon)" v-else class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id">
                                 <label class="form-check-label" :for="'sku_addon_' + cartItem.sku + '_' + addon.id">
-                                    {{addon.name}} <span>{{ addon.products[0].pivot.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</span>
+                                    {{addon.name}} 
                                 </label>
                             </div>
 
@@ -27,7 +27,8 @@
                             <button @click="updateQuantityPlus(cartItem)" class="btn btn-sm">+</button>
                         </div>
                         <div class="col cart-item-col-price">
-                            <strong>{{ cartItem.price_total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}</strong> ₽
+                            <template v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0"><strong>{{ (parseInt(cartItem.price) + parseInt(cartItem.addons_selected[0].pivot.price)) * cartItem.quantity }}</strong> ₽</template>
+                            <template v-else><strong>{{ (cartItem.price * cartItem.quantity) }}</strong> ₽</template>
                         </div>
                         <div class="col cart-item-col-del">
                             <button @click="remove(cartItem.sku)" class="btn btn-sm btn-outline-danger">&times;</button>
@@ -79,23 +80,38 @@
                     // общее количество допов (услуг) в корзине
                     this.cart_addons_total_quantity = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_addons_total_quantity.push(parseInt(value['addons_array'].length))
+                        this.cart_addons_total_quantity.push(parseInt(value['addons_selected'].length))
                     }
                     this.cart_addons_total_quantity = this.cart_addons_total_quantity.reduce((a, b) => a + b, 0)
 
                     // итоговая цена корзины
                     this.cart_total_price = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_total_price.push(parseInt(value['price_total']))
+                        this.cart_total_price.push(parseInt(value['price'] * parseInt(value['quantity'])))
                     }
                     this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
                 }));
             },
-            getAddonsAll() {
-                
-            },
             changeAddon(cartItem, addon) {
-                if(cartItem.addons_array.includes(addon.id)) {
+                if(cartItem.addons_selected.map(x => x.id).includes(addon.id)) {
+                    cartItem.addons_selected = cartItem.addons_selected.filter(item => item.id !== addon.id)
+                } else {
+                    if(cartItem.addons_selected.length > 0) {
+                        var new_array = []
+                        cartItem.addons_selected.forEach((item) => {
+                            new_array.push(item)
+                        })
+                        new_array.push(cartItem.addons.filter(item => item.id == addon.id)[0])
+                        cartItem.addons_selected = new_array
+                    } else {
+                        cartItem.addons_selected = cartItem.addons.filter(item => item.id == addon.id)
+                    }
+                }
+
+                this.updateQuantity(cartItem)
+
+                //console.log(cartItem.addons.filter(item => item.id !== addon.id))
+                /*if(cartItem.addons_array.includes(addon.id)) {
                     cartItem.addons_array.splice(cartItem.addons_array.indexOf(addon.id), 1)
                     cartItem.addons_array.sort()
                     cartItem.price = parseInt(cartItem.price) - parseInt(addon.products[0].pivot.price)
@@ -105,7 +121,7 @@
                     cartItem.addons_array.sort()
                     cartItem.price = parseInt(cartItem.price) + parseInt(addon.products[0].pivot.price)
                     this.updateQuantity(cartItem)
-                }
+                }*/
             },
             updateCart() {
                 this.loading = true
@@ -121,7 +137,6 @@
                 if(quantity !== 0) {
                     document.getElementById('quantity_' + cartItem.sku).value = quantity
                     cartItem.quantity = quantity
-                    cartItem.price_total = cartItem.quantity * cartItem.price
                 }
                 this.$root.$emit('cart_data', this.cart)
                 this.updateCart()
@@ -131,7 +146,6 @@
                 if(quantity !== 0 && quantity !== 1) {
                     document.getElementById('quantity_' + cartItem.sku).value = quantity - 1
                     cartItem.quantity = quantity - 1
-                    cartItem.price_total = cartItem.quantity * cartItem.price
                 }
                 this.$root.$emit('cart_data', this.cart)
                 this.updateCart()
@@ -140,7 +154,6 @@
                 var quantity = parseInt(document.getElementById('quantity_' + cartItem.sku).value)
                 document.getElementById('quantity_' + cartItem.sku).value = quantity + 1
                 cartItem.quantity = quantity + 1
-                cartItem.price_total = cartItem.quantity * cartItem.price
                 this.$root.$emit('cart_data', this.cart)
                 this.updateCart()
             },
@@ -160,7 +173,6 @@
         },
         mounted() {
             this.getCartInfo()
-            this.getAddonsAll()
         },
         filters: {
             dgt_products: function (x) {

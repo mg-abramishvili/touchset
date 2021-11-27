@@ -55,7 +55,7 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => 1,
                 "addons" => $product_addons,
-                "selected_addons" => $addons_selected,
+                "addons_selected" => $addons_selected,
                 "price" => $product->price,
             ];
         }
