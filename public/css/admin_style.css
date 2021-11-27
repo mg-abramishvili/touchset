@@ -140,6 +140,10 @@ body {
     width: 100%;
 }
 
+.admin_panel .table-order-item {
+    margin: 0;
+}
+
 .admin_panel table thead tr td {
     color: #9aa8bb;
     font-weight: 600;

@@ -7,32 +7,33 @@
             <thead>
                 <tr>
                     <td>Дата</td>
-                    <td>Номер заказа</td>
-                    <td>Позиции</td>
-                    <td>Стоимость</td>
+                    <td style="text-align: center;">Номер заказа</td>
+                    <td>Заказ</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
                 @foreach($orders as $order)
                     <tr>
-                        <td>
-                            {{ $order->created_at }}
+                        <td style="width: 120px;">
+                            {{ \Carbon\Carbon::parse($order->created_at)->locale('ru')->isoFormat('DD.MM.YYYY')}}
                         </td>
-                        <td>
+                        <td style="width: 200px; text-align: center;">
                             {{ $order->id }}
                         </td>
                         <td>
                             @foreach($order->orderItems as $orderItem)
-                                {{ $orderItem->product->name }}
-                                <ul>
-                                    @foreach($orderItem->addons as $addon)
-                                        <li>+ {{ $addon->name }} <!--, {{ number_format($addon->pivot->price, 0, ',', ' ') }} руб.--></li>
-                                    @endforeach
-                                </ul>
-                                <br>
+                                    <p class="table-order-item">
+                                    {{ $orderItem->product->name }}
+                                    
+                                    @if($orderItem->addons->count() > 0)
+                                        + допы
+                                    @endif
+                                </p>
                             @endforeach
                         </td>
                         <td class="text-end">
+                            <a href="{{ route('admin_order', ['id' => $order->id]) }}" class="btn btn-sm btn-outline-primary">Детали</a>
                         </td>
                     </tr>
                 @endforeach

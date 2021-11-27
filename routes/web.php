@@ -45,6 +45,7 @@ Route::get('_admin/category/{id}/delete','App\Http\Controllers\AdminCategoryCont
 
 // ADMIN ORDERS
 Route::get('admin/orders','App\Http\Controllers\Admin\OrderController@index')->name('admin_orders')->middleware('auth');
+Route::get('admin/order/{id}','App\Http\Controllers\Admin\OrderController@item')->name('admin_order')->middleware('auth');
 
 // ADMIN ATTRIBUTES
 Route::get('admin/attributes','App\Http\Controllers\Admin\AttributeController@index')->name('admin_attributes')->middleware('auth');
