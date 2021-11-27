@@ -13,10 +13,10 @@
                             <a :href="'/product/' + cartItem.id" style="text-decoration: none; color: #333;">{{ cartItem.name }}</a>
                             
                             <div v-for="addon in cartItem.addons" :key="'addon_' + addon.id" class="form-check">
-                                <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_selected.map(x => x.id).includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
+                                <input @change="changeAddon(cartItem, addon)" v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0 && cartItem.addons_selected.map(x => x.id).includes(addon.id)" class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id" checked>
                                 <input @change="changeAddon(cartItem, addon)" v-else class="form-check-input" type="checkbox" value="" :id="'sku_addon_' + cartItem.sku + '_' + addon.id">
                                 <label class="form-check-label" :for="'sku_addon_' + cartItem.sku + '_' + addon.id">
-                                    {{addon.name}} 
+                                    {{addon.name}} <span style="color:#888;">{{ addon.pivot.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</span>
                                 </label>
                             </div>
 
@@ -27,7 +27,7 @@
                             <button @click="updateQuantityPlus(cartItem)" class="btn btn-sm">+</button>
                         </div>
                         <div class="col cart-item-col-price">
-                            <template v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0"><strong>{{ (parseInt(cartItem.price) + parseInt(cartItem.addons_selected[0].pivot.price)) * cartItem.quantity }}</strong> ₽</template>
+                            <template v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0"><strong>{{ (parseInt(cartItem.price) + parseInt(cartItem.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0))) * cartItem.quantity }}</strong> ₽</template>
                             <template v-else><strong>{{ (cartItem.price * cartItem.quantity) }}</strong> ₽</template>
                         </div>
                         <div class="col cart-item-col-del">
@@ -70,6 +70,20 @@
                 .then((response => {
                     this.cart = response.data
 
+                    // общая стоимость корзины
+                    this.cart_total_price = []
+                    for (let value of Object.values(response.data)) {
+                        var cartItem_product_price = parseInt(value.price)
+                        var cartItem_quantity = parseInt(value.quantity)
+                        if(value.addons_selected && value.addons_selected.length > 0) {
+                            var cartItem_addons_price = value.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0)
+                        } else {
+                            var cartItem_addons_price = 0
+                        }
+                        this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity)
+                    }
+                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
+
                     // общее количество товаров в корзине
                     this.cart_products_total_quantity = []
                     for (let value of Object.values(response.data)) {
@@ -83,20 +97,13 @@
                         this.cart_addons_total_quantity.push(parseInt(value['addons_selected'].length))
                     }
                     this.cart_addons_total_quantity = this.cart_addons_total_quantity.reduce((a, b) => a + b, 0)
-
-                    // итоговая цена корзины
-                    this.cart_total_price = []
-                    for (let value of Object.values(response.data)) {
-                        this.cart_total_price.push(parseInt(value['price'] * parseInt(value['quantity'])))
-                    }
-                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
                 }));
             },
             changeAddon(cartItem, addon) {
-                if(cartItem.addons_selected.map(x => x.id).includes(addon.id)) {
+                if(cartItem.addons_selected && cartItem.addons_selected.length > 0 && cartItem.addons_selected.map(x => x.id).includes(addon.id)) {
                     cartItem.addons_selected = cartItem.addons_selected.filter(item => item.id !== addon.id)
                 } else {
-                    if(cartItem.addons_selected.length > 0) {
+                    if(cartItem.addons_selected && cartItem.addons_selected.length > 0) {
                         var new_array = []
                         cartItem.addons_selected.forEach((item) => {
                             new_array.push(item)

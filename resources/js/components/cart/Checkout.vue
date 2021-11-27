@@ -39,6 +39,20 @@
                 .then((response => {
                     this.cart = response.data
 
+                    // общая стоимость корзины
+                    this.cart_total_price = []
+                    for (let value of Object.values(response.data)) {
+                        var cartItem_product_price = parseInt(value.price)
+                        var cartItem_quantity = parseInt(value.quantity)
+                        if(value.addons_selected && value.addons_selected.length > 0) {
+                            var cartItem_addons_price = value.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0)
+                        } else {
+                            var cartItem_addons_price = 0
+                        }
+                        this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity)
+                    }
+                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
+
                     // общее количество товаров в корзине
                     this.cart_products_total_quantity = []
                     for (let value of Object.values(response.data)) {
@@ -49,16 +63,9 @@
                     // общее количество допов (услуг) в корзине
                     this.cart_addons_total_quantity = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_addons_total_quantity.push(parseInt(value['addons_array'].length))
+                        this.cart_addons_total_quantity.push(parseInt(value['addons_selected'].length))
                     }
                     this.cart_addons_total_quantity = this.cart_addons_total_quantity.reduce((a, b) => a + b, 0)
-
-                    // итоговая цена корзины
-                    this.cart_total_price = []
-                    for (let value of Object.values(response.data)) {
-                        this.cart_total_price.push(parseInt(value['price_total']))
-                    }
-                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
                 }));
             },
             saveOrder() {
@@ -66,8 +73,8 @@
                 for (var cartItem of Object.values(this.cart)) {
                     cartItemsArray.push({
                         "id": cartItem.id,
-                        "price": cartItem.base_price,
-                        "addons_array": cartItem.addons_array
+                        "price": cartItem.price,
+                        "addons_selected": cartItem.addons_selected
                     })
                 }
 

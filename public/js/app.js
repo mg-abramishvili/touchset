@@ -2564,14 +2564,38 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
-        _this.cart = response.data; // общее количество товаров в корзине
+        _this.cart = response.data; // общая стоимость корзины
 
-        _this.cart_products_total_quantity = [];
+        _this.cart_total_price = [];
 
         for (var _i = 0, _Object$values = Object.values(response.data); _i < _Object$values.length; _i++) {
           var value = _Object$values[_i];
+          var cartItem_product_price = parseInt(value.price);
+          var cartItem_quantity = parseInt(value.quantity);
 
-          _this.cart_products_total_quantity.push(parseInt(value['quantity']));
+          if (value.addons_selected && value.addons_selected.length > 0) {
+            var cartItem_addons_price = value.addons_selected.map(function (x) {
+              return parseInt(x.pivot.price);
+            }).reduce(function (a, b) {
+              return a + b;
+            }, 0);
+          } else {
+            var cartItem_addons_price = 0;
+          }
+
+          _this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity);
+        }
+
+        _this.cart_total_price = _this.cart_total_price.reduce(function (a, b) {
+          return a + b;
+        }, 0); // общее количество товаров в корзине
+
+        _this.cart_products_total_quantity = [];
+
+        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
+          var _value = _Object$values2[_i2];
+
+          _this.cart_products_total_quantity.push(parseInt(_value['quantity']));
         }
 
         _this.cart_products_total_quantity = _this.cart_products_total_quantity.reduce(function (a, b) {
@@ -2580,38 +2604,26 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.cart_addons_total_quantity = [];
 
-        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
-          var _value = _Object$values2[_i2];
-
-          _this.cart_addons_total_quantity.push(parseInt(_value['addons_selected'].length));
-        }
-
-        _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
-          return a + b;
-        }, 0); // итоговая цена корзины
-
-        _this.cart_total_price = [];
-
         for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
           var _value2 = _Object$values3[_i3];
 
-          _this.cart_total_price.push(parseInt(_value2['price'] * parseInt(_value2['quantity'])));
+          _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
         }
 
-        _this.cart_total_price = _this.cart_total_price.reduce(function (a, b) {
+        _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
           return a + b;
         }, 0);
       });
     },
     changeAddon: function changeAddon(cartItem, addon) {
-      if (cartItem.addons_selected.map(function (x) {
+      if (cartItem.addons_selected && cartItem.addons_selected.length > 0 && cartItem.addons_selected.map(function (x) {
         return x.id;
       }).includes(addon.id)) {
         cartItem.addons_selected = cartItem.addons_selected.filter(function (item) {
           return item.id !== addon.id;
         });
       } else {
-        if (cartItem.addons_selected.length > 0) {
+        if (cartItem.addons_selected && cartItem.addons_selected.length > 0) {
           var new_array = [];
           cartItem.addons_selected.forEach(function (item) {
             new_array.push(item);
@@ -2780,14 +2792,38 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/cart_data').then(function (response) {
-        _this.cart = response.data; // общее количество товаров в корзине
+        _this.cart = response.data; // общая стоимость корзины
 
-        _this.cart_products_total_quantity = [];
+        _this.cart_total_price = [];
 
         for (var _i = 0, _Object$values = Object.values(response.data); _i < _Object$values.length; _i++) {
           var value = _Object$values[_i];
+          var cartItem_product_price = parseInt(value.price);
+          var cartItem_quantity = parseInt(value.quantity);
 
-          _this.cart_products_total_quantity.push(parseInt(value['quantity']));
+          if (value.addons_selected && value.addons_selected.length > 0) {
+            var cartItem_addons_price = value.addons_selected.map(function (x) {
+              return parseInt(x.pivot.price);
+            }).reduce(function (a, b) {
+              return a + b;
+            }, 0);
+          } else {
+            var cartItem_addons_price = 0;
+          }
+
+          _this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity);
+        }
+
+        _this.cart_total_price = _this.cart_total_price.reduce(function (a, b) {
+          return a + b;
+        }, 0); // общее количество товаров в корзине
+
+        _this.cart_products_total_quantity = [];
+
+        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
+          var _value = _Object$values2[_i2];
+
+          _this.cart_products_total_quantity.push(parseInt(_value['quantity']));
         }
 
         _this.cart_products_total_quantity = _this.cart_products_total_quantity.reduce(function (a, b) {
@@ -2796,25 +2832,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.cart_addons_total_quantity = [];
 
-        for (var _i2 = 0, _Object$values2 = Object.values(response.data); _i2 < _Object$values2.length; _i2++) {
-          var _value = _Object$values2[_i2];
-
-          _this.cart_addons_total_quantity.push(parseInt(_value['addons_array'].length));
-        }
-
-        _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
-          return a + b;
-        }, 0); // итоговая цена корзины
-
-        _this.cart_total_price = [];
-
         for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
           var _value2 = _Object$values3[_i3];
 
-          _this.cart_total_price.push(parseInt(_value2['price_total']));
+          _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
         }
 
-        _this.cart_total_price = _this.cart_total_price.reduce(function (a, b) {
+        _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
           return a + b;
         }, 0);
       });
@@ -2828,8 +2852,8 @@ __webpack_require__.r(__webpack_exports__);
         var cartItem = _Object$values4[_i4];
         cartItemsArray.push({
           "id": cartItem.id,
-          "price": cartItem.base_price,
-          "addons_array": cartItem.addons_array
+          "price": cartItem.price,
+          "addons_selected": cartItem.addons_selected
         });
       }
 
@@ -21590,6 +21614,8 @@ var render = function() {
                         "div",
                         { key: "addon_" + addon.id, staticClass: "form-check" },
                         [
+                          cartItem.addons_selected &&
+                          cartItem.addons_selected.length > 0 &&
                           cartItem.addons_selected
                             .map(function(x) {
                               return x.id
@@ -21641,8 +21667,17 @@ var render = function() {
                               _vm._v(
                                 "\n                                " +
                                   _vm._s(addon.name) +
-                                  " \n                            "
-                              )
+                                  " "
+                              ),
+                              _c("span", { staticStyle: { color: "#888" } }, [
+                                _vm._v(
+                                  _vm._s(
+                                    addon.pivot.price
+                                      .toString()
+                                      .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                                  ) + " ₽"
+                                )
+                              ])
                             ]
                           )
                         ]
@@ -21708,7 +21743,13 @@ var render = function() {
                               _vm._s(
                                 (parseInt(cartItem.price) +
                                   parseInt(
-                                    cartItem.addons_selected[0].pivot.price
+                                    cartItem.addons_selected
+                                      .map(function(x) {
+                                        return parseInt(x.pivot.price)
+                                      })
+                                      .reduce(function(a, b) {
+                                        return a + b
+                                      }, 0)
                                   )) *
                                   cartItem.quantity
                               )

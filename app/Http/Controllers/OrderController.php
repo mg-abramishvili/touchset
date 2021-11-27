@@ -26,13 +26,11 @@ class OrderController extends Controller
             $orderItem->save();
             $order->orderItems()->attach($orderItem->id, ['order_id' => $order->id]);
 
-            $addons_array = $orderItemsArray[$orderItemsArrayItem]["addons_array"];
+            $addons_selected = $orderItemsArray[$orderItemsArrayItem]["addons_selected"];
             
-            for ($addonItem=0; $addonItem < count($addons_array); $addonItem++) {
-                $addon = Addon::find($addons_array[$addonItem]);
-
-                $orderItem->addons()->attach($addon->id, [
-                    'price' => $addon->products()->where('product_id', $orderItem->product_id)->first()->pivot->price,
+            for ($addonItem=0; $addonItem < count($addons_selected); $addonItem++) {
+                $orderItem->addons()->attach($addons_selected[$addonItem]["id"], [
+                    'price' => $addons_selected[$addonItem]["pivot"]["price"],
                 ]);
             }
         }
