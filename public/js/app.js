@@ -2117,30 +2117,45 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       cart: '',
-      cart_amount: '',
-      cart_price: ''
+      cart_products_total_quantity: '',
+      cart_total_price: ''
     };
   },
   methods: {
     getCartInfo: function getCartInfo() {
-      this.cart_amount = [];
+      // общая стоимость корзины
+      this.cart_total_price = [];
 
       for (var _i = 0, _Object$values = Object.values(this.cart); _i < _Object$values.length; _i++) {
         var value = _Object$values[_i];
-        this.cart_amount.push(parseInt(value['quantity']));
+        var cartItem_product_price = parseInt(value.price);
+        var cartItem_quantity = parseInt(value.quantity);
+
+        if (value.addons_selected && value.addons_selected.length > 0) {
+          var cartItem_addons_price = value.addons_selected.map(function (x) {
+            return parseInt(x.pivot.price);
+          }).reduce(function (a, b) {
+            return a + b;
+          }, 0);
+        } else {
+          var cartItem_addons_price = 0;
+        }
+
+        this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity);
       }
 
-      this.cart_amount = this.cart_amount.reduce(function (a, b) {
+      this.cart_total_price = this.cart_total_price.reduce(function (a, b) {
         return a + b;
-      }, 0);
-      this.cart_price = [];
+      }, 0); // общее количество товаров в корзине
+
+      this.cart_products_total_quantity = [];
 
       for (var _i2 = 0, _Object$values2 = Object.values(this.cart); _i2 < _Object$values2.length; _i2++) {
         var _value = _Object$values2[_i2];
-        this.cart_price.push(parseInt(_value['price_total']));
+        this.cart_products_total_quantity.push(parseInt(_value['quantity']));
       }
 
-      this.cart_price = this.cart_price.reduce(function (a, b) {
+      this.cart_products_total_quantity = this.cart_products_total_quantity.reduce(function (a, b) {
         return a + b;
       }, 0);
     }
@@ -2698,7 +2713,9 @@ __webpack_require__.r(__webpack_exports__);
         for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
           var _value2 = _Object$values3[_i3];
 
-          _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
+          if (_value2['addons_selected'] && _value2['addons_selected'].length > 0) {
+            _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
+          }
         }
 
         _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
@@ -2914,7 +2931,9 @@ __webpack_require__.r(__webpack_exports__);
         for (var _i3 = 0, _Object$values3 = Object.values(response.data); _i3 < _Object$values3.length; _i3++) {
           var _value2 = _Object$values3[_i3];
 
-          _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
+          if (_value2['addons_selected'] && _value2['addons_selected'].length > 0) {
+            _this.cart_addons_total_quantity.push(parseInt(_value2['addons_selected'].length));
+          }
         }
 
         _this.cart_addons_total_quantity = _this.cart_addons_total_quantity.reduce(function (a, b) {
@@ -21323,19 +21342,21 @@ var render = function() {
     _c("span", [
       _c("strong", [_vm._v("В корзине")]),
       _vm._v(" "),
-      parseInt(_vm.cart_amount) > 0
+      parseInt(_vm.cart_products_total_quantity) > 0
         ? _c("small", [
             _c("i", [
               _vm._v(
-                _vm._s(_vm.cart_amount) +
+                _vm._s(_vm.cart_products_total_quantity) +
                   " " +
-                  _vm._s(_vm._f("dgt_products")(_vm.cart_amount))
+                  _vm._s(
+                    _vm._f("dgt_products")(_vm.cart_products_total_quantity)
+                  )
               )
             ]),
             _vm._v(
               ", " +
                 _vm._s(
-                  _vm.cart_price
+                  _vm.cart_total_price
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                 ) +

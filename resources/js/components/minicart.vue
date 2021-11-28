@@ -7,7 +7,7 @@
         </div>
         <span>
             <strong>В корзине</strong>
-            <small v-if="parseInt(cart_amount) > 0"><i>{{ cart_amount }} {{ cart_amount | dgt_products }}</i>, {{ cart_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</small>
+            <small v-if="parseInt(cart_products_total_quantity) > 0"><i>{{ cart_products_total_quantity }} {{ cart_products_total_quantity | dgt_products }}</i>, {{ cart_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</small>
             <small v-else>Нет товаров</small>
         </span>
     </a>   
@@ -20,23 +20,32 @@
         data() {
             return {
                 cart: '',
-                cart_amount: '',
-                cart_price: '',
+                cart_products_total_quantity: '',
+                cart_total_price: '',
             };
         },
         methods: {
             getCartInfo() {
-                this.cart_amount = []
-                for (let value of Object.values(this.cart)) {
-                    this.cart_amount.push(parseInt(value['quantity']))
-                }
-                this.cart_amount = this.cart_amount.reduce((a, b) => a + b, 0)
+                    // общая стоимость корзины
+                    this.cart_total_price = []
+                    for (let value of Object.values(this.cart)) {
+                        var cartItem_product_price = parseInt(value.price)
+                        var cartItem_quantity = parseInt(value.quantity)
+                        if(value.addons_selected && value.addons_selected.length > 0) {
+                            var cartItem_addons_price = value.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0)
+                        } else {
+                            var cartItem_addons_price = 0
+                        }
+                        this.cart_total_price.push((cartItem_product_price + cartItem_addons_price) * cartItem_quantity)
+                    }
+                    this.cart_total_price = this.cart_total_price.reduce((a, b) => a + b, 0)
 
-                this.cart_price = []
-                for (let value of Object.values(this.cart)) {
-                    this.cart_price.push(parseInt(value['price_total']))
-                }
-                this.cart_price = this.cart_price.reduce((a, b) => a + b, 0)
+                    // общее количество товаров в корзине
+                    this.cart_products_total_quantity = []
+                    for (let value of Object.values(this.cart)) {
+                        this.cart_products_total_quantity.push(parseInt(value['quantity']))
+                    }
+                    this.cart_products_total_quantity = this.cart_products_total_quantity.reduce((a, b) => a + b, 0)
             },
         },
         mounted() {

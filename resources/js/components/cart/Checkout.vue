@@ -63,7 +63,9 @@
                     // общее количество допов (услуг) в корзине
                     this.cart_addons_total_quantity = []
                     for (let value of Object.values(response.data)) {
-                        this.cart_addons_total_quantity.push(parseInt(value['addons_selected'].length))
+                        if(value['addons_selected'] && value['addons_selected'].length > 0) {
+                            this.cart_addons_total_quantity.push(parseInt(value['addons_selected'].length))
+                        }
                     }
                     this.cart_addons_total_quantity = this.cart_addons_total_quantity.reduce((a, b) => a + b, 0)
                 }));
