@@ -336,7 +336,7 @@ body {
 }
 .home-categories-item a {
     display: block;
-    border: 1px solid #b5cdf2;
+    border: 2px solid #e1e8f4;
     padding: 20px;
     border-radius: 15px;
     position: relative;

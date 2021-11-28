@@ -27,8 +27,8 @@
                             <button @click="updateQuantityPlus(cartItem)" class="btn btn-sm">+</button>
                         </div>
                         <div class="col cart-item-col-price">
-                            <template v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0"><strong>{{ (parseInt(cartItem.price) + parseInt(cartItem.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0))) * cartItem.quantity }}</strong> ₽</template>
-                            <template v-else><strong>{{ (cartItem.price * cartItem.quantity) }}</strong> ₽</template>
+                            <template v-if="cartItem.addons_selected && cartItem.addons_selected.length > 0"><strong>{{ ((parseInt(cartItem.price) + parseInt(cartItem.addons_selected.map(x => parseInt(x.pivot.price)).reduce((a, b) => a + b, 0))) * cartItem.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}</strong> ₽</template>
+                            <template v-else><strong>{{ (cartItem.price * cartItem.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }}</strong> ₽</template>
                         </div>
                         <div class="col cart-item-col-del">
                             <button @click="remove(cartItem.sku)" class="btn btn-sm btn-outline-danger">&times;</button>
@@ -39,7 +39,7 @@
             <div class="col-12 col-lg-4">
                 <div class="cart-panel">
                     <h5>В корзине</h5>
-                    <p>{{ cart_products_total_quantity }} {{ cart_products_total_quantity | dgt_products }}, {{ cart_addons_total_quantity }} {{ cart_addons_total_quantity | dgt_addons }}</p>
+                    <p>{{ cart_products_total_quantity }} {{ cart_products_total_quantity | dgt_products }}<template v-if="cart_addons_total_quantity && cart_addons_total_quantity > 0">, {{ cart_addons_total_quantity }} {{ cart_addons_total_quantity | dgt_addons }}</template></p>
                     <h4>{{ cart_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }} ₽</h4>
                     <button @click="proceedToCheckout()" class="btn btn-standard">Перейти к оформлению</button>
                 </div>

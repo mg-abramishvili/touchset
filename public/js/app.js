@@ -22056,17 +22056,21 @@ var render = function() {
                           _c("strong", [
                             _vm._v(
                               _vm._s(
-                                (parseInt(cartItem.price) +
-                                  parseInt(
-                                    cartItem.addons_selected
-                                      .map(function(x) {
-                                        return parseInt(x.pivot.price)
-                                      })
-                                      .reduce(function(a, b) {
-                                        return a + b
-                                      }, 0)
-                                  )) *
+                                (
+                                  (parseInt(cartItem.price) +
+                                    parseInt(
+                                      cartItem.addons_selected
+                                        .map(function(x) {
+                                          return parseInt(x.pivot.price)
+                                        })
+                                        .reduce(function(a, b) {
+                                          return a + b
+                                        }, 0)
+                                    )) *
                                   cartItem.quantity
+                                )
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                               )
                             )
                           ]),
@@ -22074,7 +22078,13 @@ var render = function() {
                         ]
                       : [
                           _c("strong", [
-                            _vm._v(_vm._s(cartItem.price * cartItem.quantity))
+                            _vm._v(
+                              _vm._s(
+                                (cartItem.price * cartItem.quantity)
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                              )
+                            )
                           ]),
                           _vm._v(" ₽")
                         ]
@@ -22107,19 +22117,32 @@ var render = function() {
         _c("div", { staticClass: "cart-panel" }, [
           _c("h5", [_vm._v("В корзине")]),
           _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              _vm._s(_vm.cart_products_total_quantity) +
-                " " +
-                _vm._s(
-                  _vm._f("dgt_products")(_vm.cart_products_total_quantity)
-                ) +
-                ", " +
-                _vm._s(_vm.cart_addons_total_quantity) +
-                " " +
-                _vm._s(_vm._f("dgt_addons")(_vm.cart_addons_total_quantity))
-            )
-          ]),
+          _c(
+            "p",
+            [
+              _vm._v(
+                _vm._s(_vm.cart_products_total_quantity) +
+                  " " +
+                  _vm._s(
+                    _vm._f("dgt_products")(_vm.cart_products_total_quantity)
+                  )
+              ),
+              _vm.cart_addons_total_quantity &&
+              _vm.cart_addons_total_quantity > 0
+                ? [
+                    _vm._v(
+                      ", " +
+                        _vm._s(_vm.cart_addons_total_quantity) +
+                        " " +
+                        _vm._s(
+                          _vm._f("dgt_addons")(_vm.cart_addons_total_quantity)
+                        )
+                    )
+                  ]
+                : _vm._e()
+            ],
+            2
+          ),
           _vm._v(" "),
           _c("h4", [
             _vm._v(
