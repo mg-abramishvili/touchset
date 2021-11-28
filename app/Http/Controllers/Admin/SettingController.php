@@ -14,6 +14,11 @@ class SettingController extends Controller
         return view('admin.settings.index', compact('settings'));
     }
 
+    public function index_data()
+    {
+        return Setting::find(1);
+    }
+
     public function settings_update($id, Request $request)
     {
         $this->validate($request, [
@@ -28,7 +33,5 @@ class SettingController extends Controller
         $settings->schedule = $request->schedule;
 
         $settings->save();
-
-        return redirect()->route('admin_settings');
     }
 }
