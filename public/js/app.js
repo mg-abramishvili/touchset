@@ -2870,10 +2870,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      tel: '',
+      email: '',
       cart: '',
       cart_products_total_quantity: '',
       cart_addons_total_quantity: '',
@@ -2955,18 +2968,22 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/order-store", {
-        order_items: cartItemsArray
-      }).then(function (response) {
-        return _this2.completed = true, _this2.completed_order_number = response.data;
-      })["catch"](function (error) {
-        if (error.response) {
-          for (var key in error.response.data.errors) {
-            console.log(key);
-            alert(key);
+      if (this.tel && this.tel.length > 0) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/order-store", {
+          order_items: cartItemsArray,
+          tel: this.tel,
+          email: this.email
+        }).then(function (response) {
+          return _this2.completed = true, _this2.completed_order_number = response.data;
+        })["catch"](function (error) {
+          if (error.response) {
+            for (var key in error.response.data.errors) {
+              console.log(key);
+              alert(key);
+            }
           }
-        }
-      });
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -3062,6 +3079,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.added_to_cart = true;
 
         _this2.$root.$emit('update_cart', '1');
+
+        console.log(response.data);
       });
     }
   }
@@ -22197,7 +22216,65 @@ var render = function() {
   return _c("div", { staticClass: "cart-page" }, [
     _vm.completed == false
       ? _c("div", { staticClass: "checkout-fields" }, [
-          _vm._v("\n        " + _vm._s(_vm.cart) + "\n        "),
+          _vm._v("\n        " + _vm._s(_vm.cart) + "\n\n        "),
+          _c("div", { staticClass: "mb-3" }, [
+            _c("label", { staticClass: "form-label", attrs: { for: "tel" } }, [
+              _vm._v("Телефон")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tel,
+                  expression: "tel"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "tel", type: "text" },
+              domProps: { value: _vm.tel },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.tel = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-3" }, [
+            _c(
+              "label",
+              { staticClass: "form-label", attrs: { for: "email" } },
+              [_vm._v("E-mail")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "email", type: "text" },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
           _c(
             "button",
             {

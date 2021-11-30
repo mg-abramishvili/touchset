@@ -30,7 +30,7 @@ class CartController extends Controller
 
         if($request->addons) {
             $addons_selected_IDs = $request->addons;
-            $addons_selected = $product_addons->whereIn('id', $addons_selected_IDs);
+            $addons_selected = $product_addons->whereIn('id', $addons_selected_IDs)->values()->all();
             $sku = $id; 
             foreach($product->addons as $addon) {
                 foreach($addons_selected as $addon_selected) {

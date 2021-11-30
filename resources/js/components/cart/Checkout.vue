@@ -3,6 +3,17 @@
 
         <div v-if="completed == false" class="checkout-fields">
             {{cart}}
+
+            <div class="mb-3">
+                <label for="tel" class="form-label">Телефон</label>
+                <input v-model="tel" id="tel" type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input v-model="email" id="email" type="text" class="form-control">
+            </div>
+
             <button @click="saveOrder()">Оформить заказ</button>
         </div>
         
@@ -21,6 +32,9 @@
     export default {
         data() {
             return {
+                tel: '',
+                email: '',
+
                 cart: '',
                 cart_products_total_quantity: '',
                 cart_addons_total_quantity: '',
@@ -80,20 +94,22 @@
                     })
                 }
 
-                axios
-                .post(`/order-store`, { order_items: cartItemsArray })
-                .then(response => (
-                    this.completed = true,
-                    this.completed_order_number = response.data
-                ))
-                .catch((error) => {
-                    if(error.response) {
-                        for(var key in error.response.data.errors){
-                            console.log(key)
-                            alert(key)
+                if(this.tel && this.tel.length > 0) {
+                    axios
+                    .post(`/order-store`, { order_items: cartItemsArray, tel: this.tel, email: this.email })
+                    .then(response => (
+                        this.completed = true,
+                        this.completed_order_number = response.data
+                    ))
+                    .catch((error) => {
+                        if(error.response) {
+                            for(var key in error.response.data.errors){
+                                console.log(key)
+                                alert(key)
+                            }
                         }
-                    }
-                });
+                    });
+                }
             },
         },
         mounted() {

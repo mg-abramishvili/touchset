@@ -15,8 +15,8 @@ class OrderController extends Controller
         $orderItemsArray = $request->order_items;
 
         $order = new Order();
-        $order->tel = '987654321';
-        $order->email = '1@1.net';
+        $order->tel = $request->tel;
+        $order->email = $request->email;
         $order->save();
 
         for ($orderItemsArrayItem=0; $orderItemsArrayItem < count($orderItemsArray); $orderItemsArrayItem++) {
