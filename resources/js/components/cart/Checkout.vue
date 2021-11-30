@@ -14,6 +14,8 @@
                 <input v-model="email" id="email" type="text" class="form-control">
             </div>
 
+            {{cart_total_price}}
+
             <button @click="saveOrder()">Оформить заказ</button>
         </div>
         

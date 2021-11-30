@@ -2881,6 +2881,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -22274,7 +22276,9 @@ var render = function() {
               }
             })
           ]),
-          _vm._v(" "),
+          _vm._v(
+            "\n\n        " + _vm._s(_vm.cart_total_price) + "\n\n        "
+          ),
           _c(
             "button",
             {
