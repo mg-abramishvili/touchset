@@ -2,6 +2,7 @@
 <html lang="ru">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -35,13 +36,13 @@
                                             <a href="#" class="nav-link">Доставка и оплата</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('page', ['slug' => 'contacts']) }}" class="nav-link">Контакты</a>
+                                            <a href="{{ route('page', ['slug' => 'contacts'], false) }}" class="nav-link">Контакты</a>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
                             <div class="header-top-search">
-                                <form action="{{ route('product_search') }}">
+                                <form action="{{ route('product_search', [], false) }}">
                                     <input name="search" type="text" class="form-control" placeholder="Поиск по магазину..." required>
                                     <input type="submit" value="">
                                 </form>
@@ -53,12 +54,12 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="header-bottom-logo">
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('home', [], false) }}">
                                     <img src="/img/logo.svg" alt="">
                                 </a>
                             </div>
                             <div class="header-bottom-catalog">
-                                <a href="{{ route('categories') }}">
+                                <a href="{{ route('categories', [], false) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
                                     </svg>
@@ -95,7 +96,7 @@
                                 </a>
                             </div>
                             <div class="header-top-search">
-                                <form action="{{ route('product_search') }}">
+                                <form action="{{ route('product_search', [], false) }}">
                                     <input name="search" type="text" class="form-control" placeholder="Поиск по магазину..." required>
                                     <input type="submit" value="">
                                 </form>
@@ -107,7 +108,7 @@
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="header-bottom-logo">
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('home', [], false) }}">
                                     <img src="/img/logo.svg" alt="TachLab - ТачЛаб">
                                 </a>
                             </div>
@@ -115,16 +116,16 @@
                                 <nav>
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            <a href="{{ route('categories') }}" class="nav-link">Магазин</a>
+                                            <a href="{{ route('categories', [], false) }}" class="nav-link">Магазин</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('page', ['slug' => 'contacts']) }}" class="nav-link">Контакты</a>
+                                            <a href="{{ route('page', ['slug' => 'contacts'], false) }}" class="nav-link">Контакты</a>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
                             <div class="header-bottom-cart">
-                                <a href="{{ route('cart') }}">
+                                <a href="{{ route('cart', [], false) }}">
                                     <minicart></minicart>
                                 </a>
                             </div>
@@ -139,7 +140,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="footer-logo">
-                            <a href="{{ route('home') }}">
+                            <a href="{{ route('home', [], false) }}">
                                 <img src="/img/logo.svg" alt="TachLab - ТачЛаб">
                             </a>
                         </div>
