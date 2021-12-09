@@ -2285,6 +2285,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2301,6 +2325,8 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       name: '',
       price: '',
       description: '',
+      meta_title: '',
+      meta_description: '',
       category: '',
       gallery: [],
       attribute: [],
@@ -2383,6 +2409,32 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           _this.description = response.data.description;
         }
 
+        if (response.data.meta_title && response.data.meta_title.length > 0) {
+          _this.meta_title = response.data.meta_title;
+        }
+
+        if (response.data.meta_description && response.data.meta_description.length > 0) {
+          _this.meta_description = response.data.meta_description;
+        }
+
+        if (response.data.is_new == 1) {
+          _this.is_new = true;
+        } else {
+          _this.is_new = false;
+        }
+
+        if (response.data.is_popular == 1) {
+          _this.is_popular = true;
+        } else {
+          _this.is_popular = false;
+        }
+
+        if (response.data.is_onsale == 1) {
+          _this.is_onsale = true;
+        } else {
+          _this.is_onsale = false;
+        }
+
         if (response.data.gallery) {
           _this.filepond_gallery_edit = response.data.gallery.map(function (element) {
             {
@@ -2461,6 +2513,11 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           name: this.name,
           price: this.price,
           description: this.description,
+          meta_title: this.meta_title,
+          meta_description: this.meta_description,
+          is_new: this.is_new,
+          is_popular: this.is_popular,
+          is_onsale: this.is_onsale,
           category: this.category,
           attribute: this.attribute,
           gallery: this.gallery
@@ -21657,7 +21714,136 @@ var render = function() {
           ],
           staticClass: "box-tab-content"
         },
-        [_vm._v("\n            Теги\n        ")]
+        [
+          _c("div", { staticClass: "form-check form-switch mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.is_new,
+                  expression: "is_new"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: { id: "is_new", type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.is_new)
+                  ? _vm._i(_vm.is_new, null) > -1
+                  : _vm.is_new
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.is_new,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.is_new = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.is_new = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.is_new = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-check form-switch mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.is_popular,
+                  expression: "is_popular"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: { id: "is_popular", type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.is_popular)
+                  ? _vm._i(_vm.is_popular, null) > -1
+                  : _vm.is_popular
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.is_popular,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.is_popular = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.is_popular = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.is_popular = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(1)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-check form-switch mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.is_onsale,
+                  expression: "is_onsale"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: { id: "is_onsale", type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.is_onsale)
+                  ? _vm._i(_vm.is_onsale, null) > -1
+                  : _vm.is_onsale
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.is_onsale,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.is_onsale = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.is_onsale = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.is_onsale = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ]
       ),
       _vm._v(" "),
       _c(
@@ -21673,7 +21859,75 @@ var render = function() {
           ],
           staticClass: "box-tab-content"
         },
-        [_vm._v("\n            SEO\n        ")]
+        [
+          _c("div", { staticClass: "mb-3" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6 text-end" }, [
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v(_vm._s(_vm.meta_title.length) + " из 60")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.meta_title,
+                  expression: "meta_title"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.meta_title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.meta_title = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-3" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6 text-end" }, [
+                _c("span", { staticClass: "text-muted" }, [
+                  _vm._v(_vm._s(_vm.meta_description.length) + " из 160")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.meta_description,
+                  expression: "meta_description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.meta_description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.meta_description = $event.target.value
+                }
+              }
+            })
+          ])
+        ]
       ),
       _vm._v(" "),
       _c(
@@ -21692,7 +21946,63 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-check-label", attrs: { for: "is_new" } },
+      [
+        _vm._v("Показывать в блоке "),
+        _c("strong", [_vm._v("Новые разработки")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-check-label", attrs: { for: "is_popular" } },
+      [
+        _vm._v("Показывать в блоке "),
+        _c("strong", [_vm._v("Популярные решения для киосков")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-check-label", attrs: { for: "is_onsale" } },
+      [
+        _vm._v("Показывать в блоке "),
+        _c("strong", [_vm._v("Специальное предложение")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-6" }, [
+      _c("label", { staticClass: "form-label" }, [_vm._v("Title")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-6" }, [
+      _c("label", { staticClass: "form-label" }, [_vm._v("Meta Description")])
+    ])
+  }
+]
 render._withStripped = true
 
 

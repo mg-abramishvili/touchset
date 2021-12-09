@@ -1,6 +1,6 @@
 @extends('layouts.front')
-@section('title', $product->name)
-@section('description', $product->description)
+@section('title', $product->meta_title)
+@section('description', $product->meta_description)
 @section('content')
 <div class="product-page">
     <div class="container">

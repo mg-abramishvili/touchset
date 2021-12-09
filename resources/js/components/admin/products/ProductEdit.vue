@@ -53,11 +53,35 @@
             </div>
 
             <div v-show="current_tab == 'tags'" class="box-tab-content">
-                Теги
+                <div class="form-check form-switch mb-3">
+                    <input v-model="is_new" class="form-check-input" id="is_new" type="checkbox">
+                    <label class="form-check-label" for="is_new">Показывать в блоке <strong>Новые разработки</strong></label>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input v-model="is_popular" class="form-check-input" id="is_popular" type="checkbox">
+                    <label class="form-check-label" for="is_popular">Показывать в блоке <strong>Популярные решения для киосков</strong></label>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input v-model="is_onsale" class="form-check-input" id="is_onsale" type="checkbox">
+                    <label class="form-check-label" for="is_onsale">Показывать в блоке <strong>Специальное предложение</strong></label>
+                </div>
             </div>
 
             <div v-show="current_tab == 'seo'" class="box-tab-content">
-                SEO
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-6"><label class="form-label">Title</label></div>
+                        <div class="col-6 text-end"><span class="text-muted">{{ meta_title.length }} из 60</span></div>
+                    </div>
+                    <input v-model="meta_title" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-6"><label class="form-label">Meta Description</label></div>
+                        <div class="col-6 text-end"><span class="text-muted">{{ meta_description.length }} из 160</span></div>
+                    </div>
+                    <input v-model="meta_description" type="text" class="form-control">
+                </div>
             </div>
 
             <button :disabled="updateProduct_button == false"  @click="updateProduct(product.id)" class="btn btn-primary">Сохранить</button>
@@ -87,6 +111,8 @@
                 name: '',
                 price: '',
                 description: '',
+                meta_title: '',
+                meta_description: '',
                 category: '',
                 gallery: [],
                 attribute: [],
@@ -171,6 +197,16 @@
                     if(response.data.description && response.data.description.length > 0) {
                         this.description = response.data.description
                     }
+                    if(response.data.meta_title && response.data.meta_title.length > 0) {
+                        this.meta_title = response.data.meta_title
+                    }
+                    if(response.data.meta_description && response.data.meta_description.length > 0) {
+                        this.meta_description = response.data.meta_description
+                    }
+
+                    if(response.data.is_new == 1) { this.is_new = true } else { this.is_new = false }
+                    if(response.data.is_popular == 1) { this.is_popular = true } else { this.is_popular = false }
+                    if(response.data.is_onsale == 1) { this.is_onsale = true } else { this.is_onsale = false }
 
                     if(response.data.gallery) {
                         this.filepond_gallery_edit = response.data.gallery.map(function(element){
@@ -241,7 +277,7 @@
                     this.updateProduct_button = false
 
                     axios
-                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
                     .then(response => (
                         //setTimeout(() => this.updateProduct_button = true, 1000),
                         window.location.href = '/admin/products'

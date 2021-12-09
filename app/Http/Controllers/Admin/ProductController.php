@@ -69,6 +69,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
+        $product->meta_title = $request->meta_title;
+        $product->meta_description = $request->meta_description;
 
         if (!isset($request->gallery)) {
             $request->gallery = [];
