@@ -124,7 +124,7 @@
             </div>
         </div>
         
-        <script src="{{ mix('/js/app.js') }}" defer></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
         @yield('scripts')
     </body>
 </html>
