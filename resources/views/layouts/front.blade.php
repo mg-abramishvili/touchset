@@ -20,7 +20,7 @@
             </div>-->
         @endauth
 
-        <div id="app">
+        <div id="appa">
             <header>
                 <div class="header-top">
                     <div class="container">
