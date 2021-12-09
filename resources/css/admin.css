@@ -1,22 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
-
-/* html,body {
-    background: linear-gradient(to right, 
-        #1C2226 16.66666667%, 
-        #ECEFF4 0
-    );
-} */
-
-body {
+body.admin_panel {
     font-family: 'Raleway', sans-serif;
     font-size: 17px;
     color: #242424;
     -webkit-font-feature-settings: "lnum";
     -moz-font-feature-settings: "lnum";
     font-feature-settings: "lnum";
-}
-
-.admin_panel {
     background-color: #ECEFF4;
 }
 
@@ -192,30 +180,30 @@ body {
     min-height: 150px;
 }
 
-.box-tabs {
+.admin_panel .box-tabs {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
 }
 
-.box-tabs li {
+.admin_panel .box-tabs li {
     background-color: rgb(247, 247, 247);
     padding: 12px 20px 14px 20px;
     border-top: 2px solid transparent;
     font-weight: 600;
     font-size: 15px;
 }
-.box-tabs li:hover {
+.admin_panel .box-tabs li:hover {
     cursor: pointer;
 }
-.box-tabs li.active {
+.admin_panel .box-tabs li.active {
     border-color: #1D88D8;
     background-color: #fff;
     border-bottom: 0;
 }
 
-.box-save-panel {
+.admin_panel .box-save-panel {
     border: 1px solid #eee;
     border-top: 2px solid #1D88D8;
     padding: 15px;

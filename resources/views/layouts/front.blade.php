@@ -11,9 +11,7 @@
 
         <meta name="description" content="@yield('description')">
 
-        <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-        {{-- <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet" /> --}}
-        <link href="/css/style.css" type="text/css" rel="stylesheet"/>
+        <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
     </head>
     <body>
         @auth
@@ -147,8 +145,7 @@
             </footer>
         </div>
         
-        {{-- <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
-        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-        @yield('scripts') --}}
+        <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+        @yield('scripts')
     </body>
 </html>
