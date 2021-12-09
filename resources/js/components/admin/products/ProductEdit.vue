@@ -1,6 +1,5 @@
 <template>
     <div>
-    <div v-if="product && product.name && product.name.length > 0">
         <ul class="box-tabs">
             <li @click="selectTab('general')" :class="{ 'active' : current_tab == 'general'}">Общая информация</li>
             <li @click="selectTab('attributes')" :class="{ 'active' : current_tab == 'attributes'}">Характеристики</li>
@@ -63,10 +62,6 @@
 
             <button :disabled="updateProduct_button == false"  @click="updateProduct(product.id)" class="btn btn-primary">Сохранить</button>
         </div>
-    </div>
-    <!--<div v-else class="spinner-border text-primary" role="status">
-    <span class="sr-only"></span>
-    </div>-->
     </div>
 </template>
 

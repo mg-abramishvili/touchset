@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 
+html {
+    scroll-behavior: initial !important;
+}
+
 body.admin_panel {
     font-family: 'Raleway', sans-serif;
     font-size: 17px;
@@ -282,4 +286,10 @@ body.admin_panel {
 
 .filepond--root .filepond--credits {
     display: none !important;
+}
+.filepond--item {
+    width: 24%;
+    height: 150px !important;
+    overflow: hidden;
+    border-radius: 10px;
 }

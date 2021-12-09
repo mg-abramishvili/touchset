@@ -10,8 +10,24 @@
         <title>@yield('title')</title>
 
         <meta name="description" content="@yield('description')">
+		<meta name="robots" content="max-image-preview:large" />
+		<link rel="canonical" href="https://tachlab.ru/product/17-vstraivaemyj-sensornyj-monitor/" />
+		<meta property="og:locale" content="ru_RU" />
+		<meta property="og:site_name" content="Tachlab - сенсорные мониторы купить по цене производителя" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="17″ Встраиваемый сенсорный монитор - сенсорные мониторы купить по цене производителя " />
+		<meta property="og:description" content="Tachlab - Компания Тач лаб предоставляет возможность купить сенсорный монитор 17 дюймов по цене производителя из наличия оптом и в розницу. На нашем складе всегда присутствуют ходовые модели интерактивных мониторов. Уточнить актуальную цену, условия покупки и доставки встраиваемого монитора 17” вы можете по телефону или отправить заявку на почту info@tachlab.ru. Звоните бесплатно по всей России по телефону […]" />
+		<meta property="og:url" content="https://tachlab.ru/product/17-vstraivaemyj-sensornyj-monitor/" />
+		<meta property="article:published_time" content="2021-10-19T10:09:46+00:00" />
+		<meta property="article:modified_time" content="2021-11-30T09:52:03+00:00" />
+		<meta property="article:publisher" content="https://www.facebook.com/dreamapp.ru" />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:domain" content="tachlab.ru" />
+		<meta name="twitter:title" content="17″ Встраиваемый сенсорный монитор - сенсорные мониторы купить по цене производителя " />
+		<meta name="twitter:description" content="Tachlab - Компания Тач лаб предоставляет возможность купить сенсорный монитор 17 дюймов по цене производителя из наличия оптом и в розницу. На нашем складе всегда присутствуют ходовые модели интерактивных мониторов. Уточнить актуальную цену, условия покупки и доставки встраиваемого монитора 17” вы можете по телефону или отправить заявку на почту info@tachlab.ru. Звоните бесплатно по всей России по телефону […]" />
 
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet"/>
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
@@ -80,7 +96,18 @@
                                 </div>
                             </div>
                             <div class="header-bottom-cart">
-                                <mini-cart></mini-cart>
+                                <a href="/cart">
+                                    <div class="header-bottom-cart-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                                        </svg>
+                                    </div>
+                                    <span>
+                                        <strong>В корзине</strong>
+                                        <mini-cart></mini-cart>
+                                        <div style="display: inline-block">&nbsp;</div>
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -146,7 +173,8 @@
             </footer>
         </div>
         
-        {{-- <script src="{{ mix('/js/app.js') }}"></script> --}}
+        <script src="{{ mix('/js/app.js') }}"></script>
+        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
         @yield('scripts')
     </body>
 </html>

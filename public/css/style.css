@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap');
 
+html {
+    scroll-behavior: initial !important;
+}
+
 body {
     font-family: 'Jost', sans-serif;
     font-size: 18px;
@@ -501,6 +505,9 @@ body {
 }
 .product-details .btn-outline-standard {
     margin-left: 15px;
+}
+.product-details .btn-outline-standard:nth-child(1) {
+    margin-left: 0;
 }
 .product-description {
     margin: 50px 0;
