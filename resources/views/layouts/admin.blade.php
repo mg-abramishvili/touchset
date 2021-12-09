@@ -12,7 +12,7 @@
         <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
     </head>
     <body class="admin_panel" style="min-height: 100vh;">
-        <div id="appa">
+        <div id="test">
             <div class="container-fluid">
                 <div class="row">
                     @auth
