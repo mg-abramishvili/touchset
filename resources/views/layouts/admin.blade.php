@@ -11,7 +11,6 @@
         
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
         <link href="/css/admin.css" type="text/css" rel="stylesheet"/>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     </head>
     <body class="admin_panel" style="min-height: 100vh;">
         <div id="app">
@@ -126,6 +125,7 @@
             </div>
         </div>
         
+        <script src="{{ mix('/js/app.js') }}"></script>
         @yield('scripts')
     </body>
 </html>
