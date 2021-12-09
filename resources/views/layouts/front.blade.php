@@ -11,7 +11,9 @@
 
         <meta name="description" content="@yield('description')">
 
-        <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+        <link href="/css/style.css" type="text/css" rel="stylesheet"/>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     </head>
     <body>
         @auth
