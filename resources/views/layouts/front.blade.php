@@ -4,14 +4,15 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <meta name="description" content="@yield('description')">
 
         <title>@yield('title')</title>
 
+        <meta name="description" content="@yield('description')">
+
         <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-        <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet" />
+        {{-- <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet" /> --}}
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
@@ -80,58 +81,11 @@
                                 </div>
                             </div>
                             <div class="header-bottom-cart">
-                                <mini-cart></mini-cart>
+                                {{-- <mini-cart></mini-cart> --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--
-                <div class="header-top">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="header-top-tel">
-                                <a>{{App\Http\Controllers\SettingController::index()->email}}</a>
-                                <a href="tel: +7{!! substr(str_replace(array(' ', '-', '+'), '', App\Http\Controllers\SettingController::index()->tel), 1) !!}">
-                                    {{App\Http\Controllers\SettingController::index()->tel}}
-                                </a>
-                            </div>
-                            <div class="header-top-search">
-                                <form action="{{ route('product_search', [], false) }}">
-                                    <input name="search" type="text" class="form-control" placeholder="Поиск по магазину..." required>
-                                    <input type="submit" value="">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="header-bottom">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="header-bottom-logo">
-                                <a href="{{ route('home', [], false) }}">
-                                    <img src="/img/logo.svg" alt="TachLab - ТачЛаб">
-                                </a>
-                            </div>
-                            <div class="header-bottom-nav">
-                                <nav>
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="{{ route('categories', [], false) }}" class="nav-link">Магазин</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ route('page', ['slug' => 'contacts'], false) }}" class="nav-link">Контакты</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="header-bottom-cart">
-                                <a href="{{ route('cart', [], false) }}">
-                                    <minicart></minicart>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
             </header>
             
             @yield('content')
@@ -193,8 +147,8 @@
             </footer>
         </div>
         
-        <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+        {{-- <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
         <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-        @yield('scripts')
+        @yield('scripts') --}}
     </body>
 </html>
