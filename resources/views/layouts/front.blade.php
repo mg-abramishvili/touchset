@@ -193,7 +193,7 @@
             </footer>
         </div>
         
-        {{-- <script src="{{ mix('js/app.js') }}" type="text/javascript"></script> --}}
+        <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
         <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
         @yield('scripts')
     </body>
