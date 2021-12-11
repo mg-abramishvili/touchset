@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function item($id)
     {
-        return $product = Product::with('attributes', 'categories')->find($id);
+        return $product = Product::with('attributes', 'categories', 'addons')->find($id);
     }
 
     public function store(Request $request)

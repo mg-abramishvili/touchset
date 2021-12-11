@@ -29,6 +29,7 @@ class SettingController extends Controller
         $settings = Setting::find($id);
         $settings->tel = $request->tel;
         $settings->email = $request->email;
+        $settings->email_for_orders = $request->email_for_orders;
         $settings->address = $request->address;
         $settings->schedule = $request->schedule;
 

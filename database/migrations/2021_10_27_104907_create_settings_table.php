@@ -12,6 +12,7 @@ class CreateSettingsTable extends Migration
             $table->id();
             $table->string('tel');
             $table->string('email')->nullable();
+            $table->string('email_for_orders')->nullable();
             $table->string('address')->nullable();
             $table->string('schedule')->nullable();
             $table->timestamps();

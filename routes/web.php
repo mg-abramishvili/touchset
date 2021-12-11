@@ -57,6 +57,15 @@ Route::post('_admin/attributes','App\Http\Controllers\Admin\AttributeController@
 Route::put('_admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@update')->middleware('auth');
 Route::get('_admin/attribute/{id}/delete','App\Http\Controllers\Admin\AttributeController@delete')->middleware('auth');
 
+// ADMIN ADDONS
+Route::get('admin/addons','App\Http\Controllers\Admin\AddonController@index')->name('admin_addons')->middleware('auth');
+Route::get('admin/addons/create','App\Http\Controllers\Admin\AddonController@create')->name('admin_addons_create')->middleware('auth');
+Route::get('admin/addon/{id}','App\Http\Controllers\Admin\AddonController@edit')->name('admin_addon_edit')->middleware('auth');
+Route::get('_admin/addons','App\Http\Controllers\Admin\AddonController@index_data')->middleware('auth');
+Route::post('_admin/addons','App\Http\Controllers\Admin\AddonController@store')->middleware('auth');
+Route::put('_admin/addon/{id}','App\Http\Controllers\Admin\AddonController@update')->middleware('auth');
+Route::get('_admin/addon/{id}/delete','App\Http\Controllers\Admin\AddonController@delete')->middleware('auth');
+
 // ADMIN PAGES
 Route::get('admin/pages','App\Http\Controllers\Admin\PageController@index')->name('admin_pages')->middleware('auth');
 Route::get('admin/pages/create','App\Http\Controllers\Admin\PageController@pages_create')->name('admin_pages_create')->middleware('auth');

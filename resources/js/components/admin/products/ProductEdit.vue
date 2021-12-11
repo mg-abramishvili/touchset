@@ -5,37 +5,57 @@
             <li @click="selectTab('attributes')" :class="{ 'active' : current_tab == 'attributes'}">Характеристики</li>
             <li @click="selectTab('gallery')" :class="{ 'active' : current_tab == 'gallery'}">Галерея</li>
             <li @click="selectTab('tags')" :class="{ 'active' : current_tab == 'tags'}">Метки</li>
+            <li @click="selectTab('addons')" :class="{ 'active' : current_tab == 'addons'}">Допы</li>
             <li @click="selectTab('seo')" :class="{ 'active' : current_tab == 'seo'}">SEO</li>
         </ul>
-        <div class="box px-4 py-4">
+        <div class="box px-4 py-4 mb-4">
             <div v-show="current_tab == 'general'" class="box-tab-content">
-                <div class="mb-3">
-                    <label class="form-label">Наименование</label>
-                    <input v-model="name" type="text" class="form-control">
-                </div>
-                <div class="row mb-3">
-                    <div class="col-12 col-lg-8">
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-4">
+                        <label class="form-label">Наименование</label>
+                        <input v-model="name" type="text" class="form-control">
+                        <span class="text-muted"><small>https://touchset.ru/product/{{ slug }}</small></span>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-4">
                         <label class="form-label">Категория</label>
                         <select v-model="category" class="form-select">
                             <option v-for="cat in categories" :key="'cat_' + cat.id" :value="cat.id">{{ cat.name }}</option>
                         </select>
                     </div>
-                    <div class="col-12 col-lg-4">
-                        <label class="form-label">Цена</label>
-                        <input v-model="price" type="text" class="form-control">
+                </div>
+                <div class="row mb-4">
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label">Цена USD</label>
+                        <input v-model="pre_usd" type="text" class="form-control">
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label">Цена RUB</label>
+                        <input v-model="pre_rub" type="text" class="form-control">
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label">Курс USD <small>(на {{moment(usdKursDate).format('DD.MM.YYYY')}})</small></label>
+                        <input v-model="usdKurs" type="text" class="form-control" disabled>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label">Цена итоговая</label>
+                        <input v-model="price" type="text" class="form-control" disabled>
                     </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label">Описание</label>
                     <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
                 </div>
             </div>
             
             <div v-show="current_tab == 'attributes'" class="box-tab-content">
-                <div v-for="attribute in attributes" :key="'attribute_' + attribute.id" class="mb-3">
-                    <label :for="'attribute_' + attribute.id" class="form-label">{{ attribute.name }}</label>
-                    <input :id="'attribute_' + attribute.id" class="form-control">
+                <div v-for="attribute in attributes" :key="'attribute_' + attribute.id" class="row mb-4">
+                    <div class="col-12 col-lg-6">
+                        <label :for="'attribute_' + attribute.id" class="form-label">{{ attribute.name }}</label>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <input :id="'attribute_' + attribute.id" class="form-control">
+                    </div>
                 </div>
             </div>
             
@@ -53,29 +73,36 @@
             </div>
 
             <div v-show="current_tab == 'tags'" class="box-tab-content">
-                <div class="form-check form-switch mb-3">
+                <div class="form-check form-switch mb-4">
                     <input v-model="is_new" class="form-check-input" id="is_new" type="checkbox">
                     <label class="form-check-label" for="is_new">Показывать в блоке <strong>Новые разработки</strong></label>
                 </div>
-                <div class="form-check form-switch mb-3">
+                <div class="form-check form-switch mb-4">
                     <input v-model="is_popular" class="form-check-input" id="is_popular" type="checkbox">
                     <label class="form-check-label" for="is_popular">Показывать в блоке <strong>Популярные решения для киосков</strong></label>
                 </div>
-                <div class="form-check form-switch mb-3">
+                <div class="form-check form-switch mb-4">
                     <input v-model="is_onsale" class="form-check-input" id="is_onsale" type="checkbox">
                     <label class="form-check-label" for="is_onsale">Показывать в блоке <strong>Специальное предложение</strong></label>
                 </div>
             </div>
 
+            <div v-show="current_tab == 'addons'" class="box-tab-content">
+                <div v-for="addon in addons" :key="'addon_' + addon.id" class="mb-4">
+                    <label :for="'addon_' + addon.id" class="form-label">{{ addon.name }}</label>
+                    <input :id="'addon_' + addon.id" class="form-control">
+                </div>
+            </div>
+
             <div v-show="current_tab == 'seo'" class="box-tab-content">
-                <div class="mb-3">
+                <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Title</label></div>
                         <div class="col-6 text-end"><span class="text-muted">{{ meta_title.length }} из 60</span></div>
                     </div>
                     <input v-model="meta_title" type="text" class="form-control">
                 </div>
-                <div class="mb-3">
+                <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Meta Description</label></div>
                         <div class="col-6 text-end"><span class="text-muted">{{ meta_description.length }} из 160</span></div>
@@ -109,16 +136,25 @@
             return {
                 product: {},
                 name: '',
-                price: '',
+                slug: '',
+                pre_rub: '',
+                pre_usd: '',
                 description: '',
                 meta_title: '',
                 meta_description: '',
+                is_new: '',
+                is_popular: '',
+                is_onsale: '',
                 category: '',
                 gallery: [],
                 attribute: [],
 
+                usdKurs: '',
+                usdKursDate: '',
+
                 categories: [],
                 attributes: [],
+                addons: [],
 
                 filepond_gallery: [],
                 filepond_gallery_edit: [],
@@ -177,21 +213,48 @@
                         });
                     },
                 },
+
+                moment: moment,
             };
         },
         created() {
+            this.getUsdKurs()
             this.getProductInfo()
             this.getCategories()
             this.getAttributes()
+            this.getAddons()
+        },
+        computed: {
+            price: function () {
+                if(this.pre_rub && this.pre_rub.length > 0 || this.pre_usd && this.pre_usd.length > 0) {
+                    if(this.pre_rub && this.pre_rub.length > 0 && this.pre_usd && this.pre_usd.length > 0) {
+                        return Math.ceil((parseFloat(this.pre_rub) + (parseFloat(this.usdKurs) * parseFloat(this.pre_usd))) / 50) * 50
+                    } else if (!this.pre_rub) {
+                        return Math.ceil(parseFloat(parseFloat(this.usdKurs) * parseFloat(this.pre_usd) / 50)) * 50
+                    } else if (!this.pre_usd) {
+                        return Math.ceil(parseFloat(this.pre_rub) / 50) * 50
+                    }
+                } else {
+                    return 0
+                }
+            }
         },
         methods: {
+            getUsdKurs() {
+                axios
+                .get('https://www.cbr-xml-daily.ru/daily_json.js', { withCredentials: false })
+                .then(response => (
+                    this.usdKurs = response.data.Valute.USD.Value,
+                    this.usdKursDate = response.data.Date
+                ));
+            },
             getProductInfo() {
                 axios
                 .get(`/_admin/product/${this.product_id}`)
                 .then((response => {
                     this.product = response.data
                     this.name = response.data.name
-                    this.price = response.data.price
+                    this.slug = response.data.slug
                     this.category = response.data.categories[0].id
 
                     if(response.data.description && response.data.description.length > 0) {
@@ -236,7 +299,6 @@
                     this.attributes = response.data
                     setTimeout(() => {
                         this.getProductAttributes()
-                        this.updateProduct_button = true
                     }, 1000)
                 }));
             },
@@ -245,6 +307,26 @@
                     this.product.attributes.forEach((attr) => {
                         if(document.getElementById('attribute_' + attr.id)) {
                             document.getElementById('attribute_' + attr.id).value = attr.pivot.value
+                        }
+                    })
+                }
+            },
+            getAddons() {
+                axios
+                .get(`/_admin/addons`)
+                .then((response => {
+                    this.addons = response.data
+                    setTimeout(() => {
+                        this.getProductAddons()
+                        this.updateProduct_button = true
+                    }, 1000)
+                }));
+            },
+            getProductAddons() {
+                if(this.product && this.product.addons && this.product.addons.length > 0) {
+                    this.product.addons.forEach((addn) => {
+                        if(document.getElementById('addon_' + addn.id)) {
+                            document.getElementById('addon_' + addn.id).value = addn.pivot.price
                         }
                     })
                 }

@@ -14,9 +14,10 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->longText('description')->nullable();
             $table->longText('gallery')->nullable();
-            $table->decimal('price')->default(0);
+            $table->decimal('pre_rub')->default(0);
+            $table->decimal('pre_usd')->default(0);
+            $table->decimal('price');
             $table->string('meta_title')->nullable();
-            $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();
             $table->boolean('is_new')->nullable();
             $table->boolean('is_popular')->nullable();
