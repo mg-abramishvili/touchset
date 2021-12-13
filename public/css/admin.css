@@ -281,6 +281,14 @@ body.admin_panel {
     font-weight: normal;
 }
 
+.admin_panel .seo_input_add {
+    border-bottom: 1px dashed;
+    color: #1D88D8;
+    font-size: 13px;
+}
+.admin_panel .seo_input_add:hover {
+    cursor: pointer;
+}
 
 
 

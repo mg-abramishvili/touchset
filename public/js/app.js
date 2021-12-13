@@ -2644,6 +2644,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2659,12 +2666,12 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     return {
       category: {},
       name: '',
-      slug: '',
       description: '',
       description_show_code: false,
       meta_title: '',
       meta_description: '',
       cover: '',
+      parent_id: '',
       categories: [],
       filepond_cover: [],
       filepond_cover_edit: [],
@@ -2751,15 +2758,22 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     this.getCategoryInfo();
     this.getCategories();
   },
-  computed: {},
+  computed: {
+    slug: function slug() {
+      return this.slugify(this.name);
+    }
+  },
   methods: {
     getCategoryInfo: function getCategoryInfo() {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/_admin/category/".concat(this.category_id)).then(function (response) {
         _this.category = response.data;
-        _this.name = response.data.name;
-        _this.slug = response.data.slug;
+        _this.name = response.data.name; //this.slug = response.data.slug
+
+        if (response.data.parent_id && response.data.parent_id > 0) {
+          _this.parent_id = response.data.parent_id;
+        }
 
         if (response.data.description && response.data.description.length > 0) {
           _this.description = response.data.description;
@@ -2799,6 +2813,51 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       } else {
         this.description_show_code = true;
       }
+    },
+    seo_input_add: function seo_input_add() {
+      this.meta_title = this.meta_title + this.name;
+    },
+    slugify: function slugify(str) {
+      var ru = {
+        'а': 'a',
+        'б': 'b',
+        'в': 'v',
+        'г': 'g',
+        'д': 'd',
+        'е': 'e',
+        'ё': 'e',
+        'ж': 'zh',
+        'з': 'z',
+        'и': 'i',
+        'к': 'k',
+        'л': 'l',
+        'м': 'm',
+        'н': 'n',
+        'о': 'o',
+        'п': 'p',
+        'р': 'r',
+        'с': 's',
+        'т': 't',
+        'у': 'u',
+        'ф': 'f',
+        'х': 'kh',
+        'ц': 'ts',
+        'ч': 'ch',
+        'ш': 'sh',
+        'щ': 'shch',
+        'ы': 'y',
+        'э': 'e',
+        'ю': 'yu',
+        'я': 'ya'
+      },
+          n_str = [];
+      str = str.replace(/[ъь!'"/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
+
+      for (var i = 0; i < str.length; ++i) {
+        n_str.push(ru[str[i]] || ru[str[i].toLowerCase()] == undefined && str[i] || ru[str[i].toLowerCase()]);
+      }
+
+      return n_str.join('').replace(/\s+/g, '-');
     },
     updateCategory: function updateCategory(id) {
       var _this3 = this;
@@ -44994,10 +45053,38 @@ var render = function() {
           staticClass: "box-tab-content"
         },
         [
+          _c("div", { staticClass: "mb-4" }, [
+            _c("label", { staticClass: "form-label" }, [
+              _vm._v("Наименование")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [
               _c("label", { staticClass: "form-label" }, [
-                _vm._v("Наименование")
+                _vm._v("Символьный код")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -45005,26 +45092,28 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
+                    value: _vm.slug,
+                    expression: "slug"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text" },
-                domProps: { value: _vm.name },
+                domProps: { value: _vm.slug },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.name = $event.target.value
+                    _vm.slug = $event.target.value
                   }
                 }
               })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [
-              _c("label", { staticClass: "form-label" }, [_vm._v("Категория")]),
+              _c("label", { staticClass: "form-label" }, [
+                _vm._v("Вложить в категорию")
+              ]),
               _vm._v(" "),
               _c(
                 "select",
@@ -45033,8 +45122,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.category,
-                      expression: "category"
+                      value: _vm.parent_id,
+                      expression: "parent_id"
                     }
                   ],
                   staticClass: "form-select",
@@ -45048,20 +45137,24 @@ var render = function() {
                           var val = "_value" in o ? o._value : o.value
                           return val
                         })
-                      _vm.category = $event.target.multiple
+                      _vm.parent_id = $event.target.multiple
                         ? $$selectedVal
                         : $$selectedVal[0]
                     }
                   }
                 },
-                _vm._l(_vm.categories, function(cat) {
-                  return _c(
-                    "option",
-                    { key: "cat_" + cat.id, domProps: { value: cat.id } },
-                    [_vm._v(_vm._s(cat.name))]
-                  )
-                }),
-                0
+                [
+                  _vm._l(_vm.categories, function(cat) {
+                    return [
+                      cat.id !== _vm.category.id
+                        ? _c("option", { domProps: { value: cat.id } }, [
+                            _vm._v(_vm._s(cat.name))
+                          ])
+                        : _vm._e()
+                    ]
+                  })
+                ],
+                2
               )
             ])
           ]),
@@ -45224,7 +45317,20 @@ var render = function() {
                   _vm.meta_title = $event.target.value
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "seo_input_add",
+                on: {
+                  click: function($event) {
+                    return _vm.seo_input_add()
+                  }
+                }
+              },
+              [_vm._v("название товара")]
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "mb-4" }, [

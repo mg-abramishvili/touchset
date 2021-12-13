@@ -7,15 +7,21 @@
         </ul>
         <div class="box px-4 py-4 mb-4">
             <div v-show="current_tab == 'general'" class="box-tab-content">
+                <div class="mb-4">
+                    <label class="form-label">Наименование</label>
+                    <input v-model="name" type="text" class="form-control">
+                </div>
                 <div class="row">
                     <div class="col-12 col-lg-6 mb-4">
-                        <label class="form-label">Наименование</label>
-                        <input v-model="name" type="text" class="form-control">
+                        <label class="form-label">Символьный код</label>
+                        <input v-model="slug" type="text" class="form-control">
                     </div>
                     <div class="col-12 col-lg-6 mb-4">
-                        <label class="form-label">Категория</label>
-                        <select v-model="category" class="form-select">
-                            <option v-for="cat in categories" :key="'cat_' + cat.id" :value="cat.id">{{ cat.name }}</option>
+                        <label class="form-label">Вложить в категорию</label>
+                        <select v-model="parent_id" class="form-select">
+                            <template v-for="cat in categories">
+                                <option v-if="cat.id !== category.id" :value="cat.id">{{ cat.name }}</option>
+                            </template>
                         </select>
                     </div>
                 </div>
@@ -55,6 +61,7 @@
                         <div class="col-6 text-end"><span class="text-muted">{{ meta_title.length }} из 60</span></div>
                     </div>
                     <input v-model="meta_title" type="text" class="form-control">
+                    <span @click="seo_input_add()" class="seo_input_add">название товара</span>
                 </div>
                 <div class="mb-4">
                     <div class="row">
@@ -91,12 +98,12 @@ import AddToCartVue from '../../products/AddToCart.vue';
             return {
                 category: {},
                 name: '',
-                slug: '',
                 description: '',
                 description_show_code: false,
                 meta_title: '',
                 meta_description: '',
                 cover: '',
+                parent_id: '',
 
                 categories: [],
 
@@ -175,7 +182,9 @@ import AddToCartVue from '../../products/AddToCart.vue';
             this.getCategories()
         },
         computed: {
-            
+            slug: function () {
+            return this.slugify(this.name)
+            }
         },
         methods: {
             getCategoryInfo() {
@@ -184,8 +193,11 @@ import AddToCartVue from '../../products/AddToCart.vue';
                 .then((response => {
                     this.category = response.data
                     this.name = response.data.name
-                    this.slug = response.data.slug
+                    //this.slug = response.data.slug
 
+                    if(response.data.parent_id && response.data.parent_id > 0) {
+                        this.parent_id = response.data.parent_id
+                    }
                     if(response.data.description && response.data.description.length > 0) {
                         this.description = response.data.description
                     }
@@ -224,6 +236,31 @@ import AddToCartVue from '../../products/AddToCart.vue';
                 } else {
                     this.description_show_code = true
                 }
+            },
+            seo_input_add() {
+                this.meta_title = this.meta_title + this.name
+            },
+            slugify(str) {
+                var ru = {
+                    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
+                    'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i', 
+                    'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 
+                    'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 
+                    'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 
+                    'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+                }, n_str = [];
+                
+                str = str.replace(/[ъь!'"/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
+    
+                for ( var i = 0; i < str.length; ++i ) {
+                    n_str.push(
+                            ru[str[i]]
+                        || ru[str[i].toLowerCase()] == undefined && str[i]
+                        || ru[str[i].toLowerCase()]
+                    );
+                }
+                
+                return n_str.join('').replace(/\s+/g, '-')
             },
             updateCategory(id) {
                 this.attribute = []
