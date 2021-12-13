@@ -26,7 +26,8 @@
                             <label class="form-label">Описание</label>
                         </div>
                         <div class="col-6 text-end">
-                            <button @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">код</button>
+                            <button v-if="description_show_code == false" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">посмотреть код</button>
+                            <button v-if="description_show_code == true" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">визуальный редактор</button>
                         </div>
                     </div>
                     <ckeditor v-if="description_show_code == false" :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
@@ -109,7 +110,7 @@ import AddToCartVue from '../../products/AddToCart.vue';
                 editor: ClassicEditor,
                 editorData: '',
                 editorConfig: {
-                    toolbar: [ 'heading', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
+                    toolbar: [ 'heading', 'bold', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
                     heading: {
                         options: [
                             { model: 'paragraph', title: 'Тег P' },

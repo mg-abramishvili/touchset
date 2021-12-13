@@ -2643,6 +2643,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2672,7 +2673,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1___default()),
       editorData: '',
       editorConfig: {
-        toolbar: ['heading', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo'],
+        toolbar: ['heading', 'bold', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo'],
         heading: {
           options: [{
             model: 'paragraph',
@@ -45073,19 +45074,37 @@ var render = function() {
                 _vm._m(0),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-6 text-end" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-outline-secondary",
-                      staticStyle: { "font-size": "10px" },
-                      on: {
-                        click: function($event) {
-                          return _vm.description_show_code_toggle()
-                        }
-                      }
-                    },
-                    [_vm._v("код")]
-                  )
+                  _vm.description_show_code == false
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-secondary",
+                          staticStyle: { "font-size": "10px" },
+                          on: {
+                            click: function($event) {
+                              return _vm.description_show_code_toggle()
+                            }
+                          }
+                        },
+                        [_vm._v("посмотреть код")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.description_show_code == true
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-outline-secondary",
+                          staticStyle: { "font-size": "10px" },
+                          on: {
+                            click: function($event) {
+                              return _vm.description_show_code_toggle()
+                            }
+                          }
+                        },
+                        [_vm._v("визуальный редактор")]
+                      )
+                    : _vm._e()
                 ])
               ]),
               _vm._v(" "),
