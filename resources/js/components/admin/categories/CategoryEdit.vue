@@ -21,21 +21,29 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Описание</label>
-                    <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <label class="form-label">Описание</label>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">код</button>
+                        </div>
+                    </div>
+                    <ckeditor v-if="description_show_code == false" :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <textarea v-if="description_show_code == true" v-model="description" class="form-control"></textarea>
                 </div>
             </div>
             
-            <div v-show="current_tab == 'gallery'" class="box-tab-content">
+            <div v-show="current_tab == 'cover'" class="box-tab-content">
                 <file-pond
-                    name="gallery[]"
-                    ref="gallery"
-                    label-idle="Выбрать картинки..."
-                    v-bind:allow-multiple="true"
-                    v-bind:allow-reorder="true"
+                    name="cover"
+                    ref="cover"
+                    label-idle="Выбрать картинку..."
+                    v-bind:allow-multiple="false"
+                    v-bind:allow-reorder="false"
                     accepted-file-types="image/jpeg, image/png"
                     :server="server"
-                    v-bind:files="filepond_gallery_edit"
+                    v-bind:files="filepond_cover_edit"
                 />
             </div>
 
@@ -70,6 +78,7 @@
     import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
     import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
     import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import AddToCartVue from '../../products/AddToCart.vue';
     const FilePond = vueFilePond(
         FilePondPluginFileValidateType,
         FilePondPluginImagePreview
@@ -83,13 +92,15 @@
                 name: '',
                 slug: '',
                 description: '',
+                description_show_code: false,
                 meta_title: '',
                 meta_description: '',
+                cover: '',
 
                 categories: [],
 
-                filepond_gallery: [],
-                filepond_gallery_edit: [],
+                filepond_cover: [],
+                filepond_cover_edit: [],
 
                 current_tab: 'general',
 
@@ -98,7 +109,16 @@
                 editor: ClassicEditor,
                 editorData: '',
                 editorConfig: {
-                    toolbar: [ 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
+                    toolbar: [ 'heading', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Тег P' },
+                            { model: 'heading2', view: 'h2', title: 'Тег H2' },
+                            { model: 'heading3', view: 'h3', title: 'Тег H3' },
+                            { model: 'heading4', view: 'h4', title: 'Тег H4' },
+                            { model: 'heading5', view: 'h5', title: 'Тег H5' }
+                        ]
+                    }
                     //table: {
                     //    toolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
                     //},
@@ -175,17 +195,15 @@
                         this.meta_description = response.data.meta_description
                     }
 
-                    if(response.data.gallery) {
-                        this.filepond_gallery_edit = response.data.gallery.map(function(element){
+                    if(response.data.cover) {
+                        this.filepond_cover_edit = [
                             {
-                                return {
-                                    source: element,
-                                    options: {
-                                        type: 'local',
-                                    }
-                                } 
+                                source: response.data.cover,
+                                options: {
+                                    type: 'local',
+                                }
                             }
-                        })
+                        ]
                     }
                 }));
             },
@@ -199,6 +217,13 @@
             selectTab(tab) {
                 this.current_tab = tab
             },
+            description_show_code_toggle() {
+                if(this.description_show_code == true) {
+                    this.description_show_code = false
+                } else {
+                    this.description_show_code = true
+                }
+            },
             updateCategory(id) {
                 this.attribute = []
                 this.attributes.forEach((attr) => {
@@ -211,20 +236,15 @@
                     this.attribute.push({ id: attr.id, value: value_value })
                 })
                 
-                if(document.getElementsByName("gallery[]")) {
-                    this.gallery = []
-                    document.getElementsByName("gallery[]").forEach((galleryItem) => {
-                        if(galleryItem.value) {
-                            this.gallery.push(galleryItem.value)
-                        }
-                    });
+                if(document.getElementsByName("cover")[0]) {
+                    this.cover = document.getElementsByName("cover")[0].value
                 }
 
                 if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
                     this.updateCategory_button = false
 
                     axios
-                    .put(`/_admin/category/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .put(`/_admin/category/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, cover: this.cover })
                     .then(response => (
                         window.location.href = '/admin/categories'
                     ))

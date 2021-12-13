@@ -2571,6 +2571,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! filepond-plugin-image-preview */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js");
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _products_AddToCart_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../products/AddToCart.vue */ "./resources/js/components/products/AddToCart.vue");
 //
 //
 //
@@ -2634,6 +2635,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2650,17 +2660,41 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       name: '',
       slug: '',
       description: '',
+      description_show_code: false,
       meta_title: '',
       meta_description: '',
+      cover: '',
       categories: [],
-      filepond_gallery: [],
-      filepond_gallery_edit: [],
+      filepond_cover: [],
+      filepond_cover_edit: [],
       current_tab: 'general',
       updateCategory_button: false,
       editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1___default()),
       editorData: '',
       editorConfig: {
-        toolbar: ['bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo'] //table: {
+        toolbar: ['heading', 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo'],
+        heading: {
+          options: [{
+            model: 'paragraph',
+            title: 'Тег P'
+          }, {
+            model: 'heading2',
+            view: 'h2',
+            title: 'Тег H2'
+          }, {
+            model: 'heading3',
+            view: 'h3',
+            title: 'Тег H3'
+          }, {
+            model: 'heading4',
+            view: 'h4',
+            title: 'Тег H4'
+          }, {
+            model: 'heading5',
+            view: 'h5',
+            title: 'Тег H5'
+          }]
+        } //table: {
         //    toolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
         //},
         //extraPlugins: [this.uploader],
@@ -2738,17 +2772,13 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           _this.meta_description = response.data.meta_description;
         }
 
-        if (response.data.gallery) {
-          _this.filepond_gallery_edit = response.data.gallery.map(function (element) {
-            {
-              return {
-                source: element,
-                options: {
-                  type: 'local'
-                }
-              };
+        if (response.data.cover) {
+          _this.filepond_cover_edit = [{
+            source: response.data.cover,
+            options: {
+              type: 'local'
             }
-          });
+          }];
         }
       });
     },
@@ -2761,6 +2791,13 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     },
     selectTab: function selectTab(tab) {
       this.current_tab = tab;
+    },
+    description_show_code_toggle: function description_show_code_toggle() {
+      if (this.description_show_code == true) {
+        this.description_show_code = false;
+      } else {
+        this.description_show_code = true;
+      }
     },
     updateCategory: function updateCategory(id) {
       var _this3 = this;
@@ -2779,13 +2816,8 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
         });
       });
 
-      if (document.getElementsByName("gallery[]")) {
-        this.gallery = [];
-        document.getElementsByName("gallery[]").forEach(function (galleryItem) {
-          if (galleryItem.value) {
-            _this3.gallery.push(galleryItem.value);
-          }
-        });
+      if (document.getElementsByName("cover")[0]) {
+        this.cover = document.getElementsByName("cover")[0].value;
       }
 
       if (this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
@@ -2797,12 +2829,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           description: this.description,
           meta_title: this.meta_title,
           meta_description: this.meta_description,
-          is_new: this.is_new,
-          is_popular: this.is_popular,
-          is_onsale: this.is_onsale,
-          category: this.category,
-          attribute: this.attribute,
-          gallery: this.gallery
+          cover: this.cover
         }).then(function (response) {
           return window.location.href = '/admin/categories';
         })["catch"](function (error) {
@@ -45042,18 +45069,61 @@ var render = function() {
             "div",
             { staticClass: "mb-4" },
             [
-              _c("label", { staticClass: "form-label" }, [_vm._v("Описание")]),
+              _c("div", { staticClass: "row align-items-center" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-6 text-end" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-outline-secondary",
+                      staticStyle: { "font-size": "10px" },
+                      on: {
+                        click: function($event) {
+                          return _vm.description_show_code_toggle()
+                        }
+                      }
+                    },
+                    [_vm._v("код")]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c("ckeditor", {
-                attrs: { editor: _vm.editor, config: _vm.editorConfig },
-                model: {
-                  value: _vm.description,
-                  callback: function($$v) {
-                    _vm.description = $$v
-                  },
-                  expression: "description"
-                }
-              })
+              _vm.description_show_code == false
+                ? _c("ckeditor", {
+                    attrs: { editor: _vm.editor, config: _vm.editorConfig },
+                    model: {
+                      value: _vm.description,
+                      callback: function($$v) {
+                        _vm.description = $$v
+                      },
+                      expression: "description"
+                    }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.description_show_code == true
+                ? _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.description,
+                        expression: "description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    domProps: { value: _vm.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.description = $event.target.value
+                      }
+                    }
+                  })
+                : _vm._e()
             ],
             1
           )
@@ -45067,23 +45137,23 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.current_tab == "gallery",
-              expression: "current_tab == 'gallery'"
+              value: _vm.current_tab == "cover",
+              expression: "current_tab == 'cover'"
             }
           ],
           staticClass: "box-tab-content"
         },
         [
           _c("file-pond", {
-            ref: "gallery",
+            ref: "cover",
             attrs: {
-              name: "gallery[]",
-              "label-idle": "Выбрать картинки...",
-              "allow-multiple": true,
-              "allow-reorder": true,
+              name: "cover",
+              "label-idle": "Выбрать картинку...",
+              "allow-multiple": false,
+              "allow-reorder": false,
               "accepted-file-types": "image/jpeg, image/png",
               server: _vm.server,
-              files: _vm.filepond_gallery_edit
+              files: _vm.filepond_cover_edit
             }
           })
         ],
@@ -45106,7 +45176,7 @@ var render = function() {
         [
           _c("div", { staticClass: "mb-4" }, [
             _c("div", { staticClass: "row" }, [
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "col-6 text-end" }, [
                 _c("span", { staticClass: "text-muted" }, [
@@ -45140,7 +45210,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "mb-4" }, [
             _c("div", { staticClass: "row" }, [
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "col-6 text-end" }, [
                 _c("span", { staticClass: "text-muted" }, [
@@ -45191,6 +45261,14 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-6" }, [
+      _c("label", { staticClass: "form-label" }, [_vm._v("Описание")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
