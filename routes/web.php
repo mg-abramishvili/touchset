@@ -44,6 +44,7 @@ Route::get('_admin/category/{id}','App\Http\Controllers\Admin\CategoryController
 Route::post('_admin/categories','App\Http\Controllers\Admin\CategoryController@store')->middleware('auth');
 Route::put('_admin/category/{id}','App\Http\Controllers\Admin\CategoryController@update')->middleware('auth');
 Route::get('_admin/category/{id}/delete','App\Http\Controllers\Admin\CategoryController@delete')->middleware('auth');
+Route::post('_admin/categories/file/{method}','App\Http\Controllers\Admin\CategoryController@file')->middleware('auth');
 
 // ADMIN ORDERS
 Route::get('admin/orders','App\Http\Controllers\Admin\OrderController@index')->name('admin_orders')->middleware('auth');

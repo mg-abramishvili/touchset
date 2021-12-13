@@ -79,4 +79,30 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('admin_categories');
     }
+
+    public function file($type)
+    {
+        switch ($type) {
+            case 'upload':
+                return $this->upload();
+        }
+        return \Response::make('success', 200, [
+            'Content-Disposition' => 'inline',
+        ]);
+    }
+
+    public function upload()
+    {
+        if (request()->file('cover')) {
+            $file = request()->file('cover');
+
+            $filename = md5(time() . rand(1, 100000)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/uploads', $filename);
+
+            return \Response::make('/uploads/' . $filename, 200, [
+                'Content-Disposition' => 'inline',
+            ]);
+
+        }
+    }
 }

@@ -19,6 +19,7 @@
                     <div class="col-12 col-lg-6 mb-4">
                         <label class="form-label">Вложить в категорию</label>
                         <select v-model="parent_id" class="form-select">
+                            <option value="0">—</option>
                             <template v-for="cat in categories">
                                 <option v-if="cat.id !== category.id" :value="cat.id">{{ cat.name }}</option>
                             </template>
@@ -86,7 +87,7 @@
     import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
     import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
     import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import AddToCartVue from '../../products/AddToCart.vue';
+
     const FilePond = vueFilePond(
         FilePondPluginFileValidateType,
         FilePondPluginImagePreview
@@ -197,6 +198,8 @@ import AddToCartVue from '../../products/AddToCart.vue';
 
                     if(response.data.parent_id && response.data.parent_id > 0) {
                         this.parent_id = response.data.parent_id
+                    } else {
+                        this.parent_id = 0
                     }
                     if(response.data.description && response.data.description.length > 0) {
                         this.description = response.data.description

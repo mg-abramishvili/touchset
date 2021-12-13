@@ -2571,7 +2571,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! filepond-plugin-image-preview */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js");
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _products_AddToCart_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../products/AddToCart.vue */ "./resources/js/components/products/AddToCart.vue");
 //
 //
 //
@@ -2651,7 +2650,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
 
 
 
@@ -2773,6 +2772,8 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
 
         if (response.data.parent_id && response.data.parent_id > 0) {
           _this.parent_id = response.data.parent_id;
+        } else {
+          _this.parent_id = 0;
         }
 
         if (response.data.description && response.data.description.length > 0) {
@@ -45144,6 +45145,8 @@ var render = function() {
                   }
                 },
                 [
+                  _c("option", { attrs: { value: "0" } }, [_vm._v("—")]),
+                  _vm._v(" "),
                   _vm._l(_vm.categories, function(cat) {
                     return [
                       cat.id !== _vm.category.id
