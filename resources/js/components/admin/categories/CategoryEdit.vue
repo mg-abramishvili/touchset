@@ -59,7 +59,17 @@
                 <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Title</label></div>
-                        <div class="col-6 text-end"><span class="text-muted">{{ meta_title.length }} из 60</span></div>
+                        <div class="col-6 text-end">
+                            <span class="text-muted">
+                                <template v-if="meta_title.length > 60">
+                                    <i class="text-danger" style="font-style: normal">{{ meta_title.length }}</i>
+                                </template>
+                                <template v-else>
+                                    {{ meta_title.length }}
+                                </template>
+                                из 60
+                            </span>
+                        </div>
                     </div>
                     <input v-model="meta_title" type="text" class="form-control">
                     <span @click="seo_input_add()" class="seo_input_add">название товара</span>
@@ -67,9 +77,19 @@
                 <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Meta Description</label></div>
-                        <div class="col-6 text-end"><span class="text-muted">{{ meta_description.length }} из 160</span></div>
+                        <div class="col-6 text-end">
+                            <span class="text-muted">
+                                <template v-if="meta_description.length > 160">
+                                    <i class="text-danger" style="font-style: normal">{{ meta_description.length }}</i>
+                                </template>
+                                <template v-else>
+                                    {{ meta_description.length }}
+                                </template>
+                                из 160
+                            </span>
+                        </div>
                     </div>
-                    <input v-model="meta_description" type="text" class="form-control">
+                    <textarea v-model="meta_description" rows="2" class="form-control" style="resize: none"></textarea>
                 </div>
             </div>
 
@@ -99,6 +119,7 @@
             return {
                 category: {},
                 name: '',
+                slug: '',
                 description: '',
                 description_show_code: false,
                 meta_title: '',
@@ -182,11 +203,6 @@
             this.getCategoryInfo()
             this.getCategories()
         },
-        computed: {
-            slug: function () {
-            return this.slugify(this.name)
-            }
-        },
         methods: {
             getCategoryInfo() {
                 axios
@@ -194,7 +210,7 @@
                 .then((response => {
                     this.category = response.data
                     this.name = response.data.name
-                    //this.slug = response.data.slug
+                    this.slug = response.data.slug
 
                     if(response.data.parent_id && response.data.parent_id > 0) {
                         this.parent_id = response.data.parent_id
@@ -228,6 +244,9 @@
                 .get(`/_admin/categories`)
                 .then((response => {
                     this.categories = response.data
+                    setTimeout(() => {
+                        this.updateCategory_button = true
+                    }, 1000)
                 }));
             },
             selectTab(tab) {
@@ -266,26 +285,15 @@
                 return n_str.join('').replace(/\s+/g, '-')
             },
             updateCategory(id) {
-                this.attribute = []
-                this.attributes.forEach((attr) => {
-                    var value_value = null
-
-                    if(document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value && document.getElementById('attribute_' + attr.id).value.length > 0) {
-                        value_value = document.getElementById('attribute_' + attr.id).value
-                    }
-
-                    this.attribute.push({ id: attr.id, value: value_value })
-                })
-                
                 if(document.getElementsByName("cover")[0]) {
                     this.cover = document.getElementsByName("cover")[0].value
                 }
 
-                if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
+                if(this.name && this.name.length > 0 && this.slug && this.slug.length > 0) {
                     this.updateCategory_button = false
 
                     axios
-                    .put(`/_admin/category/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, cover: this.cover })
+                    .put(`/_admin/category/${id}`, { id: id, name: this.name, slug: this.slug, parent_id: this.parent_id, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, cover: this.cover })
                     .then(response => (
                         window.location.href = '/admin/categories'
                     ))

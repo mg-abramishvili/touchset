@@ -44,15 +44,26 @@ class CategoryController extends Controller
             'slug' => 'required',
         ]);
 
-        $data = request()->all();
         $category = new Category();
-        $category->name = $data['name'];
-        $category->slug = $data['slug'];
-        $category->parent_id = $data['parent_id'];
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->description = $request->description;
+        $category->meta_title = $request->meta_title;
+        $category->meta_description = $request->meta_description;
+
+        if($request->parent_id == 0) {
+            $category->parent_id = null;
+        } else {
+            $category->parent_id = $request->parent_id;
+        }
+
+        if (!isset($request->cover)) {
+            $category->cover = null;
+        } else {
+            $category->cover = $request->cover;
+        }
 
         $category->save();
-
-        return redirect()->route('admin_categories');
     }
 
     public function update($id, Request $request)
@@ -65,11 +76,23 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->name = $request->name;
         $category->slug = $request->slug;
-        $category->parent_id = $request->parent_id;
+        $category->description = $request->description;
+        $category->meta_title = $request->meta_title;
+        $category->meta_description = $request->meta_description;
+
+        if($request->parent_id == 0) {
+            $category->parent_id = null;
+        } else {
+            $category->parent_id = $request->parent_id;
+        }
+
+        if (!isset($request->cover)) {
+            $category->cover = null;
+        } else {
+            $category->cover = $request->cover;
+        }
 
         $category->save();
-
-        return redirect()->route('admin_categories');
     }
 
     public function delete($id)

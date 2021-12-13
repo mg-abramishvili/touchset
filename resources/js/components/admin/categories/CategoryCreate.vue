@@ -2,116 +2,98 @@
     <div>
         <ul class="box-tabs">
             <li @click="selectTab('general')" :class="{ 'active' : current_tab == 'general'}">Общая информация</li>
-            <li @click="selectTab('attributes')" :class="{ 'active' : current_tab == 'attributes'}">Характеристики</li>
-            <li @click="selectTab('gallery')" :class="{ 'active' : current_tab == 'gallery'}">Галерея</li>
-            <li @click="selectTab('tags')" :class="{ 'active' : current_tab == 'tags'}">Метки</li>
-            <li @click="selectTab('addons')" :class="{ 'active' : current_tab == 'addons'}">Допы</li>
+            <li @click="selectTab('cover')" :class="{ 'active' : current_tab == 'cover'}">Обложка</li>
             <li @click="selectTab('seo')" :class="{ 'active' : current_tab == 'seo'}">SEO</li>
         </ul>
         <div class="box px-4 py-4 mb-4">
             <div v-show="current_tab == 'general'" class="box-tab-content">
+                <div class="mb-4">
+                    <label class="form-label">Наименование</label>
+                    <input v-model="name" type="text" class="form-control">
+                </div>
                 <div class="row">
                     <div class="col-12 col-lg-6 mb-4">
-                        <label class="form-label">Наименование</label>
-                        <input v-model="name" type="text" class="form-control">
-                        <span class="text-muted"><small>https://touchset.ru/product/{{ slug }}</small></span>
+                        <label class="form-label">Символьный код</label>
+                        <input v-model="slug" type="text" class="form-control">
                     </div>
                     <div class="col-12 col-lg-6 mb-4">
-                        <label class="form-label">Категория</label>
-                        <select v-model="category" class="form-select">
-                            <option v-for="cat in categories" :key="'cat_' + cat.id" :value="cat.id">{{ cat.name }}</option>
+                        <label class="form-label">Вложить в категорию</label>
+                        <select v-model="parent_id" class="form-select">
+                            <option value="0">—</option>
+                            <template v-for="cat in categories">
+                                <option :value="cat.id">{{ cat.name }}</option>
+                            </template>
                         </select>
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-12 col-lg-3">
-                        <label class="form-label">Цена USD</label>
-                        <input v-model="pre_usd" type="text" class="form-control">
-                    </div>
-                    <div class="col-12 col-lg-3">
-                        <label class="form-label">Цена RUB</label>
-                        <input v-model="pre_rub" type="text" class="form-control">
-                    </div>
-                    <div class="col-12 col-lg-3">
-                        <label class="form-label">Курс USD <small>(на {{moment(usdKursDate).format('DD.MM.YYYY')}})</small></label>
-                        <input v-model="usdKurs" type="text" class="form-control" disabled>
-                    </div>
-                    <div class="col-12 col-lg-3">
-                        <label class="form-label">Цена итоговая</label>
-                        <input v-model="price" type="text" class="form-control" disabled>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Описание</label>
-                    <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <label class="form-label">Описание</label>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button v-if="description_show_code == false" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">посмотреть код</button>
+                            <button v-if="description_show_code == true" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">визуальный редактор</button>
+                        </div>
+                    </div>
+                    <ckeditor v-if="description_show_code == false" :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <textarea v-if="description_show_code == true" v-model="description" class="form-control"></textarea>
                 </div>
             </div>
             
-            <div v-show="current_tab == 'attributes'" class="box-tab-content">
-                <div v-for="attribute in attributes" :key="'attribute_' + attribute.id" class="row mb-4">
-                    <div class="col-12 col-lg-6">
-                        <label :for="'attribute_' + attribute.id" class="form-label">{{ attribute.name }}</label>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <input :id="'attribute_' + attribute.id" class="form-control">
-                    </div>
-                </div>
-            </div>
-            
-            <div v-show="current_tab == 'gallery'" class="box-tab-content">
+            <div v-show="current_tab == 'cover'" class="box-tab-content">
                 <file-pond
-                    name="gallery[]"
-                    ref="gallery"
-                    label-idle="Выбрать картинки..."
-                    v-bind:allow-multiple="true"
-                    v-bind:allow-reorder="true"
+                    name="cover"
+                    ref="cover"
+                    label-idle="Выбрать картинку..."
+                    v-bind:allow-multiple="false"
+                    v-bind:allow-reorder="false"
                     accepted-file-types="image/jpeg, image/png"
                     :server="server"
-                    v-bind:files="filepond_gallery_edit"
+                    v-bind:files="filepond_cover_edit"
                 />
-            </div>
-
-            <div v-show="current_tab == 'tags'" class="box-tab-content">
-                <div class="form-check form-switch mb-4">
-                    <input v-model="is_new" class="form-check-input" id="is_new" type="checkbox">
-                    <label class="form-check-label" for="is_new">Показывать в блоке <strong>Новые разработки</strong></label>
-                </div>
-                <div class="form-check form-switch mb-4">
-                    <input v-model="is_popular" class="form-check-input" id="is_popular" type="checkbox">
-                    <label class="form-check-label" for="is_popular">Показывать в блоке <strong>Популярные решения для киосков</strong></label>
-                </div>
-                <div class="form-check form-switch mb-4">
-                    <input v-model="is_onsale" class="form-check-input" id="is_onsale" type="checkbox">
-                    <label class="form-check-label" for="is_onsale">Показывать в блоке <strong>Специальное предложение</strong></label>
-                </div>
-            </div>
-
-            <div v-show="current_tab == 'addons'" class="box-tab-content">
-                <div v-for="addon in addons" :key="'addon_' + addon.id" class="mb-4">
-                    <label :for="'addon_' + addon.id" class="form-label">{{ addon.name }}</label>
-                    <input :id="'addon_' + addon.id" class="form-control">
-                </div>
             </div>
 
             <div v-show="current_tab == 'seo'" class="box-tab-content">
                 <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Title</label></div>
-                        <div class="col-6 text-end"><span class="text-muted">{{ meta_title.length }} из 60</span></div>
+                        <div class="col-6 text-end">
+                            <span class="text-muted">
+                                <template v-if="meta_title.length > 60">
+                                    <i class="text-danger" style="font-style: normal">{{ meta_title.length }}</i>
+                                </template>
+                                <template v-else>
+                                    {{ meta_title.length }}
+                                </template>
+                                из 60
+                            </span>
+                        </div>
                     </div>
                     <input v-model="meta_title" type="text" class="form-control">
+                    <span @click="seo_input_add()" class="seo_input_add">название товара</span>
                 </div>
                 <div class="mb-4">
                     <div class="row">
                         <div class="col-6"><label class="form-label">Meta Description</label></div>
-                        <div class="col-6 text-end"><span class="text-muted">{{ meta_description.length }} из 160</span></div>
+                        <div class="col-6 text-end">
+                            <span class="text-muted">
+                                <template v-if="meta_description.length > 160">
+                                    <i class="text-danger" style="font-style: normal">{{ meta_description.length }}</i>
+                                </template>
+                                <template v-else>
+                                    {{ meta_description.length }}
+                                </template>
+                                из 160
+                            </span>
+                        </div>
                     </div>
-                    <input v-model="meta_description" type="text" class="form-control">
+                    <textarea v-model="meta_description" rows="2" class="form-control" style="resize: none"></textarea>
                 </div>
             </div>
 
-            <button :disabled="saveProduct_button == false"  @click="saveProduct()" class="btn btn-primary">Сохранить</button>
+            <button :disabled="saveCategory_button == false"  @click="saveCategory()" class="btn btn-primary">Сохранить</button>
         </div>
     </div>
 </template>
@@ -125,48 +107,45 @@
     import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
     import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
     import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
     const FilePond = vueFilePond(
         FilePondPluginFileValidateType,
         FilePondPluginImagePreview
     );
 
     export default {
-        props: ['product_id'],
         data() {
             return {
-                product: {},
                 name: '',
-                slug: '',
-                pre_rub: 0,
-                pre_usd: 0,
                 description: '',
+                description_show_code: false,
                 meta_title: '',
                 meta_description: '',
-                is_new: '',
-                is_popular: '',
-                is_onsale: '',
-                category: '',
-                gallery: [],
-                attribute: [],
-
-                usdKurs: '',
-                usdKursDate: '',
+                cover: '',
+                parent_id: '',
 
                 categories: [],
-                attributes: [],
-                addons: [],
 
-                filepond_gallery: [],
-                filepond_gallery_edit: [],
+                filepond_cover: [],
+                filepond_cover_edit: [],
 
                 current_tab: 'general',
 
-                saveProduct_button: false,
+                saveCategory_button: false,
 
                 editor: ClassicEditor,
                 editorData: '',
                 editorConfig: {
-                    toolbar: [ 'bold', 'italic', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
+                    toolbar: [ 'heading', 'bold', '|', 'bulletedList', 'numberedList', '|', 'insertTable', '|', 'undo', 'redo' ],
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Тег P' },
+                            { model: 'heading2', view: 'h2', title: 'Тег H2' },
+                            { model: 'heading3', view: 'h3', title: 'Тег H3' },
+                            { model: 'heading4', view: 'h4', title: 'Тег H4' },
+                            { model: 'heading5', view: 'h5', title: 'Тег H5' }
+                        ]
+                    }
                     //table: {
                     //    toolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
                     //},
@@ -181,7 +160,7 @@
                         const formData = new FormData();
                         formData.append(fieldName, file, file.name);
                         const request = new XMLHttpRequest();
-                        request.open('POST', '/_admin/products/file/upload');
+                        request.open('POST', '/_admin/categories/file/upload');
                         request.upload.onprogress = (e) => {
                             progress(e.lengthComputable, e.loaded, e.total);
                         };
@@ -218,94 +197,75 @@
             };
         },
         created() {
-            this.getUsdKurs()
             this.getCategories()
-            this.getAttributes()
-            this.getAddons()
         },
         computed: {
-            price: function () {
-                if(this.pre_rub && this.pre_rub.length > 0 || this.pre_usd && this.pre_usd.length > 0) {
-                    if(this.pre_rub && this.pre_rub.length > 0 && this.pre_usd && this.pre_usd.length > 0) {
-                        return Math.ceil((parseFloat(this.pre_rub) + (parseFloat(this.usdKurs) * parseFloat(this.pre_usd))) / 50) * 50
-                    } else if (!this.pre_rub) {
-                        return Math.ceil(parseFloat(parseFloat(this.usdKurs) * parseFloat(this.pre_usd) / 50)) * 50
-                    } else if (!this.pre_usd) {
-                        return Math.ceil(parseFloat(this.pre_rub) / 50) * 50
-                    }
-                } else {
-                    return 0
-                }
+            slug: function () {
+                return this.slugify(this.name)
             }
         },
         methods: {
-            getUsdKurs() {
-                axios
-                .get('https://www.cbr-xml-daily.ru/daily_json.js', { withCredentials: false })
-                .then(response => (
-                    this.usdKurs = response.data.Valute.USD.Value,
-                    this.usdKursDate = response.data.Date
-                ));
-            },
             getCategories() {
                 axios
                 .get(`/_admin/categories`)
                 .then((response => {
                     this.categories = response.data
-                }));
-            },
-            getAttributes() {
-                axios
-                .get(`/_admin/attributes`)
-                .then((response => {
-                    this.attributes = response.data
-                }));
-            },
-            getAddons() {
-                axios
-                .get(`/_admin/addons`)
-                .then((response => {
-                    this.addons = response.data
                     setTimeout(() => {
-                        this.saveProduct_button = true
+                        this.saveCategory_button = true
                     }, 1000)
                 }));
             },
             selectTab(tab) {
                 this.current_tab = tab
             },
-            saveProduct() {
-                this.attribute = []
-                this.attributes.forEach((attr) => {
-                    var value_value = null
-
-                    if(document.getElementById('attribute_' + attr.id) && document.getElementById('attribute_' + attr.id).value && document.getElementById('attribute_' + attr.id).value.length > 0) {
-                        value_value = document.getElementById('attribute_' + attr.id).value
-                    }
-
-                    this.attribute.push({ id: attr.id, value: value_value })
-                })
+            description_show_code_toggle() {
+                if(this.description_show_code == true) {
+                    this.description_show_code = false
+                } else {
+                    this.description_show_code = true
+                }
+            },
+            seo_input_add() {
+                this.meta_title = this.meta_title + this.name
+            },
+            slugify(str) {
+                var ru = {
+                    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 
+                    'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i', 
+                    'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 
+                    'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 
+                    'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 
+                    'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+                }, n_str = [];
                 
-                if(document.getElementsByName("gallery[]")) {
-                    this.gallery = []
-                    document.getElementsByName("gallery[]").forEach((galleryItem) => {
-                        if(galleryItem.value) {
-                            this.gallery.push(galleryItem.value)
-                        }
-                    });
+                str = str.replace(/[ъь!'"/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
+    
+                for ( var i = 0; i < str.length; ++i ) {
+                    n_str.push(
+                            ru[str[i]]
+                        || ru[str[i].toLowerCase()] == undefined && str[i]
+                        || ru[str[i].toLowerCase()]
+                    );
+                }
+                
+                return n_str.join('').replace(/\s+/g, '-')
+            },
+            saveCategory() {
+                if(document.getElementsByName("cover")[0]) {
+                    this.cover = document.getElementsByName("cover")[0].value
                 }
 
-                if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
-                    this.saveProduct_button = false
+                if(this.name && this.name.length > 0 && this.slug && this.slug.length > 0) {
+                    this.updateCategory_button = false
 
                     axios
-                    .post(`/_admin/products`, { name: this.name, slug: this.name, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .post(`/_admin/categories`, { name: this.name, slug: this.slug, parent_id: this.parent_id, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, cover: this.cover })
                     .then(response => (
-                        window.location.href = '/admin/products'
+                        window.location.href = '/admin/categories'
                     ))
                     .catch((error) => {
                         if(error.response) {
-                            this.saveProduct_button = true
+                            this.updateCategory_button = true
                             for(var key in error.response.data.errors){
                                 console.log(key)
                                 alert(key)
