@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <button :disabled="updateProduct_button == false"  @click="updateProduct(product.id)" class="btn btn-primary">Сохранить</button>
+            <button :disabled="saveProduct_button == false"  @click="saveProduct()" class="btn btn-primary">Сохранить</button>
         </div>
     </div>
 </template>
@@ -137,8 +137,8 @@
                 product: {},
                 name: '',
                 slug: '',
-                pre_rub: '',
-                pre_usd: '',
+                pre_rub: 0,
+                pre_usd: 0,
                 description: '',
                 meta_title: '',
                 meta_description: '',
@@ -161,7 +161,7 @@
 
                 current_tab: 'general',
 
-                updateProduct_button: false,
+                saveProduct_button: false,
 
                 editor: ClassicEditor,
                 editorData: '',
@@ -219,7 +219,6 @@
         },
         created() {
             this.getUsdKurs()
-            this.getProductInfo()
             this.getCategories()
             this.getAttributes()
             this.getAddons()
@@ -248,45 +247,6 @@
                     this.usdKursDate = response.data.Date
                 ));
             },
-            getProductInfo() {
-                axios
-                .get(`/_admin/product/${this.product_id}`)
-                .then((response => {
-                    this.product = response.data
-                    this.name = response.data.name
-                    this.slug = response.data.slug
-                    this.pre_rub = response.data.pre_rub
-                    this.pre_usd = response.data.pre_usd
-                    this.category = response.data.categories[0].id
-
-                    if(response.data.description && response.data.description.length > 0) {
-                        this.description = response.data.description
-                    }
-                    if(response.data.meta_title && response.data.meta_title.length > 0) {
-                        this.meta_title = response.data.meta_title
-                    }
-                    if(response.data.meta_description && response.data.meta_description.length > 0) {
-                        this.meta_description = response.data.meta_description
-                    }
-
-                    if(response.data.is_new == 1) { this.is_new = true } else { this.is_new = false }
-                    if(response.data.is_popular == 1) { this.is_popular = true } else { this.is_popular = false }
-                    if(response.data.is_onsale == 1) { this.is_onsale = true } else { this.is_onsale = false }
-
-                    if(response.data.gallery) {
-                        this.filepond_gallery_edit = response.data.gallery.map(function(element){
-                            {
-                                return {
-                                    source: element,
-                                    options: {
-                                        type: 'local',
-                                    }
-                                } 
-                            }
-                        })
-                    }
-                }));
-            },
             getCategories() {
                 axios
                 .get(`/_admin/categories`)
@@ -299,19 +259,7 @@
                 .get(`/_admin/attributes`)
                 .then((response => {
                     this.attributes = response.data
-                    setTimeout(() => {
-                        this.getProductAttributes()
-                    }, 1000)
                 }));
-            },
-            getProductAttributes() {
-                if(this.product && this.product.attributes && this.product.attributes.length > 0) {
-                    this.product.attributes.forEach((attr) => {
-                        if(document.getElementById('attribute_' + attr.id)) {
-                            document.getElementById('attribute_' + attr.id).value = attr.pivot.value
-                        }
-                    })
-                }
             },
             getAddons() {
                 axios
@@ -319,24 +267,14 @@
                 .then((response => {
                     this.addons = response.data
                     setTimeout(() => {
-                        this.getProductAddons()
-                        this.updateProduct_button = true
+                        this.saveProduct_button = true
                     }, 1000)
                 }));
-            },
-            getProductAddons() {
-                if(this.product && this.product.addons && this.product.addons.length > 0) {
-                    this.product.addons.forEach((addn) => {
-                        if(document.getElementById('addon_' + addn.id)) {
-                            document.getElementById('addon_' + addn.id).value = addn.pivot.price
-                        }
-                    })
-                }
             },
             selectTab(tab) {
                 this.current_tab = tab
             },
-            updateProduct(id) {
+            saveProduct() {
                 this.attribute = []
                 this.attributes.forEach((attr) => {
                     var value_value = null
@@ -358,18 +296,16 @@
                 }
 
                 if(this.name && this.name.length > 0 && this.price && this.price > 0 && this.category && this.category > 0) {
-                    this.updateProduct_button = false
+                    this.saveProduct_button = false
 
                     axios
-                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .post(`/_admin/products`, { name: this.name, slug: this.name, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
                     .then(response => (
-                        //setTimeout(() => this.updateProduct_button = true, 1000),
                         window.location.href = '/admin/products'
-                        //console.log(response.data)
                     ))
                     .catch((error) => {
                         if(error.response) {
-                            this.updateProduct_button = true
+                            this.saveProduct_button = true
                             for(var key in error.response.data.errors){
                                 console.log(key)
                                 alert(key)

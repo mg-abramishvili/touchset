@@ -2,6 +2,6 @@
 @section('title', 'Новый товар')
 @section('content')
 <div class="w-100">
-    new product
+    <product-create></product-create>
 </div>
 @endsection

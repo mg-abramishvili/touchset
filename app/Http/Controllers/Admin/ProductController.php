@@ -40,22 +40,56 @@ class ProductController extends Controller
             'price' => 'required|numeric',
         ]);
 
-        $data = request()->all();
         $product = new Product();
-        $product->name = $data['name'];
-        $product->price = $data['price'];
-        $product->description = $data['description'];
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->pre_rub = $request->pre_rub;
+        $product->pre_usd = $request->pre_usd;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->meta_title = $request->meta_title;
+        $product->meta_description = $request->meta_description;
 
-        if (!isset($data['gallery'])) {
-            $data['gallery'] = [];
+        if (!isset($request->gallery)) {
+            $request->gallery = [];
         }
-        $product->gallery = $data['gallery'];
+        $product->gallery = $request->gallery;
+
+        if($request->is_new) {
+            $product->is_new = true;
+        } else {
+            $product->is_new = false;
+        }
+        
+        if($request->is_popular) {
+            $product->is_popular = true;
+        } else {
+            $product->is_popular = false;
+        }
+
+        if($request->is_onsale) {
+            $product->is_onsale = true;
+        } else {
+            $product->is_onsale = false;
+        }
 
         $product->save();
+        $product->categories()->attach($request->category, ['product_id' => $product->id]);
 
-        $product->categories()->attach($data['category'], ['product_id' => $product->id]);
-
-        return redirect()->route('admin_products');
+        foreach($request->attribute as $attr) {
+            if($attr["value"] != null) {
+                $product->attributes()->detach($attr["id"]);
+                $product->attributes()->attach(
+                    [$attr["id"] => [
+                        'attribute_id'=>$attr["id"],
+                        'product_id'=>$product->id,
+                        'value'=>$attr["value"],
+                    ]
+                ]);
+            } else {
+                $product->attributes()->detach($attr["id"]);
+            }
+        }
     }
 
     public function update($id, Request $request)
@@ -67,6 +101,9 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->pre_rub = $request->pre_rub;
+        $product->pre_usd = $request->pre_usd;
         $product->price = $request->price;
         $product->description = $request->description;
         $product->meta_title = $request->meta_title;

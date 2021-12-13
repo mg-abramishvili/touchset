@@ -27,6 +27,11 @@ class CategoryController extends Controller
         return view('admin.categories.edit', compact('category', 'categories'));
     }
 
+    public function item($id)
+    {
+        return Category::find($id);
+    }
+
     public function index_data()
     {
         return $categories = Category::all();
