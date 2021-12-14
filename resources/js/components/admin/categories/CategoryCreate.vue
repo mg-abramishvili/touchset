@@ -238,7 +238,7 @@
                     'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'yu', 'я': 'ya'
                 }, n_str = [];
                 
-                str = str.replace(/[ъь!'"/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
+                str = str.replace(/[ъь!|/|_\\'"<>/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
     
                 for ( var i = 0; i < str.length; ++i ) {
                     n_str.push(
