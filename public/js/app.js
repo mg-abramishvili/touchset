@@ -3000,6 +3000,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3014,7 +3017,6 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     return {
       product: {},
       name: '',
-      slug: '',
       pre_rub: 0,
       pre_usd: 0,
       description: '',
@@ -3109,6 +3111,9 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       } else {
         return 0;
       }
+    },
+    slug: function slug() {
+      return this.slugify(this.name);
     }
   },
   methods: {
@@ -3148,6 +3153,48 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     selectTab: function selectTab(tab) {
       this.current_tab = tab;
     },
+    slugify: function slugify(str) {
+      var ru = {
+        'а': 'a',
+        'б': 'b',
+        'в': 'v',
+        'г': 'g',
+        'д': 'd',
+        'е': 'e',
+        'ё': 'e',
+        'ж': 'zh',
+        'з': 'z',
+        'и': 'i',
+        'к': 'k',
+        'л': 'l',
+        'м': 'm',
+        'н': 'n',
+        'о': 'o',
+        'п': 'p',
+        'р': 'r',
+        'с': 's',
+        'т': 't',
+        'у': 'u',
+        'ф': 'f',
+        'х': 'kh',
+        'ц': 'ts',
+        'ч': 'ch',
+        'ш': 'sh',
+        'щ': 'shch',
+        'ы': 'y',
+        'э': 'e',
+        'ю': 'yu',
+        'я': 'ya'
+      },
+          n_str = [];
+      str = str.replace(/[ъь!|/|_\\'"<>/№;%:?*()@#$^&*+=,~.]+/g, '').replace(/й/g, 'i');
+
+      for (var i = 0; i < str.length; ++i) {
+        n_str.push(ru[str[i]] || ru[str[i].toLowerCase()] == undefined && str[i] || ru[str[i].toLowerCase()]);
+      }
+
+      return n_str.join('').replace(/\s+/g, '-');
+    },
     saveProduct: function saveProduct() {
       var _this5 = this;
 
@@ -3178,7 +3225,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
         this.saveProduct_button = false;
         axios__WEBPACK_IMPORTED_MODULE_0___default().post("/_admin/products", {
           name: this.name,
-          slug: this.name,
+          slug: this.slug,
           pre_rub: this.pre_rub,
           pre_usd: this.pre_usd,
           price: this.price,
@@ -3235,6 +3282,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! filepond-plugin-image-preview */ "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js");
 /* harmony import */ var filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_6__);
+//
+//
+//
 //
 //
 //
@@ -3611,6 +3661,9 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
         axios__WEBPACK_IMPORTED_MODULE_0___default().put("/_admin/product/".concat(id), {
           id: id,
           name: this.name,
+          slug: this.slug,
+          pre_rub: this.pre_rub,
+          pre_usd: this.pre_usd,
           price: this.price,
           description: this.description,
           meta_title: this.meta_title,
@@ -45277,10 +45330,38 @@ var render = function() {
           staticClass: "box-tab-content"
         },
         [
+          _c("div", { staticClass: " mb-4" }, [
+            _c("label", { staticClass: "form-label" }, [
+              _vm._v("Наименование")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [
               _c("label", { staticClass: "form-label" }, [
-                _vm._v("Наименование")
+                _vm._v("Символьный код")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -45288,28 +45369,22 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
+                    value: _vm.slug,
+                    expression: "slug"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text" },
-                domProps: { value: _vm.name },
+                domProps: { value: _vm.slug },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.name = $event.target.value
+                    _vm.slug = $event.target.value
                   }
                 }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-muted" }, [
-                _c("small", [
-                  _vm._v("https://touchset.ru/product/" + _vm._s(_vm.slug))
-                ])
-              ])
+              })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [
@@ -46018,10 +46093,38 @@ var render = function() {
           staticClass: "box-tab-content"
         },
         [
+          _c("div", { staticClass: " mb-4" }, [
+            _c("label", { staticClass: "form-label" }, [
+              _vm._v("Наименование")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [
               _c("label", { staticClass: "form-label" }, [
-                _vm._v("Наименование")
+                _vm._v("Символьный код")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -46029,28 +46132,22 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
+                    value: _vm.slug,
+                    expression: "slug"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text" },
-                domProps: { value: _vm.name },
+                domProps: { value: _vm.slug },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.name = $event.target.value
+                    _vm.slug = $event.target.value
                   }
                 }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-muted" }, [
-                _c("small", [
-                  _vm._v("https://touchset.ru/product/" + _vm._s(_vm.slug))
-                ])
-              ])
+              })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-12 col-lg-6 mb-4" }, [

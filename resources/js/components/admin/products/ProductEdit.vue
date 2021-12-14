@@ -10,11 +10,14 @@
         </ul>
         <div class="box px-4 py-4 mb-4">
             <div v-show="current_tab == 'general'" class="box-tab-content">
+                <div class=" mb-4">
+                    <label class="form-label">Наименование</label>
+                    <input v-model="name" type="text" class="form-control">
+                </div>
                 <div class="row">
                     <div class="col-12 col-lg-6 mb-4">
-                        <label class="form-label">Наименование</label>
-                        <input v-model="name" type="text" class="form-control">
-                        <span class="text-muted"><small>https://touchset.ru/product/{{ slug }}</small></span>
+                        <label class="form-label">Символьный код</label>
+                        <input v-model="slug" type="text" class="form-control">
                     </div>
                     <div class="col-12 col-lg-6 mb-4">
                         <label class="form-label">Категория</label>
@@ -361,7 +364,7 @@
                     this.updateProduct_button = false
 
                     axios
-                    .put(`/_admin/product/${id}`, { id: id, name: this.name, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .put(`/_admin/product/${id}`, { id: id, name: this.name, slug: this.slug, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
                     .then(response => (
                         //setTimeout(() => this.updateProduct_button = true, 1000),
                         window.location.href = '/admin/products'

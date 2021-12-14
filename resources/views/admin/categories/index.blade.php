@@ -4,7 +4,7 @@
 @section('content')
 <div class="w-100">
     <div>
-        <ul class="tree">
+        <ul class="tree mb-4">
             @forelse($categories as $category)
                 @if(isset($category->parent_id))
                 
