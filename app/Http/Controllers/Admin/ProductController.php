@@ -78,7 +78,6 @@ class ProductController extends Controller
 
         foreach($request->attribute as $attr) {
             if($attr["value"] != null) {
-                $product->attributes()->detach($attr["id"]);
                 $product->attributes()->attach(
                     [$attr["id"] => [
                         'attribute_id'=>$attr["id"],
@@ -86,8 +85,6 @@ class ProductController extends Controller
                         'value'=>$attr["value"],
                     ]
                 ]);
-            } else {
-                $product->attributes()->detach($attr["id"]);
             }
         }
     }
@@ -137,20 +134,13 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->categories()->attach($request->category, ['product_id' => $product->id]);
 
+        $data = [];
         foreach($request->attribute as $attr) {
             if($attr["value"] != null) {
-                $product->attributes()->detach($attr["id"]);
-                $product->attributes()->attach(
-                    [$attr["id"] => [
-                        'attribute_id'=>$attr["id"],
-                        'product_id'=>$product->id,
-                        'value'=>$attr["value"],
-                    ]
-                ]);
-            } else {
-                $product->attributes()->detach($attr["id"]);
+                $data[$attr["id"]] = [ 'value' => $attr["value"] ];
             }
         }
+        $product->attributes()->sync($data);
     }
 
     public function updatePrices()
