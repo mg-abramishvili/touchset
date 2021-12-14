@@ -3160,7 +3160,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://www.cbr-xml-daily.ru/daily_json.js', {
         withCredentials: false
       }).then(function (response) {
-        return _this.usdKurs = response.data.Valute.USD.Value, _this.usdKursDate = response.data.Date;
+        return _this.usdKurs = response.data.Valute.USD.Value.toFixed(2), _this.usdKursDate = response.data.Date;
       });
     },
     getCategories: function getCategories() {
@@ -3514,7 +3514,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://www.cbr-xml-daily.ru/daily_json.js', {
         withCredentials: false
       }).then(function (response) {
-        return _this.usdKurs = response.data.Valute.USD.Value, _this.usdKursDate = response.data.Date;
+        return _this.usdKurs = response.data.Valute.USD.Value.toFixed(2), _this.usdKursDate = response.data.Date;
       });
     },
     getProductInfo: function getProductInfo() {

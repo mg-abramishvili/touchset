@@ -153,6 +153,24 @@ class ProductController extends Controller
         }
     }
 
+    public function updatePrices()
+    {
+        $kursUsd = 0;
+        $languages = simplexml_load_file("http://www.cbr.ru/scripts/XML_daily.asp");
+        foreach ($languages->Valute as $lang) {
+            if ($lang["ID"] == 'R01235') {
+                $kursUsd = round(str_replace(',','.',$lang->Value), 2);
+            }
+        }
+
+        $products = Product::get();
+        foreach ($products as $product) {
+            $product->price = ceil((($product->pre_usd * $kursUsd) + $product->pre_rub) / 50) * 50;
+            $product->save();
+            return $product->price;
+        }
+    }
+
     public function file($type)
     {
         switch ($type) {

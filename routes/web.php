@@ -34,6 +34,7 @@ Route::post('_admin/products','App\Http\Controllers\Admin\ProductController@stor
 Route::put('_admin/product/{id}','App\Http\Controllers\Admin\ProductController@update')->middleware('auth');
 Route::get('_admin/product/{id}/delete','App\Http\Controllers\Admin\ProductController@delete')->middleware('auth');
 Route::post('_admin/products/file/{method}','App\Http\Controllers\Admin\ProductController@file')->middleware('auth');
+Route::get('admin/products-update-prices','App\Http\Controllers\Admin\ProductController@updatePrices')->middleware('auth');
 
 // ADMIN CATEGORIES
 Route::get('admin/categories','App\Http\Controllers\Admin\CategoryController@index')->name('admin_categories')->middleware('auth');

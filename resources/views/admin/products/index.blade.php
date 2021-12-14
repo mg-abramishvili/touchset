@@ -4,6 +4,7 @@
 @section('content')
 <div class="w-100">
     <div class="box">
+        {{-- <a href="/admin/products-update-prices">Обновить цены</a> --}}
         <table class="table">
             <thead>
                 <tr>

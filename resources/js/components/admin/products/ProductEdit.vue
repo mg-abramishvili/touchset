@@ -244,7 +244,7 @@
                 axios
                 .get('https://www.cbr-xml-daily.ru/daily_json.js', { withCredentials: false })
                 .then(response => (
-                    this.usdKurs = response.data.Valute.USD.Value,
+                    this.usdKurs = response.data.Valute.USD.Value.toFixed(2),
                     this.usdKursDate = response.data.Date
                 ));
             },
