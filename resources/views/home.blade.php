@@ -52,7 +52,7 @@
                     <div class="home-categories-item">
                         <a href="{{ route('category_item', ['id' => $category->id]) }}">
                             <h3>{{ $category->name }}</h3>
-                            <img src="{{ $category->image }}" />
+                            <img src="{{ $category->cover }}" />
                         </a>
                     </div>
                 </div>
