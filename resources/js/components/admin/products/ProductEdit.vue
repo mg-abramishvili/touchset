@@ -46,17 +46,26 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Описание</label>
-                    <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <label class="form-label">Описание</label>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button v-if="description_show_code == false" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">посмотреть код</button>
+                            <button v-if="description_show_code == true" @click="description_show_code_toggle()" class="btn btn-sm btn-outline-secondary" style="font-size: 10px;">визуальный редактор</button>
+                        </div>
+                    </div>
+                    <ckeditor v-if="description_show_code == false" :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
+                    <textarea v-if="description_show_code == true" v-model="description" class="form-control"></textarea>
                 </div>
             </div>
             
             <div v-show="current_tab == 'attributes'" class="box-tab-content">
                 <div v-for="attribute in attributes" :key="'attribute_' + attribute.id" class="row mb-4">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-5">
                         <label :for="'attribute_' + attribute.id" class="form-label">{{ attribute.name }}</label>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-7">
                         <input :id="'attribute_' + attribute.id" class="form-control">
                     </div>
                 </div>
@@ -91,9 +100,13 @@
             </div>
 
             <div v-show="current_tab == 'addons'" class="box-tab-content">
-                <div v-for="addon in addons" :key="'addon_' + addon.id" class="mb-4">
-                    <label :for="'addon_' + addon.id" class="form-label">{{ addon.name }}</label>
-                    <input :id="'addon_' + addon.id" class="form-control">
+                <div v-for="addon in addons" :key="'addon_' + addon.id" class="row mb-4">
+                    <div class="col-12 col-lg-5">
+                        <label :for="'addon_' + addon.id" class="form-label">{{ addon.name }}</label>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                        <input :id="'addon_' + addon.id" type="number" class="form-control" placeholder="Цена">
+                    </div>
                 </div>
             </div>
 
@@ -143,6 +156,7 @@
                 pre_rub: '',
                 pre_usd: '',
                 description: '',
+                description_show_code: false,
                 meta_title: '',
                 meta_description: '',
                 is_new: '',
@@ -338,6 +352,13 @@
             },
             selectTab(tab) {
                 this.current_tab = tab
+            },
+            description_show_code_toggle() {
+                if(this.description_show_code == true) {
+                    this.description_show_code = false
+                } else {
+                    this.description_show_code = true
+                }
             },
             updateProduct(id) {
                 this.attribute = []
