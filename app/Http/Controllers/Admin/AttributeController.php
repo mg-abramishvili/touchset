@@ -25,6 +25,11 @@ class AttributeController extends Controller
         return view('admin.attributes.edit', compact('attribute'));
     }
 
+    public function item($id)
+    {
+        return Attribute::find($id);
+    }
+
     public function index_data()
     {
         return $attributes = Attribute::all();
@@ -38,15 +43,12 @@ class AttributeController extends Controller
             'order' => 'required',
         ]);
 
-        $data = request()->all();
         $attribute = new Attribute();
-        $attribute->name = $data['name'];
-        $attribute->slug = $data['slug'];
-        $attribute->order = $data['order'];
+        $attribute->name = $request->name;
+        $attribute->slug = $request->slug;
+        $attribute->order = $request->order;
 
         $attribute->save();
-
-        return redirect()->route('admin_attributes');
     }
 
     public function update($id, Request $request)
@@ -63,8 +65,6 @@ class AttributeController extends Controller
         $attribute->order = $request->order;
 
         $attribute->save();
-
-        return redirect()->route('admin_attributes');
     }
 
     public function delete($id)

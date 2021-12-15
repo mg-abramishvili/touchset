@@ -56,6 +56,7 @@ Route::get('admin/attributes','App\Http\Controllers\Admin\AttributeController@in
 Route::get('admin/attributes/create','App\Http\Controllers\Admin\AttributeController@create')->name('admin_attributes_create')->middleware('auth');
 Route::get('admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@edit')->name('admin_attribute_edit')->middleware('auth');
 Route::get('_admin/attributes','App\Http\Controllers\Admin\AttributeController@index_data')->middleware('auth');
+Route::get('_admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@item')->middleware('auth');
 Route::post('_admin/attributes','App\Http\Controllers\Admin\AttributeController@store')->middleware('auth');
 Route::put('_admin/attribute/{id}','App\Http\Controllers\Admin\AttributeController@update')->middleware('auth');
 Route::get('_admin/attribute/{id}/delete','App\Http\Controllers\Admin\AttributeController@delete')->middleware('auth');

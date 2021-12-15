@@ -29,11 +29,11 @@
                 <div class="row mb-4">
                     <div class="col-12 col-lg-3">
                         <label class="form-label">Цена USD</label>
-                        <input v-model="pre_usd" type="text" class="form-control">
+                        <input v-model="pre_usd" type="number" class="form-control">
                     </div>
                     <div class="col-12 col-lg-3">
                         <label class="form-label">Цена RUB</label>
-                        <input v-model="pre_rub" type="text" class="form-control">
+                        <input v-model="pre_rub" type="number" class="form-control">
                     </div>
                     <div class="col-12 col-lg-3">
                         <label class="form-label">Курс USD <small>(на {{moment(usdKursDate).format('DD.MM.YYYY')}})</small></label>
