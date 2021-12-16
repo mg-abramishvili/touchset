@@ -26,9 +26,9 @@
 		<meta name="twitter:title" content="17″ Встраиваемый сенсорный монитор - сенсорные мониторы купить по цене производителя " />
 		<meta name="twitter:description" content="Tachlab - Компания Тач лаб предоставляет возможность купить сенсорный монитор 17 дюймов по цене производителя из наличия оптом и в розницу. На нашем складе всегда присутствуют ходовые модели интерактивных мониторов. Уточнить актуальную цену, условия покупки и доставки встраиваемого монитора 17” вы можете по телефону или отправить заявку на почту info@tachlab.ru. Звоните бесплатно по всей России по телефону […]" />
 
-        <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-        <link href="https://unpkg.com/swiper@7/swiper-bundle.min.css" rel="stylesheet"/>
-        <link href="/css/style.css" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/css/swiper-bundle.min.css"/>
+        <link rel="stylesheet" href="/css/style.css"/>
     </head>
     <body>
         @auth
@@ -173,8 +173,8 @@
             </footer>
         </div>
         
-        <script src="{{ mix('/js/app.js') }}"></script>
-        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        <script src="{{ asset('/js/app.js') }}"></script>
+        <script src="/js/swiper-bundle.min.js"></script>
         @yield('scripts')
     </body>
 </html>
