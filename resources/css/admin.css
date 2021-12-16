@@ -39,6 +39,11 @@ body.admin_panel {
     }
 }
 
+.admin_content {
+    background-color: #ECEFF4;
+    min-height: 100vh;
+}
+
 .admin_panel .sidebar-sticky {
     position: relative;
     top: 0;

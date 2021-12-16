@@ -118,7 +118,9 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                            @yield('content')
+                            <div class="admin_content">
+                                @yield('content')
+                            </div>
                         </div>
                     </main>
                     @endauth
