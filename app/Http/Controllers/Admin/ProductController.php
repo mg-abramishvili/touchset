@@ -167,9 +167,7 @@ class ProductController extends Controller
             case 'upload':
                 return $this->upload();
         }
-        return \Response::make('success', 200, [
-            'Content-Disposition' => 'inline',
-        ]);
+        
     }
 
     public function upload()
@@ -182,9 +180,7 @@ class ProductController extends Controller
                 $filename = md5(time() . rand(1, 100000)) . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path() . '/uploads', $filename);
 
-                return \Response::make('/uploads/' . $filename, 200, [
-                    'Content-Disposition' => 'inline',
-                ]);
+                
             }
         }
     }
