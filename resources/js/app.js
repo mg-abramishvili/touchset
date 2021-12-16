@@ -27,5 +27,5 @@ Vue.component('attribute-edit', require('./components/admin/attributes/Attribute
 Vue.component('settings-edit', require('./components/admin/settings/SettingsEdit.vue').default);
 
 const app = new Vue({
-    el: '#app'
+    el: '#appl'
 });
