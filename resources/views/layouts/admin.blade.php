@@ -105,20 +105,20 @@
                     </nav>
 
                     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <div class="subheader w-100">
-                            <div class="row align-items-center">
-                                <div class="col-12 col-md-6">
-                                    <h1>@yield('title')</h1>
-                                </div>
-                                <div class="col-12 col-md-6 text-end">
-                                    @hasSection('add_button')
-                                        <a href="@yield('add_button')" class="btn btn-sm btn-primary">Добавить</a>
-                                    @endif
+                        <div class="admin_content">
+                            <div class="subheader w-100">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-md-6">
+                                        <h1>@yield('title')</h1>
+                                    </div>
+                                    <div class="col-12 col-md-6 text-end">
+                                        @hasSection('add_button')
+                                            <a href="@yield('add_button')" class="btn btn-sm btn-primary">Добавить</a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                            <div class="admin_content">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
                                 @yield('content')
                             </div>
                         </div>
