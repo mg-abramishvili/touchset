@@ -128,8 +128,8 @@
             </footer>
         </div>
         
-        {{-- <script src="{{ asset('/js/app.js') }}"></script>
-        <script src="/js/swiper-bundle.min.js"></script>
+        <script src="{{ asset('/js/app.js') }}"></script>
+        {{-- <script src="/js/swiper-bundle.min.js"></script>
         @yield('scripts') --}}
     </body>
 </html>
