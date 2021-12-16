@@ -13,6 +13,7 @@ body.admin_panel {
     -moz-font-feature-settings: "lnum";
     font-feature-settings: "lnum";
     background-color: #ECEFF4;
+    background-color: #1C2226;
 }
 
 .admin_panel .feather {
