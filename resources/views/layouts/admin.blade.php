@@ -9,8 +9,7 @@
 
         <title>@yield('title')</title>
         
-        <link href="/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-        <link href="/css/admin.css" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="{{ mix('/css/admin.css') }}"/>
     </head>
     <body class="admin_panel" style="min-height: 100vh;">
         <div id="app">
@@ -133,7 +132,7 @@
             </div>
         </div>
         
-        <script src="{{ asset('/js/app.js') }}"></script>
+        <script src="{{ asset('/js/admin.js') }}"></script>
         @yield('scripts')
     </body>
 </html>

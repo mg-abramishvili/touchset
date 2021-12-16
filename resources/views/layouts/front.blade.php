@@ -4,8 +4,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title')</title>
 
@@ -26,9 +24,7 @@
 		<meta name="twitter:title" content="17″ Встраиваемый сенсорный монитор - сенсорные мониторы купить по цене производителя " />
 		<meta name="twitter:description" content="Tachlab - Компания Тач лаб предоставляет возможность купить сенсорный монитор 17 дюймов по цене производителя из наличия оптом и в розницу. На нашем складе всегда присутствуют ходовые модели интерактивных мониторов. Уточнить актуальную цену, условия покупки и доставки встраиваемого монитора 17” вы можете по телефону или отправить заявку на почту info@tachlab.ru. Звоните бесплатно по всей России по телефону […]" />
 
-        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="/css/swiper-bundle.min.css"/>
-        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="{{ mix('/css/front.css') }}"/>
     </head>
     <body>
         @auth
@@ -173,8 +169,7 @@
             </footer>
         </div>
         
-        <script src="{{ asset('/js/app.js') }}"></script>
-        <script src="/js/swiper-bundle.min.js"></script>
+        <script src="{{ mix('/js/front.js') }}"></script>
         @yield('scripts')
     </body>
 </html>
