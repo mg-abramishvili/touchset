@@ -170,7 +170,7 @@
             </footer>
         </div>
         
-        {{-- <script src="{{ mix('/js/front.js') }}"></script>
-        @yield('scripts') --}}
+        <script src="{{ mix('/js/front.js') }}"></script>
+        @yield('scripts')
     </body>
 </html>

@@ -1,9 +1,5 @@
-@import 'bootstrap.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
-
-html {
-    scroll-behavior: initial !important;
-}
+@import 'bootstrap.min.css';
 
 body.admin_panel {
     font-family: 'Raleway', sans-serif;

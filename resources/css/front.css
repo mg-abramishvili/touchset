@@ -1,16 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap');
 @import 'bootstrap.min.css';
-@import 'swiper-bundle.min.css';
-
-html {
-    scroll-behavior: initial !important;
-}
 
 body {
     font-family: 'Jost', sans-serif;
     font-size: 18px;
     color: #333f48;
-    background-color: #fff;
 }
 
 .btn-standard {

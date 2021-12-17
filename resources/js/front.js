@@ -1,3 +1,5 @@
+require('./bootstrap');
+
 import Vue from 'vue'
 
 Vue.component('add-to-cart', require('./components/products/AddToCart.vue').default);
