@@ -1,7 +1,7 @@
 @extends('layouts.front')
 @section('title', 'ТачЛаб')
 @section('content')
-
+<input type="file" name="" id="">
 <div class="home-carousel">
     <div class="container">
         <div class="row">
