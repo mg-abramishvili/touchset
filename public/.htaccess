@@ -19,6 +19,25 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
-<filesMatch ".(css|js)$">
- Header set Cache-Control "max-age=86400, public"
-</filesMatch>
+
+# Кеширование картинок, js и css
+FileETag MTime Size
+<ifmodule mod_expires.c>
+ <filesmatch ".(jpg|gif|png|js|css|gz|woff2|woff)$">
+ ExpiresActive on
+ ExpiresDefault "access plus 6 month"
+ </filesmatch>
+</ifmodule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpg|gif|png)$">
+    Header append Cache-Control "public"  
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|gz|jgz)$">
+    Header append Vary Accept-Encoding
+    Header append Cache-Control "private"  
+  </FilesMatch>
+</IfModule>
