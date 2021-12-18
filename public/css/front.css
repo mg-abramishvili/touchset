@@ -747,3 +747,47 @@ footer hr {
     margin-bottom: 25px;
 }
 /* FOOTER */
+
+
+
+/* MODAL */
+.modal-backdrop {
+    display: none;
+}
+.backdrop-show {
+    display: block;
+}
+.modal-show {
+    display: block !important;
+    -webkit-animation: fadein 0.5s;
+            animation: fadein 0.5s;
+}
+@-webkit-keyframes fadein {
+    0% {
+        top: -100px;
+        opacity:0;
+    }
+    20% {
+        top: -100px;
+        opacity:0;
+    }
+    100% {
+        top: 0;
+        opacity:1;
+    }
+}
+@keyframes fadein {
+    0% {
+        top: -100px;
+        opacity:0;
+    }
+    20% {
+        top: -100px;
+        opacity:0;
+    }
+    100% {
+        top: 0;
+        opacity:1;
+    }
+}
+/* MODAL */

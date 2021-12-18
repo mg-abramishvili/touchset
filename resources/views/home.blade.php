@@ -165,7 +165,7 @@
     <div class="home-individual">
         <h5 class="block-title">Вам нужно что-то особенное?</h5>
         <p>Мы разработаем ПО индивидуально под ваши нужды.</p>
-        <a href="#" class="btn btn-standard">Подробнее</a>
+        <a onclick="open_modal_1()" class="btn btn-standard">Подробнее</a>
     </div>
 </div>
 

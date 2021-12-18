@@ -23,6 +23,8 @@ Route::post('order-store','App\Http\Controllers\OrderController@order_store');
 
 Route::get('search','App\Http\Controllers\ProductController@product_search')->name('product_search');
 
+Route::post('lead','App\Http\Controllers\LeadController@store')->name('lead_store');
+
 Route::get('admin','App\Http\Controllers\Admin\AdminController@index')->name('admin_home')->middleware('auth');
 
 // ADMIN PRODUCTS
@@ -50,6 +52,9 @@ Route::post('_admin/categories/file/{method}','App\Http\Controllers\Admin\Catego
 // ADMIN ORDERS
 Route::get('admin/orders','App\Http\Controllers\Admin\OrderController@index')->name('admin_orders')->middleware('auth');
 Route::get('admin/order/{id}','App\Http\Controllers\Admin\OrderController@item')->name('admin_order')->middleware('auth');
+
+// ADMIN LEADS
+Route::get('admin/leads','App\Http\Controllers\Admin\LeadController@index')->name('admin_leads')->middleware('auth');
 
 // ADMIN ATTRIBUTES
 Route::get('admin/attributes','App\Http\Controllers\Admin\AttributeController@index')->name('admin_attributes')->middleware('auth');

@@ -168,9 +168,28 @@
                     </div>
                 </div>
             </footer>
+            <modal></modal>
         </div>
+        <div class="modal-backdrop show"></div>
         
         <script src="{{ mix('/js/front.js') }}"></script>
+
+        <script>
+            function open_modal_1() {
+                document.getElementsByClassName("modal-backdrop")[0].classList.add('backdrop-show')
+                document.getElementById("modal_1").classList.add("modal-show");
+            }
+        </script>
+        <script>
+            var modal = document.getElementById('modal_1');
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.classList.remove("modal-show");
+                    document.getElementsByClassName("modal-backdrop")[0].classList.remove('backdrop-show')
+                }
+            }
+        </script>
+
         @yield('scripts')
     </body>
 </html>
