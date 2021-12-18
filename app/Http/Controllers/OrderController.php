@@ -37,6 +37,8 @@ class OrderController extends Controller
             }
         }
 
+        session()->forget('cart');
+
         return $order->id;
     }
 }
