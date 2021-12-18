@@ -15,6 +15,7 @@ class OrderController extends Controller
         $orderItemsArray = $request->order_items;
 
         $order = new Order();
+        $order->name = 'name';
         $order->tel = $request->tel;
         $order->email = $request->email;
         $order->save();
@@ -23,6 +24,7 @@ class OrderController extends Controller
             $orderItem = new OrderItem();
             $orderItem->product_id = $orderItemsArray[$orderItemsArrayItem]["id"];
             $orderItem->price = $orderItemsArray[$orderItemsArrayItem]["price"];
+            $orderItem->quantity = $orderItemsArray[$orderItemsArrayItem]["quantity"];
             $orderItem->save();
             $order->orderItems()->attach($orderItem->id, ['order_id' => $order->id]);
 

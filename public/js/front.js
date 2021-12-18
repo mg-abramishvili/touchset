@@ -2645,6 +2645,7 @@ __webpack_require__.r(__webpack_exports__);
         cartItemsArray.push({
           "id": cartItem.id,
           "price": cartItem.price,
+          "quantity": cartItem.quantity,
           "addons_selected": cartItem.addons_selected
         });
       }

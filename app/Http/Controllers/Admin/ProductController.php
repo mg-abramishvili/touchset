@@ -151,6 +151,14 @@ class ProductController extends Controller
             }
         }
         $product->attributes()->sync($data);
+
+        $data_addons = [];
+        foreach($request->addon as $addn) {
+            if($addn["price"] != null) {
+                $data_addons[$addn["id"]] = [ 'price' => $addn["price"] ];
+            }
+        }
+        $product->addons()->sync($data_addons);
     }
 
     public function updatePrices()

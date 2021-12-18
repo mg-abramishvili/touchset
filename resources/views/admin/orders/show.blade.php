@@ -7,31 +7,21 @@
         <tbody>
           @foreach($order->orderItems as $orderItem)
             <tr>
-              <td><strong>{{ $orderItem->product->name }}</strong></td>
-              <td style="text-align: right;">{{ number_format($orderItem->product->price, 0, ',', ' ') }} руб.</td>
+              <td>
+                <strong>{{ $orderItem->product->name }}</strong> <span class="text-muted">{{ number_format($orderItem->price) }} руб.</span>
+                <ul>
+                  @foreach($orderItem->addons as $addon)
+                  <li>+ {{ $addon->name }} <span class="text-muted">{{ number_format($addon->pivot->price, 0, ',', ' ') }} руб.</span></li>
+                  @endforeach
+                </ul>
+              </td>
+              <td style="text-align: right;">{{ number_format($orderItem->price + $orderItem->addons->sum('pivot.price'), 0, ',', ' ') }} руб.</td>
+              <td style="text-align: right;">
+                {{ $orderItem->quantity }} шт.
+              </td>
+              <td style="text-align: right;">{{ number_format(($orderItem->price + $orderItem->addons->sum('pivot.price')) * $orderItem->quantity, 0, ',', ' ') }} руб.</td>
             </tr>
-            @foreach($orderItem->addons as $addon)
-            <tr>
-              <td>{{ $orderItem->product->name }} {{ $addon->name }}</td>
-              <td style="text-align: right;">{{ number_format($addon->pivot->price, 0, ',', ' ') }} руб.</td>
-            </tr>
-            @endforeach
           @endforeach
-          <tr style="border-color: transparent;">
-            <td style="text-align: right;">Итого:</td>
-            <td style="text-align: right;">
-              @php
-              $products_sum = $order->orderItems->sum('product.price')
-             @endphp
-             @foreach($order->orderItems as $item)
-               @php
-                $addons_sum = $item->addons->sum('pivot.price')
-               @endphp
-             @endforeach
-     
-             <strong>{{ number_format($products_sum + $addons_sum, 0, ',', ' ') }}</strong> руб.
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>

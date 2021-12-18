@@ -165,6 +165,7 @@
                 category: '',
                 gallery: [],
                 attribute: [],
+                addon: [],
 
                 usdKurs: '',
                 usdKursDate: '',
@@ -371,6 +372,17 @@
 
                     this.attribute.push({ id: attr.id, value: value_value })
                 })
+
+                this.addon = []
+                this.addons.forEach((addn) => {
+                    var value_value = null
+
+                    if(document.getElementById('addon_' + addn.id) && document.getElementById('addon_' + addn.id).value && document.getElementById('addon_' + addn.id).value.length > 0) {
+                        value_value = document.getElementById('addon_' + addn.id).value
+                    }
+
+                    this.addon.push({ id: addn.id, price: value_value })
+                })
                 
                 if(document.getElementsByName("gallery[]")) {
                     this.gallery = []
@@ -385,7 +397,7 @@
                     this.updateProduct_button = false
 
                     axios
-                    .put(`/_admin/product/${id}`, { id: id, name: this.name, slug: this.slug, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
+                    .put(`/_admin/product/${id}`, { id: id, name: this.name, slug: this.slug, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, addon: this.addon, gallery: this.gallery })
                     .then((response => {
                         if(response.data == 'slug error') {
                             alert('Такой символьный код уже занят другим товаром')

@@ -3540,6 +3540,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
       category: '',
       gallery: [],
       attribute: [],
+      addon: [],
       usdKurs: '',
       usdKursDate: '',
       categories: [],
@@ -3764,6 +3765,19 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           value: value_value
         });
       });
+      this.addon = [];
+      this.addons.forEach(function (addn) {
+        var value_value = null;
+
+        if (document.getElementById('addon_' + addn.id) && document.getElementById('addon_' + addn.id).value && document.getElementById('addon_' + addn.id).value.length > 0) {
+          value_value = document.getElementById('addon_' + addn.id).value;
+        }
+
+        _this6.addon.push({
+          id: addn.id,
+          price: value_value
+        });
+      });
 
       if (document.getElementsByName("gallery[]")) {
         this.gallery = [];
@@ -3791,6 +3805,7 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           is_onsale: this.is_onsale,
           category: this.category,
           attribute: this.attribute,
+          addon: this.addon,
           gallery: this.gallery
         }).then(function (response) {
           if (response.data == 'slug error') {
