@@ -3793,10 +3793,12 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
           attribute: this.attribute,
           gallery: this.gallery
         }).then(function (response) {
-          return (//setTimeout(() => this.updateProduct_button = true, 1000),
-            window.location.href = '/admin/products' //console.log(response.data)
-
-          );
+          if (response.data == 'slug error') {
+            alert('Такой символьный код уже занят другим товаром');
+            _this6.updateProduct_button = true;
+          } else {
+            window.location.href = '/admin/products';
+          }
         })["catch"](function (error) {
           if (error.response) {
             _this6.updateProduct_button = true;

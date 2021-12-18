@@ -386,11 +386,14 @@
 
                     axios
                     .put(`/_admin/product/${id}`, { id: id, name: this.name, slug: this.slug, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
-                    .then(response => (
-                        //setTimeout(() => this.updateProduct_button = true, 1000),
-                        window.location.href = '/admin/products'
-                        //console.log(response.data)
-                    ))
+                    .then((response => {
+                        if(response.data == 'slug error') {
+                            alert('Такой символьный код уже занят другим товаром')
+                            this.updateProduct_button = true
+                        } else {
+                            window.location.href = '/admin/products'
+                        }
+                    }))
                     .catch((error) => {
                         if(error.response) {
                             this.updateProduct_button = true
