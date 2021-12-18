@@ -14,11 +14,11 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
 
-    public function category_item($id)
+    public function category_item($slug)
     {
-        $category = Category::find($id);
-        $subcategories = Category::where('parent_id', $id)->get();
-        $products = Product::whereRelation('categories', 'category_id', $id)->get();
+        $category = Category::where('slug', $slug)->first();
+        $subcategories = Category::where('parent_id', $category->id)->get();
+        $products = Product::whereRelation('categories', 'category_id', $category->id)->get();
         return view('categories.category_item', compact('category', 'subcategories', 'products'));
     }
 }

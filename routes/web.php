@@ -7,9 +7,9 @@ Route::get('/','App\Http\Controllers\HomeController@index')->name('home');
 Route::get('p/{slug}','App\Http\Controllers\PageController@page_item')->name('page');
 
 Route::get('categories','App\Http\Controllers\CategoryController@index')->name('categories');
-Route::get('category/{id}','App\Http\Controllers\CategoryController@category_item')->name('category_item');
+Route::get('category/{slug}','App\Http\Controllers\CategoryController@category_item')->name('category_item');
 
-Route::get('product/{id}','App\Http\Controllers\ProductController@product_item')->name('product_item');
+Route::get('product/{slug}','App\Http\Controllers\ProductController@product_item')->name('product_item');
 
 Route::get('cart','App\Http\Controllers\CartController@cart')->name('cart');
 Route::get('cart_data','App\Http\Controllers\CartController@cart_data')->name('cart_data');

@@ -12,7 +12,7 @@
             <div v-show="current_tab == 'general'" class="box-tab-content">
                 <div class=" mb-4">
                     <label class="form-label">Наименование</label>
-                    <input v-model="name" type="text" class="form-control">
+                    <input v-model="name" @change="slugify(name)" type="text" class="form-control">
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-6 mb-4">
@@ -152,6 +152,7 @@
             return {
                 product: {},
                 name: '',
+                slug: '',
                 pre_rub: 0,
                 pre_usd: 0,
                 description: '',
@@ -253,9 +254,6 @@
                     return 0
                 }
             },
-            slug: function () {
-                return this.slugify(this.name)
-            }
         },
         methods: {
             getUsdKurs() {
@@ -313,7 +311,7 @@
                     );
                 }
                 
-                return n_str.join('').replace(/\s+/g, '-')
+                this.slug = n_str.join('').replace(/\s+/g, '-')
             },
             description_show_code_toggle() {
                 if(this.description_show_code == true) {
@@ -348,9 +346,14 @@
 
                     axios
                     .post(`/_admin/products`, { name: this.name, slug: this.slug, pre_rub: this.pre_rub, pre_usd: this.pre_usd, price: this.price, description: this.description, meta_title: this.meta_title, meta_description: this.meta_description, is_new: this.is_new, is_popular: this.is_popular, is_onsale: this.is_onsale, category: this.category, attribute: this.attribute, gallery: this.gallery })
-                    .then(response => (
-                        window.location.href = '/admin/products'
-                    ))
+                    .then((response => {
+                        if(response.data == 'slug error') {
+                            alert('Такой символьный код уже занят другим товаром')
+                            this.saveProduct_button = true
+                        } else {
+                            window.location.href = '/admin/products'
+                        }
+                    }))
                     .catch((error) => {
                         if(error.response) {
                             this.saveProduct_button = true

@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function product_item($id)
+    public function product_item($slug)
     {
-        $product = Product::with('attributes', 'addons')->find($id);
+        $product = Product::with('attributes', 'addons')->where('slug', $slug)->first();
         $addons = Addon::with('products')->get();
         $other_products = Product::whereRelation('categories', 'category_id', $product->categories->first()->id)->get();
         $products_is_new = Product::where('is_new', true)->get();

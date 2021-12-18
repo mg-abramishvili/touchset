@@ -11,7 +11,7 @@
                 @foreach($subcategories as $subcategory)
                     <div class="col-12 col-md-4">
                         <div class="category-item">
-                            <a href="{{ route('category_item', ['id'=> $subcategory->id]) }}">
+                            <a href="{{ route('category_item', ['slug'=> $subcategory->slug]) }}">
                                 <div class="category-item-image" style="@if($category->image) background-image:url({{ $category->image }}) @else background-image:url(/img/no-image.jpg) @endif"></div>
                                 <h3>{{ $subcategory->name }}</h3>
                             </a>
@@ -26,7 +26,7 @@
             @foreach($products as $product)
                 <div class="col-12 col-md-4">
                     <div class="page-products-item">
-                        <a href="{{ route('product_item', ['id' => $product->id ]) }}">
+                        <a href="{{ route('product_item', ['slug' => $product->slug ]) }}">
                             @if($product->gallery)
                                 @foreach($product->gallery as $pg)
                                     @if($loop->first)

@@ -12,7 +12,7 @@
                 @if($category->parent)
                     @include('products.sub ', ['parent' => $category->parent])
                 @endif
-                <a href="{{ route('category_item', ['id' => $category->id]) }}">{{ $category->name }}</a>
+                <a href="{{ route('category_item', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
             @endforeach
         </div>
 

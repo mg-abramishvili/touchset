@@ -38,7 +38,12 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'price' => 'required|numeric',
+            'slug' => 'required',
         ]);
+
+        if(Product::where('slug', $request->slug)->exists()) {
+            return 'slug error';
+        }
 
         $product = new Product();
         $product->name = $request->name;
