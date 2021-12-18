@@ -8,7 +8,7 @@
           @foreach($order->orderItems as $orderItem)
             <tr>
               <td>
-                <strong>{{ $orderItem->product->name }}</strong> <span class="text-muted">{{ number_format($orderItem->price) }} руб.</span>
+                <strong>{{ $orderItem->product->name }}</strong> <span class="text-muted">{{ number_format($orderItem->price, 0, ',', ' ') }} руб.</span>
                 <ul>
                   @foreach($orderItem->addons as $addon)
                   <li>+ {{ $addon->name }} <span class="text-muted">{{ number_format($addon->pivot->price, 0, ',', ' ') }} руб.</span></li>
